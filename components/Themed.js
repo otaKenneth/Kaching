@@ -7,6 +7,8 @@ import {
   SafeAreaView as DefaultSafeAreaView,
   ScrollView as DefaultScrollView,
   TouchableOpacity as DefaultTouchableOpacity,
+  Pressable as DefaultPressable,
+  VirtualizedList as DefaultVirtualizeList
 } from "react-native";
 
 import Colors from "../constants/Colors";
@@ -59,6 +61,16 @@ export function ScrollView(props) {
   return <DefaultScrollView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
 
+export function List(props) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background"
+  );
+
+  return <DefaultVirtualizeList style={[{ backgroundColor }, style]} {...otherProps} />;
+}
+
 export function TouchableOpacity(props) {
   const { style, lightColor, darkColor, ...otherProps } = props;
   const backgroundColor = useThemeColor(
@@ -67,4 +79,14 @@ export function TouchableOpacity(props) {
   );
 
   return <DefaultTouchableOpacity style={[{ backgroundColor }, style]} {...otherProps} />;
+}
+
+export function Pressable(props) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background"
+  );
+
+  return <DefaultPressable style={[{ backgroundColor }, style]} {...otherProps} />;
 }
