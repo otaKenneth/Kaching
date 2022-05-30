@@ -34,15 +34,6 @@ export default function EditScreenInfo({ path }) {
           update.
         </Text>
       </View>
-
-      <View style={styles.helpContainer}>
-        <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-          <Text style={styles.helpLinkText} lightColor={Colors.light.tint}>
-            Tap here if your app doesn't automatically update after making
-            changes
-          </Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }

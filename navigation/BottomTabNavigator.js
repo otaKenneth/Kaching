@@ -16,24 +16,26 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Dashboard"
       screenOptions={{ tabBarActiveTintColor: Colors[colorScheme].tint }}
     >
       <BottomTab.Screen
-        name="TabOne"
+        name="Dashboard"
         component={TabOneNavigator}
         options={{
+          headerShown: false,
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-code" color={color} />
+            <TabBarIcon name="ios-pie-chart" color={color} />
           ),
         }}
       />
       <BottomTab.Screen
-        name="TabTwo"
+        name="Settings"
         component={TabTwoNavigator}
         options={{
+          headerShown: false,
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-code" color={color} />
+            <TabBarIcon name="ios-settings" color={color} />
           ),
         }}
       />
@@ -44,7 +46,7 @@ export default function BottomTabNavigator() {
 // You can explore the built-in icon families and icons on the web at:
 // https://icons.expo.fyi/
 function TabBarIcon(props) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
+  return <Ionicons size={20} style={{ marginBottom: -3 }} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
@@ -55,9 +57,9 @@ function TabOneNavigator() {
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
-        name="TabOneScreen"
+        name="DashboardTab"
         component={TabOneScreen}
-        options={{ headerTitle: "Tab One Title" }}
+        options={{ headerTitle: "Dashboard", headerLeft: null }}
       />
     </TabOneStack.Navigator>
   );
@@ -69,9 +71,9 @@ function TabTwoNavigator() {
   return (
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
-        name="TabTwoScreen"
+        name="SettingsTab"
         component={TabTwoScreen}
-        options={{ headerTitle: "Tab Two Title" }}
+        options={{ headerTitle: "Settings", headerLeft: null }}
       />
     </TabTwoStack.Navigator>
   );
