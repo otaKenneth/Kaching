@@ -7,8 +7,10 @@ import {
   SafeAreaView as DefaultSafeAreaView,
   ScrollView as DefaultScrollView,
   TouchableOpacity as DefaultTouchableOpacity,
+  TouchableHighlight as DefaultTouchableHighlight,
   Pressable as DefaultPressable,
-  VirtualizedList as DefaultVirtualizeList
+  VirtualizedList as DefaultVirtualizeList,
+  Modal as DefaultModal
 } from "react-native";
 
 import Colors from "../constants/Colors";
@@ -81,6 +83,16 @@ export function TouchableOpacity(props) {
   return <DefaultTouchableOpacity style={[{ backgroundColor }, style]} {...otherProps} />;
 }
 
+export function TouchableHighlight(props) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background"
+  );
+
+  return <DefaultTouchableHighlight style={[{ backgroundColor }, style]} {...otherProps} />;
+}
+
 export function Pressable(props) {
   const { style, lightColor, darkColor, ...otherProps } = props;
   const backgroundColor = useThemeColor(
@@ -89,4 +101,14 @@ export function Pressable(props) {
   );
 
   return <DefaultPressable style={[{ backgroundColor }, style]} {...otherProps} />;
+}
+
+export function Modal(props) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background"
+  );
+
+  return <DefaultModal style={[{ backgroundColor }, style]} {...otherProps} />;
 }

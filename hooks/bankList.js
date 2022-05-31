@@ -1,15 +1,18 @@
 const data = [
     {
         name: "Bank 1",
-        balance: 10000000
+        balance: 10000000,
+        bankColor: "#fc3903",
     },
     {
         name: "Bank 2",
-        balance: 200000.10
+        balance: 200000.10,
+        bankColor: "#2249c9",
     },
     {
         name: "Bank 3",
-        balance: 1000.00
+        balance: 1000.00,
+        bankColor: "#359cf0"
     },
     {
         name: "Bank 4",
@@ -44,13 +47,14 @@ const AccountList = () => {
     for (let index = 0; index < tempData.length; index++) {
         tempData[index] = {...tempData[index], id: index+1};
     }
+    newData = tempData;
 
-    var i = 0;
-    while (i < data.length) {
-        var chunk = tempData.slice(i, i+chunkSize);
-        newData.push(chunk);
-        i+=chunkSize;
-    }
+    // var i = 0;
+    // while (i < data.length) {
+    //     var chunk = tempData.slice(i, i+chunkSize);
+    //     newData.push(chunk);
+    //     i+=chunkSize;
+    // }
 
     return newData;
 }

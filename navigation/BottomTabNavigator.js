@@ -6,12 +6,13 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useColorScheme } from "react-native";
 
 import Colors from "../constants/Colors";
+import CreateButton from "../components/CreateButton";
 import TabOneScreen from "../screens/TabOneScreen";
 import TabTwoScreen from "../screens/TabTwoScreen";
 
 const BottomTab = createBottomTabNavigator();
 
-export default function BottomTabNavigator() {
+export default function BottomTabNavigator({ navigation }) {
   const colorScheme = useColorScheme();
 
   return (
@@ -27,6 +28,16 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-pie-chart" color={color} />
           ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Add"
+        component={BottomTabNavigator}
+        options={{
+          headerShown: false, title: null, tabBarLabel: "",
+          tabBarButton: ({props}) => (
+            <CreateButton {...props} navigation={navigation} />
+          )
         }}
       />
       <BottomTab.Screen

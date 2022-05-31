@@ -1,14 +1,15 @@
 import { StyleSheet } from "react-native";
 
 import EditScreenInfo from "../components/EditScreenInfo";
-import { Text, View } from "../components/Themed";
+import { Text, View, TouchableOpacity } from "../components/Themed";
 
+import { Ionicons } from "@expo/vector-icons";
 import appStyles from "../assets/styles/appStyles";
 import Accounts from "../components/Accounts";
 
 export default function TabOneScreen() {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: 10 }]}>
       <Accounts />
       <View
         style={styles.separator}
