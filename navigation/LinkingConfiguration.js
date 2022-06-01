@@ -17,6 +17,11 @@ export default {
               TabOneScreen: "one",
             },
           },
+          CreateAccount: {
+            screens: {
+              CreateAccountScreen: "create_account"
+            }
+          },
           TabTwo: {
             screens: {
               TabTwoScreen: "two",

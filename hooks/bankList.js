@@ -2,17 +2,17 @@ const data = [
     {
         name: "Bank 1",
         balance: 10000000,
-        bankColor: "#fc3903",
+        // bankColor: "#fc3903",
     },
     {
         name: "Bank 2",
         balance: 200000.10,
-        bankColor: "#2249c9",
+        // bankColor: "#2249c9",
     },
     {
         name: "Bank 3",
         balance: 1000.00,
-        bankColor: "#359cf0"
+        // bankColor: "#359cf0"
     },
     {
         name: "Bank 4",

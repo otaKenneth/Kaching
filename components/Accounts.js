@@ -11,14 +11,17 @@ import { useColorScheme } from "react-native";
 const DATA = AccountList();
 
 const AccsItem = ({ account, colorScheme }) => (
-  <TouchableOpacity
-    style={[accStyle.bankAccount, {backgroundColor: account.bankColor ? account.bankColor:"#ededeb"}]}
+  <View style={accStyle.bankAccount}
   >
-    <View style={{backgroundColor: "transparent", margin: 8,}}>
-      <Text style={{ fontSize: 25, fontWeight: "400", color: Colors[colorScheme].text }}>{account.name}</Text>
-      <Text style={{ fontWeight: "700", color: Colors[colorScheme].text }}>Php {account.balance}</Text>
+    <TouchableOpacity
+      style={[accStyle.bankAccountBtn, { backgroundColor: account.bankColor ? account.bankColor:"#77c3f7"}]}
+    >
+    </TouchableOpacity>
+    <View style={{ position: "absolute", bottom: 15, left: 10, backgroundColor: "transparent", margin: 8, }}>
+      <Text style={[accStyle.bankAccountBtnTxt, { fontSize: 25, fontWeight: "400" }]}>{account.name}</Text>
+      <Text style={[accStyle.bankAccountBtnTxt, { fontWeight: "700" }]}>Php {account.balance}</Text>
     </View>
-  </TouchableOpacity>
+  </View>
 );
 
 export default function Accounts({ }) {
@@ -30,13 +33,13 @@ export default function Accounts({ }) {
       <View style={[
           accStyle.collapsibleHeader,
           {
-            backgroundColor: Colors[colorScheme].headerBackgroundColor
+            backgroundColor: Colors[colorScheme].tint
           }
         ]}
         >
         <Text style={{ fontWeight: "500", fontSize: 18, color: "white" }}>Accounts</Text>
         <Pressable
-          style={{ backgroundColor: Colors[colorScheme].headerBackgroundColor }}
+          style={{ backgroundColor: "transparent" }}
           onPress={() => setCollapse(isCollapse ? false:true)}
         >
           <Ionicons size={25} name="chevron-down-outline" color="#fff" />
@@ -45,10 +48,10 @@ export default function Accounts({ }) {
       <Collapsible collapsed={isCollapse} duration={1000}>
         <SafeAreaView>
           <ScrollView horizontal={true} 
-            style={{ backgroundColor: "#edf0ee" }}
+            style={{ backgroundColor: "#f7f8fa" }}
           >
             <View style={accStyle.accountsContainer}>
-              {DATA.map((data) => <AccsItem account={data} colorScheme={colorScheme} />)}
+              {DATA.map((data, index) => <AccsItem key={index} account={data} colorScheme={colorScheme} />)}
             </View>
           </ScrollView>
         </SafeAreaView>
@@ -61,13 +64,20 @@ const accStyle = StyleSheet.create({
   bankAccount: {
     backgroundColor: "#ddd", 
     width: 200, height: 100,
-    padding: 10, marginHorizontal: 15, marginBottom: 20,
-    alignItems: "baseline",
-    justifyContent: "flex-end",
+    marginBottom: 20, marginHorizontal: 10, 
+    // alignItems: "baseline",
+    // justifyContent: "flex-end",
     // borderStyle: "solid", 
     // borderWidth: 0.5,
     borderRadius: 20,
-    elevation: 15,
+    elevation: 20,
+    overflow: "hidden"
+  },
+  bankAccountBtn: {
+    position: "absolute", top: 0, width: "100%", height: "100%",
+  },
+  bankAccountBtnTxt: {
+    color: "#000",
   },
   controlSpace: {
     flexDirection: "row", 
@@ -86,7 +96,6 @@ const accStyle = StyleSheet.create({
     paddingTop: 15,
     maxHeight: 265, width: "100%", 
     flexDirection: "column", 
-    backgroundColor: "#edf0ee",
     flexDirection: "column",
     flexWrap: "wrap", 
   }

@@ -9,6 +9,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import NotFoundScreen from "../screens/NotFoundScreen";
 import HomeScreen from "../screens/HomeScreen";
+import CreateAccount from "../screens/CreateAccountScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
 
@@ -32,6 +33,7 @@ function RootNavigator() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Root" component={BottomTabNavigator} />
+      <Stack.Screen name="CreateAccount" component={CreateAccount} options={{ headerShown: true, headerTitle: "Create Account" }} />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
