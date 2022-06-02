@@ -1,28 +1,34 @@
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, TouchableOpacity, View, Text, Pressable, List } from "./Themed";
+import { SafeAreaView, ScrollView, TouchableOpacity, View, Text, Pressable, List } from "../Themed";
 import Collapsible from 'react-native-collapsible';
 import { Ionicons } from '@expo/vector-icons';
 
 import { StyleSheet } from "react-native";
-import Colors from '../constants/Colors';
-import AccountList from '../hooks/bankList';
+import Colors from '../../constants/Colors';
+import AccountList from '../../hooks/bankList';
 import { useColorScheme } from "react-native";
 
 const DATA = AccountList();
 
-const AccsItem = ({ account, colorScheme }) => (
-  <View style={accStyle.bankAccount}
-  >
-    <TouchableOpacity
-      style={[accStyle.bankAccountBtn, { backgroundColor: account.bankColor ? account.bankColor:"#77c3f7"}]}
+const AccsItem = ({ account, colorScheme }) => {
+  const color = {
+    color: Colors[colorScheme].text
+  };
+
+  return (
+    <View style={accStyle.bankAccount}
     >
-    </TouchableOpacity>
-    <View style={{ position: "absolute", bottom: 15, left: 10, backgroundColor: "transparent", margin: 8, }}>
-      <Text style={[accStyle.bankAccountBtnTxt, { fontSize: 25, fontWeight: "400" }]}>{account.name}</Text>
-      <Text style={[accStyle.bankAccountBtnTxt, { fontWeight: "700" }]}>Php {account.balance}</Text>
+      <TouchableOpacity
+        style={[accStyle.bankAccountBtn, { backgroundColor: account.bankColor ? account.bankColor:Colors[colorScheme].tint}]}
+      >
+      </TouchableOpacity>
+      <View style={{ position: "absolute", bottom: 15, left: 10, backgroundColor: "transparent", margin: 8, }}>
+        <Text style={[accStyle.bankAccountBtnTxt,color, { fontSize: 25, fontWeight: "400" }]}>{account.name}</Text>
+        <Text style={[accStyle.bankAccountBtnTxt,color, { fontWeight: "700" }]}>Php {account.balance}</Text>
+      </View>
     </View>
-  </View>
-);
+  );
+};
 
 export default function Accounts({ }) {
   const colorScheme = useColorScheme();

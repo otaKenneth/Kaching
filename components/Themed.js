@@ -320,3 +320,43 @@ export function DatepickerInput(props) {
     </View>
   );
 }
+
+export function Card(props) {
+  const { style, lightColor, darkColor, title, subtitle, ...otherProps } = props;
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background"
+  );
+  const cardBG = useThemeColor(
+    { light: darkColor, dark: lightColor },
+    "tint"
+  );
+  const color = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "text"
+  );
+
+  return (
+    <View
+      style={[
+        { 
+          width: "46%", height: 200, 
+          // borderStyle: 'solid', borderWidth: 2, 
+          borderRadius: 15,
+          overflow: "hidden", marginBottom: 10,
+          elevation: 10,
+          // padding: 10 
+        },
+        { backgroundColor }, 
+        style
+      ]} 
+      {...otherProps}
+    >
+      <View style={{ height: "70%", width: "100%" }}></View>
+      <View style={{ width: "100%", height: "30%", backgroundColor: cardBG, paddingLeft: 15, paddingVertical: 5, }}>
+        <Text style={{ color: color }}>{subtitle}</Text>
+        <Text style={[appStyles.title, { color: color }]}>{title}</Text>
+      </View>
+    </View>
+  );
+}

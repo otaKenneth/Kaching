@@ -128,7 +128,7 @@ export default function CreateButton({ navigation }) {
 				style={[styles.actionBtns, {
 					width: 80, height: 80, borderRadius: 40,
 					top: -50, backgroundColor: Colors[colorScheme].tint,
-					borderColor: Colors[colorScheme].background, borderWidth: 10
+					borderColor: Colors[colorScheme].background, borderWidth: 10, elevation: 1
 				}]}
 				onPress={() => (
 					setShowModal(true)
