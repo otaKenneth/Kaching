@@ -3,25 +3,34 @@ import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity, View, Text, Modal } from "./Themed";
 
 import { StyleSheet } from "react-native";
+import Colors from "../constants/Colors";
 import appStyles from "../assets/styles/appStyles";
+import useColorScheme from "react-native/Libraries/Utilities/useColorScheme";
+
 
 export default function CreateButton({ navigation }) {
 	const [showModal, setShowModal] = useState(false);
+	const colorScheme = useColorScheme();
+
+	const textBackground = {
+		backgroundColor: Colors[colorScheme].background
+	};
+
 	return (
-		<View>
+		<View style={{ backgroundColor: "transparent" }}>
 			<Modal
 				animationType="fade"
 				visible={showModal}
 				transparent={true}
 				swipeDirection="down"
-				style={{ justifyContent: "flex-end"}}
+				style={{ justifyContent: "flex-end" }}
 			>
-				<View style={appStyles.modalContainer}>
+				<View style={[appStyles.modalContainer, { paddingBottom: 60 }]}>
 
-					<View style={ styles.floatingBtnsContainer }>
-						<View style={ styles.floatingBtnsChildContainer }>
-							<View style={{ alignItems: "center", backgroundColor: "transparent"}}>
-								<Text style={styles.actionBtnName}>Account</Text>
+					<View style={styles.floatingBtnsContainer}>
+						<View style={styles.floatingBtnsChildContainer}>
+							<View style={{ alignItems: "center", backgroundColor: "transparent" }}>
+								<Text style={[styles.actionBtnName, textBackground]}>Account</Text>
 								<TouchableOpacity
 									style={styles.actionBtns}
 									onPress={() => {
@@ -29,12 +38,12 @@ export default function CreateButton({ navigation }) {
 										navigation.navigate('CreateAccount')
 									}}
 								>
-									<Ionicons name="wallet-outline" size={30} title="Account"/>
+									<Ionicons name="wallet-outline" size={30} title="Account" />
 								</TouchableOpacity>
 							</View>
-							
-							<View style={{ alignItems: "center", backgroundColor: "transparent"}}>
-								<Text style={styles.actionBtnName}>Transfer</Text>
+
+							<View style={{ alignItems: "center", backgroundColor: "transparent" }}>
+								<Text style={[styles.actionBtnName, textBackground]}>Transfer</Text>
 								<TouchableOpacity
 									style={styles.actionBtns}
 									onPress={() => {
@@ -42,14 +51,14 @@ export default function CreateButton({ navigation }) {
 										navigation.navigate('CreateTransfer')
 									}}
 								>
-									<Ionicons name="swap-horizontal-outline" size={30} title="Account"/>
+									<Ionicons name="swap-horizontal-outline" size={30} title="Account" />
 								</TouchableOpacity>
 							</View>
 						</View>
-						
-						<View style={[styles.floatingBtnsChildContainer, { top: -30, }]}>
-							<View style={{ alignItems: "center", backgroundColor: "transparent", alignItems: "center",}}>
-								<Text style={styles.actionBtnName}>Budget Record</Text>
+
+						<View style={[styles.floatingBtnsChildContainer, { top: -40, left: -7, }]}>
+							<View style={{ alignItems: "center", backgroundColor: "transparent", alignItems: "center", }}>
+								<Text style={[styles.actionBtnName, textBackground]}>Budget Record</Text>
 								<TouchableOpacity
 									style={styles.actionBtns}
 									onPress={() => {
@@ -57,12 +66,12 @@ export default function CreateButton({ navigation }) {
 										navigation.navigate('CreateBudget')
 									}}
 								>
-									<Ionicons name="reader-outline" size={30}/>
+									<Ionicons name="reader-outline" size={30} />
 								</TouchableOpacity>
 							</View>
-							
-							<View style={{ alignItems: "center", backgroundColor: "transparent", alignItems: "center",}}>
-								<Text style={styles.actionBtnName}>Transaction</Text>
+
+							<View style={{ alignItems: "center", backgroundColor: "transparent", alignItems: "center", }}>
+								<Text style={[styles.actionBtnName, textBackground]}>Transaction</Text>
 								<TouchableOpacity
 									style={styles.actionBtns}
 									onPress={() => {
@@ -70,14 +79,14 @@ export default function CreateButton({ navigation }) {
 										navigation.navigate('CreateTransaction');
 									}}
 								>
-									<Ionicons style={{ transform: [{ rotate: "45deg" }]}} name="swap-vertical-outline" size={30}/>
+									<Ionicons style={{ transform: [{ rotate: "45deg" }] }} name="swap-vertical-outline" size={30} />
 								</TouchableOpacity>
 							</View>
 						</View>
-						
-						<View style={styles.floatingBtnsChildContainer}>
-							<View style={{ alignItems: "center", backgroundColor: "transparent"}}>
-								<Text style={styles.actionBtnName}>Payee</Text>
+
+						<View style={[styles.floatingBtnsChildContainer, { top: 0, left: -14, }]}>
+							<View style={{ alignItems: "center", backgroundColor: "transparent" }}>
+								<Text style={[styles.actionBtnName, textBackground]}>Payee</Text>
 								<TouchableOpacity
 									style={styles.actionBtns}
 									onPress={() => {
@@ -85,12 +94,12 @@ export default function CreateButton({ navigation }) {
 										navigation.navigate('CreatePayee')
 									}}
 								>
-									<Ionicons name="person" size={30}/>
+									<Ionicons name="person" size={30} />
 								</TouchableOpacity>
 							</View>
 
-							<View style={{ alignItems: "center", backgroundColor: "transparent"}}>
-								<Text style={styles.actionBtnName}>Payer</Text>
+							<View style={{ alignItems: "center", backgroundColor: "transparent" }}>
+								<Text style={[styles.actionBtnName, textBackground]}>Payer</Text>
 								<TouchableOpacity
 									style={styles.actionBtns}
 									onPress={() => {
@@ -98,35 +107,34 @@ export default function CreateButton({ navigation }) {
 										navigation.navigate('CreatePayer')
 									}}
 								>
-									<Ionicons name="person-outline" size={30}/>
+									<Ionicons name="person-outline" size={30} />
 								</TouchableOpacity>
 							</View>
 						</View>
 					</View>
 
-					<View style={{ top: -20, backgroundColor: "transparent"}}>
+					<View style={{ top: 1.3, width: "100%", height: 30, backgroundColor: "transparent", alignItems: "center" }}>
 						<TouchableOpacity
-							style={[styles.actionBtns, {width: 60, height: 60}]}
+							style={[styles.actionBtns, { width: 60, height: 60 }]}
 							onPress={() => setShowModal(false)}
 						>
-							<Ionicons name="close-outline" size={40}/>
+							<Ionicons name="close-outline" size={40} />
 						</TouchableOpacity>
 					</View>
 				</View>
 			</Modal>
-			
+
 			<TouchableOpacity
 				style={[styles.actionBtns, {
-					width: 60, height: 60,
-					top: -30
+					width: 80, height: 80, borderRadius: 40,
+					top: -50, backgroundColor: Colors[colorScheme].tint,
+					borderColor: Colors[colorScheme].background, borderWidth: 10
 				}]}
 				onPress={() => (
 					setShowModal(true)
 				)}
 			>
-				<Text>
-					<Ionicons name="add" size={40}/>
-				</Text>
+				<Ionicons color={Colors[colorScheme].createButtonIcon} name="add" size={40} />
 			</TouchableOpacity>
 		</View>
 	);
@@ -134,24 +142,26 @@ export default function CreateButton({ navigation }) {
 
 const styles = StyleSheet.create({
 	floatingBtnsContainer: {
-		width: "90%", height: "30%", paddingRight: 11,
-		flexDirection: "row", justifyContent: "space-around", 
-		backgroundColor: "transparent", 
+		width: "80%", height: "30%", top: 23,
+		flexDirection: "row", justifyContent: "space-around",
+		backgroundColor: "transparent",
 		// borderStyle: 'solid', borderWidth: 1, borderColor: '#000'
 	},
 	floatingBtnsChildContainer: {
-		height: "auto", justifyContent: "space-around", 
+		height: "auto", justifyContent: "space-around",
 		backgroundColor: "transparent",
 		// borderStyle: 'solid', borderWidth: 1, borderColor: '#000'
 	},
 	actionBtns: {
-		position: "relative",
+		// position: "relative",
 		width: 50, height: 50,
 		justifyContent: "center", alignItems: "center",
 		borderRadius: 30, backgroundColor: "#ddd",
 	},
 	actionBtnName: {
 		paddingHorizontal: 10,
-		marginBottom: 10, backgroundColor: "#ddd", textAlign: "center", elevation: 15, borderRadius: 5
+		marginBottom: 10, 
+		backgroundColor: Colors["dark"].background, 
+		textAlign: "center", elevation: 15, borderRadius: 5
 	}
 })

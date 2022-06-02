@@ -115,7 +115,7 @@ export function SubmitButton(props) {
         alignItems: "center", borderRadius: 10,}
     ]} 
     {...otherProps}>
-    <Text>Submit</Text>
+    <Text style={{ fontWeight: "500", }}>Submit</Text>
   </DefaultTouchableOpacity>;
 }
 
@@ -186,6 +186,10 @@ export function Select (props) {
     { light: lightColor, dark: darkColor },
     "background"
   );
+  const color = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "text"
+  );
 
   const [showModal, setShowModal] = useState(false);
   const [selected, setSelected] = useState("Select");
@@ -254,7 +258,7 @@ export function Select (props) {
         <Pressable
           onPress={() => setShowModal(true)}
         >
-          <Ionicons name="chevron-forward-outline" size={25} color="#000" />
+          <Ionicons name="chevron-forward-outline" size={25} color={color} />
         </Pressable>
       </View>
     </View>
@@ -266,6 +270,10 @@ export function DatepickerInput(props) {
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "background"
+  );
+  const color = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "text"
   );
   
 	const [date, setDate] = useState(new Date());
@@ -296,7 +304,7 @@ export function DatepickerInput(props) {
         <Pressable
           onPress={() => setShow(true)}
         >
-          <Ionicons name='calendar' size={18} />
+          <Ionicons name='calendar' color={color} size={18} />
         </Pressable>
         {show && 
           <DateTimePicker

@@ -1,11 +1,16 @@
 import { DatepickerInput, Input, KeyboardAvoidingView, ScrollView, SubmitButton, View } from "../../components/Themed";
 import { CalculatorInput } from "../../components/Calculator";
-import { StyleSheet } from "react-native";
+import { StyleSheet, useColorScheme } from "react-native";
+import Colors from "../../constants/Colors";
 
 export default function CreatePayee({ navigation }) {
+	const colorScheme = useColorScheme();
+  const containerBG = {
+    backgroundColor: Colors[colorScheme].background
+  };
 
 	return (
-		<ScrollView style={[{ width: "100%", padding: 0 }]}>
+		<ScrollView style={[{ width: "100%", padding: 0 }, containerBG]}>
 			<View style={styles.container}>
 				<View style={[styles.container, { width: "100%", height: "auto", padding: 0 }]}>
 					<Input label="Name" />
@@ -30,7 +35,7 @@ export default function CreatePayee({ navigation }) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#fff",
+		backgroundColor: "transparent",
 		alignItems: "center",
 		justifyContent: "flex-start",
 		padding: 20,

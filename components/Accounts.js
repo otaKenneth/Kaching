@@ -33,11 +33,11 @@ export default function Accounts({ }) {
       <View style={[
           accStyle.collapsibleHeader,
           {
-            backgroundColor: Colors[colorScheme].tint
+            backgroundColor: Colors[colorScheme].headerBackgroundColor
           }
         ]}
         >
-        <Text style={{ fontWeight: "500", fontSize: 18, color: "white" }}>Accounts</Text>
+        <Text style={{ fontWeight: "500", fontSize: 18, color: Colors[colorScheme].headerTextColor }}>Accounts</Text>
         <Pressable
           style={{ backgroundColor: "transparent" }}
           onPress={() => setCollapse(isCollapse ? false:true)}
@@ -47,10 +47,8 @@ export default function Accounts({ }) {
       </View>
       <Collapsible collapsed={isCollapse} duration={1000}>
         <SafeAreaView>
-          <ScrollView horizontal={true} 
-            style={{ backgroundColor: "#f7f8fa" }}
-          >
-            <View style={accStyle.accountsContainer}>
+          <ScrollView horizontal={true} >
+            <View style={[accStyle.accountsContainer, {backgroundColor: Colors[colorScheme].cardBackground }]}>
               {DATA.map((data, index) => <AccsItem key={index} account={data} colorScheme={colorScheme} />)}
             </View>
           </ScrollView>
