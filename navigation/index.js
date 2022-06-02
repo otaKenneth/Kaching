@@ -40,12 +40,7 @@ function RootNavigator() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Root" component={BottomTabNavigator} />
-      <Stack.Screen name="CreateAccount" component={CreateAccount} options={{ headerShown: true, headerTitle: "New Account" }} />
-      <Stack.Screen name="CreateTransfer" component={CreateTransfer} options={{ headerShown: true, headerTitle: "Make a Transfer" }} />
-      <Stack.Screen name="CreateBudget" component={CreateBudget} options={{ headerShown: true, headerTitle: "New Budget" }} />
-      <Stack.Screen name="CreateTransaction" component={CreateTransaction} options={{ headerShown: true, headerTitle: "New Transaction" }} />
-      <Stack.Screen name="CreatePayee" component={CreatePayee} options={{ headerShown: true, headerTitle: "New Payee" }} />
-      <Stack.Screen name="CreatePayer" component={CreatePayer} options={{ headerShown: true, headerTitle: "New Payer" }} />
+      <Stack.Screen name="Add" component={Create} />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
@@ -54,3 +49,40 @@ function RootNavigator() {
     </Stack.Navigator>
   );
 }
+
+const CreateStack = createStackNavigator();
+
+function Create ({ navigation }) {
+  return (
+    <CreateStack.Navigator>
+      <CreateStack.Screen 
+        name="CreateAccount" 
+        component={CreateAccount} 
+        options={{ 
+          headerShown: true, 
+          headerTitle: "New Account" 
+        }}
+      />
+      <CreateStack.Screen 
+        name="CreateTransfer" 
+        component={CreateTransfer} 
+        options={{ 
+          headerShown: true, 
+          headerTitle: "Make a Transfer" 
+        }}
+      />
+      <CreateStack.Screen name="CreateBudget" component={CreateBudget} options={{ headerShown: true, headerTitle: "New Budget" }} />
+      <CreateStack.Screen 
+        name="CreateTransaction" 
+        component={CreateTransaction} 
+        options={{ 
+          headerShown: true, 
+          headerTitle: "New Transaction" 
+        }}
+      />
+      <CreateStack.Screen name="CreatePayee" component={CreatePayee} options={{ headerShown: true, headerTitle: "New Payee" }} />
+      <CreateStack.Screen name="CreatePayer" component={CreatePayer} options={{ headerShown: true, headerTitle: "New Payer" }} />
+    </CreateStack.Navigator>
+  )
+}
+

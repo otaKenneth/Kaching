@@ -6,7 +6,7 @@ import { StyleSheet } from "react-native";
 import appStyles from "../assets/styles/appStyles";
 import Cards from "../components/Dashboard/Cards";
 
-export default function TabOneScreen() {
+export default function TabOneScreen({ navigation }) {
   return (
     <ScrollView>
       <View style={[styles.container, { paddingTop: 10 }]}>
@@ -24,7 +24,7 @@ export default function TabOneScreen() {
           lightColor="#eee"
           darkColor="rgba(255,255,255,0.1)"
         />
-        <Cards />
+        <Cards navigation={navigation} />
       </View>
     </ScrollView>
   );

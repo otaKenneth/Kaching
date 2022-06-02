@@ -10,6 +10,11 @@ import CreateButton from "../components/CreateButton";
 import TabOneScreen from "../screens/TabOneScreen";
 import TabTwoScreen from "../screens/TabTwoScreen";
 
+import BudgetList from "../screens/View/BudgetListScreen";
+import TransactionList from "../screens/View/TransactionList";
+import PayerList from "../screens/View/PayerList";
+import PayeeList from "../screens/View/PayeeList";
+
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator({ navigation }) {
@@ -32,7 +37,7 @@ export default function BottomTabNavigator({ navigation }) {
       />
       <BottomTab.Screen
         name="Add"
-        component={BottomTabNavigator}
+        component={Create}
         options={{
           headerShown: false, title: null, tabBarLabel: "",
           tabBarButton: ({props}) => (
@@ -72,8 +77,32 @@ function TabOneNavigator() {
         component={TabOneScreen}
         options={{ headerTitle: "Dashboard", headerLeft: null }}
       />
+      <TabOneStack.Screen
+        name="Budget"
+        component={BudgetList}
+        options={{ headerTitle: "Budget List" }}
+      />
+      <TabOneStack.Screen
+        name="Transactions"
+        component={TransactionList}
+        options={{ headerTitle: "Transaction List" }}
+      />
+      <TabOneStack.Screen
+        name="Payers"
+        component={PayerList}
+        options={{ headerTitle: "Budget List" }}
+      />
+      <TabOneStack.Screen
+        name="Payees"
+        component={PayeeList}
+        options={{ headerTitle: "Payee List" }}
+      />
     </TabOneStack.Navigator>
   );
+}
+
+function Create () {
+  return (null);
 }
 
 const TabTwoStack = createStackNavigator();

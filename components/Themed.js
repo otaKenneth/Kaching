@@ -322,7 +322,7 @@ export function DatepickerInput(props) {
 }
 
 export function Card(props) {
-  const { style, lightColor, darkColor, title, subtitle, ...otherProps } = props;
+  const { style, lightColor, darkColor, title, subtitle, onPress, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "background"
@@ -352,11 +352,13 @@ export function Card(props) {
       ]} 
       {...otherProps}
     >
+    <Pressable style={{ width: "auto", height: "auto" }} onPress={onPress}>
       <View style={{ height: "70%", width: "100%" }}></View>
       <View style={{ width: "100%", height: "30%", backgroundColor: cardBG, paddingLeft: 15, paddingVertical: 5, }}>
         <Text style={{ color: color }}>{subtitle}</Text>
         <Text style={[appStyles.title, { color: color }]}>{title}</Text>
       </View>
+    </Pressable>
     </View>
   );
 }

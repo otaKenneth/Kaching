@@ -17,13 +17,13 @@ export default {
               TabOneScreen: "one",
             },
           },
-          create:{
+          CreateTransaction:{
             screens: {
-              AccountScreen: "*",
-              TransferScreen: "*",
-              TransactionScreen: "*",
-              PayerScreen: "*",
-              PayeeScreen: "*",
+              CreateTransaction: "*",
+              // AccountScreen: "*",
+              // TransferScreen: "*",
+              // PayerScreen: "*",
+              // PayeeScreen: "*",
             }
           },
           TabTwo: {

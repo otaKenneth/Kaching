@@ -16,10 +16,11 @@ const AccsItem = ({ account, colorScheme }) => {
   };
 
   return (
-    <View style={accStyle.bankAccount}
-    >
+    <View style={accStyle.bankAccount}>
       <TouchableOpacity
+        activeOpacity={0.5}
         style={[accStyle.bankAccountBtn, { backgroundColor: account.bankColor ? account.bankColor:Colors[colorScheme].tint}]}
+        onLongPress={() => alert("shit")}
       >
       </TouchableOpacity>
       <View style={{ position: "absolute", bottom: 15, left: 10, backgroundColor: "transparent", margin: 8, }}>

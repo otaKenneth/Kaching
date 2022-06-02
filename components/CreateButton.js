@@ -35,7 +35,7 @@ export default function CreateButton({ navigation }) {
 									style={styles.actionBtns}
 									onPress={() => {
 										setShowModal(false);
-										navigation.navigate('CreateAccount')
+										navigation.navigate('Add', {screen: 'CreateAccount'})
 									}}
 								>
 									<Ionicons name="wallet-outline" size={30} title="Account" />
@@ -48,7 +48,7 @@ export default function CreateButton({ navigation }) {
 									style={styles.actionBtns}
 									onPress={() => {
 										setShowModal(false);
-										navigation.navigate('CreateTransfer')
+										navigation.navigate('Add', {screen: 'CreateTransfer'})
 									}}
 								>
 									<Ionicons name="swap-horizontal-outline" size={30} title="Account" />
@@ -63,7 +63,7 @@ export default function CreateButton({ navigation }) {
 									style={styles.actionBtns}
 									onPress={() => {
 										setShowModal(false);
-										navigation.navigate('CreateBudget')
+										navigation.navigate('Add', {screen: 'CreateBudget'})
 									}}
 								>
 									<Ionicons name="reader-outline" size={30} />
@@ -76,7 +76,7 @@ export default function CreateButton({ navigation }) {
 									style={styles.actionBtns}
 									onPress={() => {
 										setShowModal(false);
-										navigation.navigate('CreateTransaction');
+										navigation.navigate('Add', {screen: 'CreateTransaction'});
 									}}
 								>
 									<Ionicons style={{ transform: [{ rotate: "45deg" }] }} name="swap-vertical-outline" size={30} />
@@ -91,7 +91,7 @@ export default function CreateButton({ navigation }) {
 									style={styles.actionBtns}
 									onPress={() => {
 										setShowModal(false);
-										navigation.navigate('CreatePayee')
+										navigation.navigate('Add', {screen: 'CreatePayee'})
 									}}
 								>
 									<Ionicons name="person" size={30} />
@@ -104,7 +104,7 @@ export default function CreateButton({ navigation }) {
 									style={styles.actionBtns}
 									onPress={() => {
 										setShowModal(false);
-										navigation.navigate('CreatePayer')
+										navigation.navigate('Add', {sceen: 'CreatePayer'})
 									}}
 								>
 									<Ionicons name="person-outline" size={30} />
