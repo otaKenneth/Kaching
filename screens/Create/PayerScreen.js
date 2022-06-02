@@ -4,10 +4,10 @@ import { StyleSheet, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
 
 export default function CreatePayer({ navigation }) {
-  const colorScheme = useColorScheme();
-  const containerBG = {
-    backgroundColor: Colors[colorScheme].background
-  };
+	const colorScheme = useColorScheme();
+	const containerBG = {
+		backgroundColor: Colors[colorScheme].background
+	};
 
 	return (
 		<ScrollView style={[{ width: "100%", padding: 0 }, containerBG]}>
@@ -21,7 +21,7 @@ export default function CreatePayer({ navigation }) {
 					<DatepickerInput label="Initial Date" />
 				</View>
 			</View>
-			
+
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "padding" : "height"}
 				style={styles.container}

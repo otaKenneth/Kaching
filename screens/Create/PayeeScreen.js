@@ -5,9 +5,9 @@ import Colors from "../../constants/Colors";
 
 export default function CreatePayee({ navigation }) {
 	const colorScheme = useColorScheme();
-  const containerBG = {
-    backgroundColor: Colors[colorScheme].background
-  };
+	const containerBG = {
+		backgroundColor: Colors[colorScheme].background
+	};
 
 	return (
 		<ScrollView style={[{ width: "100%", padding: 0 }, containerBG]}>
