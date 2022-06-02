@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { View, KeyboardAvoidingView, Text, TouchableOpacity, Input, Select, CalculatorInput } from "../components/Themed";
+import { View, KeyboardAvoidingView, Text, TouchableOpacity, Input, Select, CalculatorInput, SubmitButton } from "../components/Themed";
 
 import appStyles from "../assets/styles/appStyles";
 
@@ -24,11 +24,7 @@ export default function CreateAccount({ navigation }) {
       </View>
 
       <View style={{ width: "100%" }}>
-        <TouchableOpacity
-          style={appStyles.submitButton}
-        >
-          <Text>Submit</Text>
-        </TouchableOpacity>
+        <SubmitButton />
       </View>
 		</KeyboardAvoidingView>
 	);

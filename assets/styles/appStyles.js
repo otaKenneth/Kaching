@@ -40,10 +40,5 @@ export default StyleSheet.create({
         shadowRadius: 4,
         overflow: "hidden",
         elevation: 5
-    },
-    submitButton: {
-        backgroundColor: "lightgreen",
-        color: "#000", width: "98%", paddingVertical: 15,
-        alignItems: "center", borderRadius: 10,
     }
 });

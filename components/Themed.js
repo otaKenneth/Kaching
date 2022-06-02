@@ -99,6 +99,26 @@ export function TouchableOpacity(props) {
   return <DefaultTouchableOpacity style={[{ backgroundColor }, style]} {...otherProps} />;
 }
 
+export function SubmitButton(props) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "primaryBtn"
+  );
+
+  return <DefaultTouchableOpacity 
+    style={[
+      { backgroundColor }, 
+      style, 
+      { 
+        width: "98%", paddingVertical: 15,
+        alignItems: "center", borderRadius: 10,}
+    ]} 
+    {...otherProps}>
+    <Text>Submit</Text>
+  </DefaultTouchableOpacity>;
+}
+
 export function TouchableHighlight(props) {
   const { style, lightColor, darkColor, ...otherProps } = props;
   const backgroundColor = useThemeColor(

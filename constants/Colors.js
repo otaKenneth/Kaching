@@ -8,6 +8,7 @@ export default {
     tint: tintColorLight,
     tabIconDefault: "#ccc",
     tabIconSelected: tintColorLight,
+    primaryBtn: "lightgreen",
     headerTextColor: "#fff",
     headerBackgroundColor: "#fc6a53",
   },
@@ -18,6 +19,7 @@ export default {
     tabIconDefault: "#ccc",
     tabIconSelected: tintColorDark,
     headerTextColor: "#fff",
+    primaryBtn: "lightgray",
     headerBackgroundColor: "#2b2b2b",
   },
 };

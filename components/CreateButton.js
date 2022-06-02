@@ -57,6 +57,16 @@ export default function CreateButton({ navigation }) {
 									<Ionicons name="reader-outline" size={30}/>
 								</TouchableOpacity>
 							</View>
+							
+							<View style={{ alignItems: "center", backgroundColor: "transparent", alignItems: "center"}}>
+								<Text style={styles.actionBtnName}>Transaction</Text>
+								<TouchableOpacity
+									style={styles.actionBtns}
+									onPress={() => setShowModal(false)}
+								>
+									<Ionicons style={{ transform: [{ rotate: "45deg" }]}} name="swap-vertical-outline" size={30}/>
+								</TouchableOpacity>
+							</View>
 						</View>
 						
 						<View style={{height: "auto", justifyContent: "space-around", backgroundColor: "transparent"}}>
