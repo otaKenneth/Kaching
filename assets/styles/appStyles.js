@@ -19,6 +19,14 @@ export default StyleSheet.create({
         fontSize: 80, marginBottom: "20%",
         fontWeight: "bold"
     },
+    h2Style: {
+        fontSize: 70, marginBottom: "20%",
+        fontWeight: "bold"
+    },
+    h3Style: {
+        fontSize: 60, marginBottom: "20%",
+        fontWeight: "bold"
+    },
     modalContainer: {
         flex: 1,
         justifyContent: "flex-end",

@@ -18,8 +18,8 @@ export default function CreateButton({ navigation }) {
 			>
 				<View style={appStyles.modalContainer}>
 
-					<View style={{ width: "90%", height: "30%", flexDirection: "row", justifyContent: "space-around", backgroundColor: "transparent"}}>
-						<View style={{height: "auto", justifyContent: "space-around", backgroundColor: "transparent"}}>
+					<View style={ styles.floatingBtnsContainer }>
+						<View style={ styles.floatingBtnsChildContainer }>
 							<View style={{ alignItems: "center", backgroundColor: "transparent"}}>
 								<Text style={styles.actionBtnName}>Account</Text>
 								<TouchableOpacity
@@ -47,8 +47,8 @@ export default function CreateButton({ navigation }) {
 							</View>
 						</View>
 						
-						<View style={{height: "auto", justifyContent: "space-around", backgroundColor: "transparent"}}>
-							<View style={{ alignItems: "center", backgroundColor: "transparent", alignItems: "center"}}>
+						<View style={[styles.floatingBtnsChildContainer, { top: -30, }]}>
+							<View style={{ alignItems: "center", backgroundColor: "transparent", alignItems: "center",}}>
 								<Text style={styles.actionBtnName}>Budget Record</Text>
 								<TouchableOpacity
 									style={styles.actionBtns}
@@ -58,7 +58,7 @@ export default function CreateButton({ navigation }) {
 								</TouchableOpacity>
 							</View>
 							
-							<View style={{ alignItems: "center", backgroundColor: "transparent", alignItems: "center"}}>
+							<View style={{ alignItems: "center", backgroundColor: "transparent", alignItems: "center",}}>
 								<Text style={styles.actionBtnName}>Transaction</Text>
 								<TouchableOpacity
 									style={styles.actionBtns}
@@ -69,7 +69,7 @@ export default function CreateButton({ navigation }) {
 							</View>
 						</View>
 						
-						<View style={{height: "auto", justifyContent: "space-around", backgroundColor: "transparent"}}>
+						<View style={styles.floatingBtnsChildContainer}>
 							<View style={{ alignItems: "center", backgroundColor: "transparent"}}>
 								<Text style={styles.actionBtnName}>Payee</Text>
 								<TouchableOpacity
@@ -121,6 +121,17 @@ export default function CreateButton({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+	floatingBtnsContainer: {
+		width: "90%", height: "30%", paddingRight: 11,
+		flexDirection: "row", justifyContent: "space-around", 
+		backgroundColor: "transparent", 
+		// borderStyle: 'solid', borderWidth: 1, borderColor: '#000'
+	},
+	floatingBtnsChildContainer: {
+		height: "auto", justifyContent: "space-around", 
+		backgroundColor: "transparent",
+		// borderStyle: 'solid', borderWidth: 1, borderColor: '#000'
+	},
 	actionBtns: {
 		position: "relative",
 		width: 50, height: 50,
