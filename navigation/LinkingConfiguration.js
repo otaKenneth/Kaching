@@ -17,9 +17,13 @@ export default {
               TabOneScreen: "one",
             },
           },
-          CreateAccount: {
+          create:{
             screens: {
-              CreateAccountScreen: "create_account"
+              AccountScreen: "*",
+              TransferScreen: "*",
+              TransactionScreen: "*",
+              PayerScreen: "*",
+              PayeeScreen: "*",
             }
           },
           TabTwo: {

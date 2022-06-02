@@ -14,12 +14,12 @@ import {
   VirtualizedList as DefaultVirtualizeList,
   Modal as DefaultModal,
   TextInput as DefaultTextInput,
-  SectionList
+  SectionList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import appStyles from "../assets/styles/appStyles";
-import Calculator from "../components/Calculator";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export function useThemeColor(props, colorName) {
   const theme = useColorScheme();
@@ -209,11 +209,14 @@ export function Select (props) {
         visible={showModal}
 				transparent={true}
 				swipeDirection="down"
-				style={{ justifyContent: "flex-end"}}
+				style={{ flex: 1, justifyContent: "flex-end"}}
+        onRequestClose={() => {
+          setShowModal(!showModal)
+        }}
       >
         <View style={[appStyles.modalContainer, { justifyContent: "center" }]}>
-          <View style={[appStyles.modalView, { width: "70%", padding: 0, height: "50%" }]}>
-            <SafeAreaView style={{ height: "auto", width: "100%", padding: 10 }}>
+          <View style={[appStyles.modalView, { width: "70%", padding: 0, height: "auto", maxHeight: 500, }]}>
+            <SafeAreaView style={{ width: "100%", padding: 10 }}>
               <SectionList
                 sections={options}
                 keyExtractor={(item, index) => item + index}
@@ -258,30 +261,18 @@ export function Select (props) {
   );
 }
 
-export function CalculatorInput (props) {
-  const { style, lightColor, darkColor, label, ...otherProps } = props;
+export function DatepickerInput(props) {
+  const { style, lightColor, darkColor, label, containerStyle, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "background"
   );
-
-  const [showModal, setShowModal] = useState(false);
-  const [myVal, setMyVal] = useState('0');
+  
+	const [date, setDate] = useState(new Date());
+  const [show, setShow] = useState(false);
 
   return (
-    <View style={{ width: "98%", marginBottom: 10, }}>
-      <Modal
-        visible={showModal}
-				transparent={true}
-				swipeDirection="down"
-				style={{ justifyContent: "flex-end"}}
-      >
-        <View style={[appStyles.modalContainer, { justifyContent: "center" }]}>
-          <View style={[appStyles.modalView, { width: "90%", height: "auto", padding: 10 }]}>
-            <Calculator onPress={() => setShowModal(!showModal)} myVal={setMyVal} currentValue={myVal} />
-          </View>
-        </View>
-      </Modal>
+    <View style={[{ width: "98%", marginBottom: 10, }, containerStyle]}>
       <Text style={{ fontSize: 18, marginBottom: 10, }}>{label}:</Text>
       <View
         style={[
@@ -290,20 +281,33 @@ export function CalculatorInput (props) {
             borderStyle: 'solid', 
             borderWidth: 1, 
             borderRadius: 10, 
+            width: "100%", 
             paddingHorizontal: 10, 
-            paddingVertical: 5,
+            paddingVertical: 10,
             flexDirection: "row",
-            alignItems: "center"
+            alignItems: "center",
+            justifyContent: "space-between"
           }, 
           style
-        ]} 
+        ]}
+        {...otherProps}
       >
-        <DefaultTextInput style={{width: "92%", }} keyboardType="number-pad" onChangeText={setMyVal} value={myVal} {...otherProps} />
+        <Text>{date.getMonth()+1}/{date.getDate()}/{date.getFullYear()}</Text>
         <Pressable
-          onPress={() => setShowModal(true)}
+          onPress={() => setShow(true)}
         >
-          <Ionicons name="calculator-outline" size={25} />
+          <Ionicons name='calendar' size={18} />
         </Pressable>
+        {show && 
+          <DateTimePicker
+            mode='date'
+            value={date}
+            confirmBtnText='Confirm'
+            cancelBtnText='Cancel'
+            maximumDate={new Date()}
+            onChange={(evt, date) => {setDate(date); setShow(false); }}
+          />
+        }
       </View>
     </View>
   );

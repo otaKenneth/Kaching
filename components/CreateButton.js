@@ -39,7 +39,7 @@ export default function CreateButton({ navigation }) {
 									style={styles.actionBtns}
 									onPress={() => {
 										setShowModal(false);
-										navigation.navigate('NotFound')
+										navigation.navigate('CreateTransfer')
 									}}
 								>
 									<Ionicons name="swap-horizontal-outline" size={30} title="Account"/>
@@ -52,7 +52,10 @@ export default function CreateButton({ navigation }) {
 								<Text style={styles.actionBtnName}>Budget Record</Text>
 								<TouchableOpacity
 									style={styles.actionBtns}
-									onPress={() => setShowModal(false)}
+									onPress={() => {
+										setShowModal(false);
+										navigation.navigate('CreateBudget')
+									}}
 								>
 									<Ionicons name="reader-outline" size={30}/>
 								</TouchableOpacity>
@@ -62,7 +65,10 @@ export default function CreateButton({ navigation }) {
 								<Text style={styles.actionBtnName}>Transaction</Text>
 								<TouchableOpacity
 									style={styles.actionBtns}
-									onPress={() => setShowModal(false)}
+									onPress={() => {
+										setShowModal(false);
+										navigation.navigate('CreateTransaction');
+									}}
 								>
 									<Ionicons style={{ transform: [{ rotate: "45deg" }]}} name="swap-vertical-outline" size={30}/>
 								</TouchableOpacity>
@@ -74,7 +80,10 @@ export default function CreateButton({ navigation }) {
 								<Text style={styles.actionBtnName}>Payee</Text>
 								<TouchableOpacity
 									style={styles.actionBtns}
-									onPress={() => setShowModal(false)}
+									onPress={() => {
+										setShowModal(false);
+										navigation.navigate('CreatePayee')
+									}}
 								>
 									<Ionicons name="person" size={30}/>
 								</TouchableOpacity>
@@ -84,7 +93,10 @@ export default function CreateButton({ navigation }) {
 								<Text style={styles.actionBtnName}>Payer</Text>
 								<TouchableOpacity
 									style={styles.actionBtns}
-									onPress={() => setShowModal(false)}
+									onPress={() => {
+										setShowModal(false);
+										navigation.navigate('CreatePayer')
+									}}
 								>
 									<Ionicons name="person-outline" size={30}/>
 								</TouchableOpacity>
