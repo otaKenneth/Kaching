@@ -49,7 +49,12 @@ export default function Accounts({ }) {
           style={{ backgroundColor: "transparent" }}
           onPress={() => setCollapse(isCollapse ? false:true)}
         >
-          <Ionicons size={25} name="chevron-down-outline" color="#fff" />
+          {isCollapse && 
+            <Ionicons size={25} name="chevron-down-outline" color="#fff" />
+          }
+          {!isCollapse && 
+            <Ionicons size={25} name="chevron-up-outline" color="#fff" />
+          }
         </Pressable>
       </View>
       <Collapsible collapsed={isCollapse} duration={1000}>

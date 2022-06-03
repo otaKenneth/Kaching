@@ -5,7 +5,7 @@ import Colors from "../../constants/Colors";
 
 export default function BudgetList ({ navigation }) {
   const colorScheme = useColorScheme();
-  const DATA = budgetList;
+  const DATA = budgetList.reverse();
 
   const BudgetCard = ({ budget, colorScheme }) => {
     const background = {

@@ -68,6 +68,7 @@ function TabBarIcon(props) {
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const TabOneStack = createStackNavigator();
+import budgetList from "../hooks/budgetList";
 
 function TabOneNavigator() {
   return (
@@ -87,7 +88,7 @@ function TabOneNavigator() {
         component={TransactionList}
         options={{ headerTitle: "Transaction List" }}
         initialParams={{
-          transactions: []
+          transactions: budgetList.reverse()[0].transactions
         }}
       />
       <TabOneStack.Screen
