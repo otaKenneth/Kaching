@@ -186,6 +186,69 @@ export function Input(props) {
   );
 }
 
+export function Autocomplete (props) {
+  const { style, lightColor, darkColor, label, noLabel, containerStyle, options, ...otherProps } = props;
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background"
+  );
+  const color = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "text"
+  );
+
+  const [menuVisibility, setMenuVisibility] = useState(false);
+  const [inputVal, setInputVal] = useState('');
+  const [menuOptions, setOptions] = useState(options);
+
+  return (
+    <View style={[{ width: "98%", marginBottom: 10, }, containerStyle]}>
+      {noLabel === false || noLabel == undefined && 
+        <Text style={{ fontSize: 18, marginBottom: 10, }}>{label}:</Text>
+      }
+      <DefaultTextInput 
+        style={[
+          { backgroundColor, color }, 
+          {
+            borderStyle: 'solid', 
+            borderWidth: 1, 
+            borderRadius: 10, 
+            width: "100%", 
+            paddingHorizontal: 10, 
+            paddingVertical: 5,
+          }, 
+          style
+        ]}
+        value={inputVal}
+        {...otherProps} 
+        onFocus={() => setMenuVisibility(true)}
+        onChangeText={(value) => {
+          setInputVal(value); 
+          if (value.length > 0) {
+            setOptions(options.filter(val => val.toLowerCase().match(value.toLowerCase())));
+            setMenuVisibility(true);
+          } else {
+            setMenuVisibility(false);
+          }
+        }}
+      />
+      {menuVisibility && menuOptions.length > 0 &&
+        <View style={{ width: "100%", height: "auto", elevation: 2, backgroundColor: "#fff" }}>
+          {menuOptions.map((item, index) => (
+            <Pressable
+              key={index}
+              style={{ padding: 10, width: "100%", backgroundColor: "transparent" }}
+              onPress={() => {setInputVal(item); setMenuVisibility(false);}}
+            >
+              <Text style={{ color: "#000" }}>{item}</Text>
+            </Pressable>
+          ))}
+        </View>
+      }
+    </View>
+  );
+}
+
 export function Select (props) {
   const { style, lightColor, darkColor, label, options, ...otherProps } = props;
   const backgroundColor = useThemeColor(

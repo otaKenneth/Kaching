@@ -1,4 +1,4 @@
-import { DatepickerInput, Input, KeyboardAvoidingView, ScrollView, Select, SubmitButton, View } from "../../components/Themed";
+import { Autocomplete, DatepickerInput, Input, KeyboardAvoidingView, ScrollView, Select, SubmitButton, View } from "../../components/Themed";
 import { CalculatorInput } from "../../components/Calculator";
 import { StyleSheet, useColorScheme } from "react-native";
 import AccountList from "../../hooks/bankList"
@@ -30,6 +30,8 @@ export default function CreateTransaction({ navigation }) {
     data: AccountList().map(data => `Account: ${data.name}`)
   }];
 
+  const autoCompleteOpts = ["Food & Drinks", "Shopping", "Transportation"];
+
   return (
     <ScrollView style={[{ width: "100%", padding: 0 }, containerBG]}>
       <View>
@@ -37,7 +39,7 @@ export default function CreateTransaction({ navigation }) {
           <View style={[styles.container, { width: "100%", height: "auto", padding: 0 }]}>
             <Select label="Type" options={types} />
             <Select label="Category" options={categories} />
-            <Input label="Description" />
+            <Autocomplete label="Description" options={autoCompleteOpts} />
             <CalculatorInput label="Amount" />
             <DatepickerInput label="Transaction Date" />
             <Select label="From" options={accountList} />
