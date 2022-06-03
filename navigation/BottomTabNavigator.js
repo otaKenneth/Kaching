@@ -11,9 +11,9 @@ import TabOneScreen from "../screens/TabOneScreen";
 import TabTwoScreen from "../screens/TabTwoScreen";
 
 import BudgetList from "../screens/View/BudgetListScreen";
-import TransactionList from "../screens/View/TransactionList";
-import PayerList from "../screens/View/PayerList";
-import PayeeList from "../screens/View/PayeeList";
+import TransactionList from "../screens/View/TransactionListScreen";
+import PayerList from "../screens/View/PayerListScreen";
+import PayeeList from "../screens/View/PayeeListScreen";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -86,6 +86,9 @@ function TabOneNavigator() {
         name="Transactions"
         component={TransactionList}
         options={{ headerTitle: "Transaction List" }}
+        initialParams={{
+          transactions: []
+        }}
       />
       <TabOneStack.Screen
         name="Payers"

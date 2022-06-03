@@ -49,6 +49,12 @@ export function View(props) {
   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
 
+export function Container(props) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+
+  return <DefaultView style={[{ backgroundColor: "transparent" }, style]} {...otherProps} />;
+}
+
 export function KeyboardAvoidingView(props) {
   const { style, lightColor, darkColor, ...otherProps } = props;
   const backgroundColor = useThemeColor(

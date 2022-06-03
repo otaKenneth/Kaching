@@ -48,5 +48,11 @@ export default StyleSheet.create({
         shadowRadius: 4,
         overflow: "hidden",
         elevation: 5
-    }
+    },
+    collapsibleHeader: {
+      flexDirection: "row", width: "100%", 
+      justifyContent: "space-between", 
+      paddingHorizontal: 10, paddingVertical: 10,
+      borderTopLeftRadius: 10, borderTopRightRadius: 10,
+    },
 });
