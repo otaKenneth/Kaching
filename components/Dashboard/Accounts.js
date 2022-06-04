@@ -11,21 +11,21 @@ import { useColorScheme } from "react-native";
 const DATA = AccountList();
 
 const AccsItem = ({ account, colorScheme }) => {
-  const color = {
-    color: Colors[colorScheme].text
-  };
+  const bgColor = {
+    backgroundColor: account.bankColor ? account.bankColor:Colors[colorScheme].accounts
+  }
 
   return (
     <View style={accStyle.bankAccount}>
       <TouchableOpacity
         activeOpacity={0.5}
-        style={[accStyle.bankAccountBtn, { backgroundColor: account.bankColor ? account.bankColor:Colors[colorScheme].tint}]}
+        style={[accStyle.bankAccountBtn, bgColor]}
         onLongPress={() => alert("shit")}
       >
       </TouchableOpacity>
       <View style={{ position: "absolute", bottom: 15, left: 10, backgroundColor: "transparent", margin: 8, }}>
-        <Text style={[accStyle.bankAccountBtnTxt,color, { fontSize: 25, fontWeight: "400" }]}>{account.name}</Text>
-        <Text style={[accStyle.bankAccountBtnTxt,color, { fontWeight: "700" }]}>Php {account.balance}</Text>
+        <Text style={[accStyle.bankAccountBtnTxt, { color: "#fff", fontSize: 25, fontWeight: "400" }]}>{account.name}</Text>
+        <Text style={[accStyle.bankAccountBtnTxt, { color: "#fff", fontWeight: "700" }]}>Php {account.balance}</Text>
       </View>
     </View>
   );

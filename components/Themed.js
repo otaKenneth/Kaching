@@ -424,8 +424,8 @@ export function Card(props) {
     <Pressable style={{ width: "auto", height: "auto" }} onPress={onPress}>
       <View style={{ height: "70%", width: "100%" }}></View>
       <View style={{ width: "100%", height: "30%", backgroundColor: cardBG, paddingLeft: 15, paddingVertical: 5, }}>
-        <Text style={{ color: color }}>{subtitle}</Text>
-        <Text style={[appStyles.title, { color: color }]}>{title}</Text>
+        <Text style={{ color: "#fff" }}>{subtitle}</Text>
+        <Text style={[appStyles.title, { color: "#fff" }]}>{title}</Text>
       </View>
     </Pressable>
     </View>

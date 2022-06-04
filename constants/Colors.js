@@ -12,7 +12,8 @@ export default {
     createButtonIcon: "#fff",
     primaryBtn: "lightgreen",
     headerTextColor: "#fff",
-    headerBackgroundColor: "#218dd9",
+    headerBackgroundColor: "#3778c2",
+    accounts: "#2f95dc"
   },
   dark: {
     text: "#fff",
@@ -21,9 +22,10 @@ export default {
     tint: tintColorDark,
     tabIconDefault: "#ccc",
     tabIconSelected: tintColorDark,
-    createButtonIcon: "#000",
+    createButtonIcon: "#fff",
+    primaryBtn: "#150734",
     headerTextColor: "#fff",
-    primaryBtn: "gray",
-    headerBackgroundColor: "#232423",
+    headerBackgroundColor: "#2a3132",
+    accounts: "#2a3132"
   },
 };
