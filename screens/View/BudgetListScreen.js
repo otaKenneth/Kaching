@@ -9,40 +9,50 @@ export default function BudgetList ({ navigation }) {
   const DATA = budgetList.reverse();
 
   const BudgetCard = ({ budget, colorScheme }) => {
-    const background = {
-      backgroundColor: Colors[colorScheme].tint
-    }
+    const percentage = (budget.consumed/budget.totalBudgeted);
+    const percentageColor = (p) => {
+      if (p >= 0.0 && p < 0.40) {
+        return {light: "#2cfc03", dark: "#219e0b"}[colorScheme];
+      } else if (p >= 0.40 && p < 0.70) {
+        return {light: "#fff654", dark: "#bab104"}[colorScheme];
+      } else if (p >= 0.70 && p <= 1) {
+        return {light: "#f5b540", dark: "#e09814"}[colorScheme];
+      } else if (p > 1) {
+        return {light: "#fa2a2a", dark: "#960808"}[colorScheme];
+      }
+    };
 
     return (
       <View
         style={styles.budgetContainer}
       >
+        <Progress.Bar progress={percentage} height={150} width={null} color={percentageColor(percentage)} />
         <TouchableOpacity
           activeOpacity={0.6}
-          style={[background, { width: "100%", height: "100%", padding: 15}]}
+          style={{ width: "100%", height: "100%", padding: 10, position: "absolute", top: 0, backgroundColor: "transparent" }}
           onPress={() => navigation.navigate('Dashboard', { screen: "Transactions", params: {transactions: budget.transactions }})}
         >
-          <Container style={{ width: "100%", marginBottom: 17 }}>
+          <Container style={{ width: "100%" }}>
+            <Container style={{ width: "100%", height: 30, marginBottom: 10, justifyContent: "center" }}>
+              <Text style={{ textAlign: "center", position: "absolute", width: "100%", fontWeight: "900" }}>{(percentage * 100).toFixed(2)}%</Text>
+            </Container>
             <Container>
-              <Text style={{ fontSize: 25, fontWeight: "400" }}>{budget.name}</Text>
+              <Text style={[styles.cardText, { fontSize: 25 }]}>{budget.name}</Text>
             </Container>
             <Container style={{ flexDirection: "row", width: "100%", justifyContent: "flex-start" }}>
               <Container style={{ marginRight: 10 }}>
-                <Text>Consumed:</Text>
-                <Text>{budget.consumed}</Text>
+                <Text style={styles.cardText}>Consumed:</Text>
+                <Text style={styles.cardText}>{budget.consumed}</Text>
               </Container>
               <Container style={{ marginRight: 10 }}>
-                <Text>Total Budget:</Text>
-                <Text>{budget.totalBudgeted}</Text>
+                <Text style={styles.cardText}>Total Budget:</Text>
+                <Text style={styles.cardText}>{budget.totalBudgeted}</Text>
               </Container>
               <Container style={{ marginRight: 10 }}>
-                <Text>Remaining Balance:</Text>
-                <Text>{budget.remaining}</Text>
+                <Text style={styles.cardText}>Remaining Balance:</Text>
+                <Text style={styles.cardText}>{budget.remaining}</Text>
               </Container>
             </Container>
-          </Container>
-          <Container style={{ width: "100%", height: 30, justifyContent: "center" }} className="progressBar">
-            <Progress.Bar progress={0.3} width={null} color={"#fff"} />
           </Container>
         </TouchableOpacity>
       </View>
@@ -53,7 +63,7 @@ export default function BudgetList ({ navigation }) {
     <View style={[styles.container, { backgroundColor: Colors[colorScheme].background }]}>
       <SafeAreaView style={{ backgroundColor: "transparent" }}>
         <ScrollView style={{ backgroundColor: "transparent" }} horizontal={false}>
-          <View style={styles.listContainer}>
+        <View style={[styles.listContainer, { marginBottom: 50 }]}>
             {DATA.map((data, index) => <BudgetCard key={index} budget={data} colorScheme={colorScheme} />)}
           </View>
         </ScrollView>
@@ -82,5 +92,8 @@ const styles = StyleSheet.create({
     borderRadius: 15, elevation: 10, 
     marginBottom: 10, 
     overflow: "hidden",
-  }
+  },
+  cardText: { 
+    fontWeight: "600"
+ }
 });
