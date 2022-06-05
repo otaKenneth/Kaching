@@ -7,6 +7,18 @@ export default [
         remaining: 1000,
         consumed: 7000,
         totalBudgeted: 25000,
+        categories: [
+            {
+                type: 2,
+                category: 3,
+                description: "Pamasahe",
+                budgetPlanned: {
+                    percentage: "5%",
+                    number: "3000"
+                },
+                comment: null
+            }
+        ],
         transactions: [
             {
                 type: 2,
@@ -27,6 +39,18 @@ export default [
         remaining: 1000,
         consumed: 15000,
         totalBudgeted: 25000,
+        categories: [
+            {
+                type: 2,
+                category: 3,
+                description: "Pamasahe",
+                budgetPlanned: {
+                    percentage: "5%",
+                    number: "3000"
+                },
+                comment: null
+            }
+        ],
         transactions: [
             {
                 type: 2,
@@ -47,6 +71,18 @@ export default [
         remaining: 1000,
         consumed: 20000,
         totalBudgeted: 25000,
+        categories: [
+            {
+                type: 2,
+                category: 3,
+                description: "Pamasahe",
+                budgetPlanned: {
+                    percentage: "5%",
+                    number: "3000"
+                },
+                comment: null
+            }
+        ],
         transactions: [
             {
                 type: 2,
@@ -67,7 +103,37 @@ export default [
         remaining: 0,
         consumed: 29000,
         totalBudgeted: 25000,
+        categories: [
+            {
+                type: 2,
+                category: 3,
+                description: "Pamasahe",
+                budgetPlanned: {
+                    percentage: "5%",
+                    number: "3000"
+                },
+                comment: null
+            }
+        ],
         transactions: [
+            {
+                type: 2,
+                category: 3,
+                description: "Pamasahe",
+                transactionDate: "03/02/2022",
+                from: 1,
+                to: "Account.2",
+                comment: null
+            },
+            {
+                type: 2,
+                category: 3,
+                description: "Daily Living",
+                transactionDate: "03/02/2022",
+                from: 1,
+                to: "Account.2",
+                comment: null
+            },
             {
                 type: 2,
                 category: 3,
@@ -76,7 +142,25 @@ export default [
                 from: 1,
                 to: "Account.2",
                 comment: null
-            }
+            },
+            {
+                type: 2,
+                category: 3,
+                description: "pamasahe",
+                transactionDate: "03/02/2022",
+                from: 1,
+                to: "Account.2",
+                comment: null
+            },
+            {
+                type: 2,
+                category: 3,
+                description: "pamasahe",
+                transactionDate: "03/02/2022",
+                from: 1,
+                to: "Account.2",
+                comment: null
+            },
         ]
     },
 ];

@@ -18,7 +18,7 @@ export default function BudgetList ({ navigation }) {
       } else if (p >= 0.70 && p <= 1) {
         return {light: "#f5b540", dark: "#e09814"}[colorScheme];
       } else if (p > 1) {
-        return {light: "#fa2a2a", dark: "#960808"}[colorScheme];
+        return {light: "#f75757", dark: "#960808"}[colorScheme];
       }
     };
 
@@ -26,11 +26,11 @@ export default function BudgetList ({ navigation }) {
       <View
         style={styles.budgetContainer}
       >
-        <Progress.Bar progress={percentage} height={150} width={null} color={percentageColor(percentage)} />
+        <Progress.Bar progress={percentage} height={150} width={null} color={percentageColor(percentage)} style={{ borderRadius: 15 }} />
         <TouchableOpacity
           activeOpacity={0.6}
           style={{ width: "100%", height: "100%", padding: 10, position: "absolute", top: 0, backgroundColor: "transparent" }}
-          onPress={() => navigation.navigate('Dashboard', { screen: "Transactions", params: {transactions: budget.transactions }})}
+          onPress={() => navigation.navigate('Budget', { screen: "Categories", params: {categories: budget.categories, headerName: budget.name }})}
         >
           <Container style={{ width: "100%" }}>
             <Container style={{ width: "100%", height: 30, marginBottom: 10, justifyContent: "center" }}>

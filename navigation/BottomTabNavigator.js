@@ -80,8 +80,8 @@ function TabOneNavigator() {
       />
       <TabOneStack.Screen
         name="Budget"
-        component={BudgetList}
-        options={{ headerTitle: "Budget List" }}
+        component={BudgetNavigator}
+        options={{ headerTitle: "Budget List", headerShown: false }}
       />
       <TabOneStack.Screen
         name="Transactions"
@@ -107,6 +107,26 @@ function TabOneNavigator() {
 
 function Create () {
   return (null);
+}
+
+const BudgetStack = createStackNavigator();
+import CategoryList from "../screens/View/CategoryListScreen";
+
+function BudgetNavigator() {
+  return (
+    <BudgetStack.Navigator>
+      <BudgetStack.Screen
+        name="Budgets"
+        component={BudgetList}
+        options={{ headerTitle: "Budgets" }}
+      />
+      <BudgetStack.Screen
+        name="Categories"
+        component={CategoryList}
+        options={{ headerTitle: "Name" }}
+      />
+    </BudgetStack.Navigator>
+  );
 }
 
 const TabTwoStack = createStackNavigator();
