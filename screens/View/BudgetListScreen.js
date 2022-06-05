@@ -1,4 +1,5 @@
 import { Text, View, Container, TouchableOpacity, SafeAreaView, ScrollView } from "../../components/Themed";
+import * as Progress from "react-native-progress";
 import { StyleSheet, useColorScheme } from "react-native";
 import budgetList from "../../hooks/budgetList";
 import Colors from "../../constants/Colors";
@@ -23,27 +24,25 @@ export default function BudgetList ({ navigation }) {
         >
           <Container style={{ width: "100%", marginBottom: 17 }}>
             <Container>
-              <Text style={{ color: "#000", fontSize: 25, fontWeight: "400" }}>{budget.name}</Text>
+              <Text style={{ fontSize: 25, fontWeight: "400" }}>{budget.name}</Text>
             </Container>
             <Container style={{ flexDirection: "row", width: "100%", justifyContent: "flex-start" }}>
               <Container style={{ marginRight: 10 }}>
-                <Text style={{ color: "#000", }}>Consumed:</Text>
-                <Text style={{ color: "#000", }}>{budget.consumed}</Text>
+                <Text>Consumed:</Text>
+                <Text>{budget.consumed}</Text>
               </Container>
               <Container style={{ marginRight: 10 }}>
-                <Text style={{ color: "#000", }}>Total Budget:</Text>
-                <Text style={{ color: "#000", }}>{budget.totalBudgeted}</Text>
+                <Text>Total Budget:</Text>
+                <Text>{budget.totalBudgeted}</Text>
               </Container>
               <Container style={{ marginRight: 10 }}>
-                <Text style={{ color: "#000", }}>Remaining Balance:</Text>
-                <Text style={{ color: "#000", }}>{budget.remaining}</Text>
+                <Text>Remaining Balance:</Text>
+                <Text>{budget.remaining}</Text>
               </Container>
             </Container>
           </Container>
-          <Container style={{ backgroundColor: "#fff", width: "100%", height: 30 }} className="progressBar">
-            <Container style={{ paddingVertical: 5 }}>
-              <Text style={{ textAlign: "center" }}>99%</Text>
-            </Container>
+          <Container style={{ width: "100%", height: 30, justifyContent: "center" }} className="progressBar">
+            <Progress.Bar progress={0.3} width={null} color={"#fff"} />
           </Container>
         </TouchableOpacity>
       </View>
@@ -51,9 +50,9 @@ export default function BudgetList ({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <SafeAreaView>
-        <ScrollView horizontal={false}>
+    <View style={[styles.container, { backgroundColor: Colors[colorScheme].background }]}>
+      <SafeAreaView style={{ backgroundColor: "transparent" }}>
+        <ScrollView style={{ backgroundColor: "transparent" }} horizontal={false}>
           <View style={styles.listContainer}>
             {DATA.map((data, index) => <BudgetCard key={index} budget={data} colorScheme={colorScheme} />)}
           </View>

@@ -57,42 +57,26 @@ export function Container(props) {
 
 export function KeyboardAvoidingView(props) {
   const { style, lightColor, darkColor, ...otherProps } = props;
-  const backgroundColor = useThemeColor(
-    { light: lightColor, dark: darkColor },
-    "background"
-  );
 
-  return <DefaultAvoid style={[{ backgroundColor }, style]} {...otherProps} />;
+  return <DefaultAvoid style={[{ backgroundColor: "transparent" }, style]} {...otherProps} />;
 }
 
 export function SafeAreaView(props) {
   const { style, lightColor, darkColor, ...otherProps } = props;
-  const backgroundColor = useThemeColor(
-    { light: lightColor, dark: darkColor },
-    "background"
-  );
 
-  return <DefaultSafeAreaView style={[{ backgroundColor }, style]} {...otherProps} />;
+  return <DefaultSafeAreaView style={[{ backgroundColor: "transparent" }, style]} {...otherProps} />;
 }
 
 export function ScrollView(props) {
   const { style, lightColor, darkColor, ...otherProps } = props;
-  const backgroundColor = useThemeColor(
-    { light: lightColor, dark: darkColor },
-    "background"
-  );
 
-  return <DefaultScrollView style={[{ backgroundColor }, style]} {...otherProps} />;
+  return <DefaultScrollView style={[{ backgroundColor: "transparent" }, style]} {...otherProps} />;
 }
 
 export function List(props) {
   const { style, lightColor, darkColor, ...otherProps } = props;
-  const backgroundColor = useThemeColor(
-    { light: lightColor, dark: darkColor },
-    "background"
-  );
 
-  return <DefaultVirtualizeList style={[{ backgroundColor }, style]} {...otherProps} />;
+  return <DefaultVirtualizeList style={[{ backgroundColor: "transparent" }, style]} {...otherProps} />;
 }
 
 export function TouchableOpacity(props) {

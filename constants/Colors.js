@@ -10,7 +10,8 @@ export default {
     tabIconDefault: "#ccc",
     tabIconSelected: tintColorLight,
     createButtonIcon: "#fff",
-    primaryBtn: "lightgreen",
+    primaryBtn: "#2f95dc",
+    submitBtn: "lightgreen",
     headerTextColor: "#fff",
     headerBackgroundColor: "#3778c2",
     accounts: "#2f95dc"
@@ -24,6 +25,7 @@ export default {
     tabIconSelected: tintColorDark,
     createButtonIcon: "#fff",
     primaryBtn: "#150734",
+    submitBtn: "#150734",
     headerTextColor: "#fff",
     headerBackgroundColor: "#2a3132",
     accounts: "#2a3132"

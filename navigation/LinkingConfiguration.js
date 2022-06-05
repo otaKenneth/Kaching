@@ -14,18 +14,22 @@ export default {
         screens: {
           TabOne: {
             screens: {
-              TabOneScreen: "one",
+              TabOneScreen: {
+                screens: {
+                  AccountView: "*",
+                  BudgetList: "*",
+                  PayeeList: "*",
+                  PayerList: "*",
+                  Transaction: "*",
+                }
+              },
             },
           },
-          CreateTransaction:{
-            screens: {
-              CreateTransaction: "*",
-              // AccountScreen: "*",
-              // TransferScreen: "*",
-              // PayerScreen: "*",
-              // PayeeScreen: "*",
-            }
-          },
+          CreateTransaction: "*",
+          CreateAccount: "*",
+          CreateTransfer: "*",
+          CreatePayer: "*",
+          CreatePayee: "*",
           TabTwo: {
             screens: {
               TabTwoScreen: "two",
