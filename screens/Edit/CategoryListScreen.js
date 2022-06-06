@@ -42,7 +42,7 @@ export default function CategoryList({ route, navigation }) {
   }
 
   return (
-    <View style={{ height: "auto", width: "100%", padding: 10, backgroundColor: "transparent" }}>
+    <View style={{ height: "100%", width: "100%", padding: 10 }}>
       <SafeAreaView style={{ height: "auto", width: "100%", backgroundColor: "transparent" }}>
         <PieChart
           style={{ height: 350 }}
@@ -61,6 +61,8 @@ export default function CategoryList({ route, navigation }) {
             renderItem={({ item }) => <CategoryInput item={item} />}
           />
         </Container>
+        {/* <ScrollView style={{ paddingHorizontal: 10}}>
+      </ScrollView> */}
       </SafeAreaView>
     </View>
   );

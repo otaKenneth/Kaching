@@ -191,6 +191,10 @@ export function ChangableInput(props) {
     { light: lightColor, dark: darkColor },
     "background"
   );
+  const color = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "text"
+  );
 
   const [icon, setIcon] = useState(0);
   const [value, setValue] = useState(values[icon]);
@@ -220,7 +224,8 @@ export function ChangableInput(props) {
             { 
               backgroundColor: "transparent", flex: 0.8, 
               paddingHorizontal: 10,
-              paddingVertical: 5, 
+              paddingVertical: 5,
+              color: color
             },
             style
           ]}

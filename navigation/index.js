@@ -41,6 +41,7 @@ function RootNavigator() {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Root" component={BottomTabNavigator} />
       <Stack.Screen name="Add" component={Create} />
+      <Stack.Screen name="Edit" component={Edit} />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
@@ -86,3 +87,21 @@ function Create ({ navigation }) {
   )
 }
 
+const EditStack = createStackNavigator();
+
+import CategoryList from "../screens/Edit/CategoryListScreen";
+
+function Edit ({navigation}) {
+  return (
+    <EditStack.Navigator>
+      <EditStack.Screen
+        name="EditCategory"
+        component={CategoryList}
+        options={{
+          headerShown: true,
+          headerTitle: "Edit Category List"
+        }}
+      />
+    </EditStack.Navigator>
+  );
+}

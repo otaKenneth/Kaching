@@ -22,6 +22,11 @@ export default function BudgetList ({ navigation }) {
       }
     };
 
+    const navTo = {
+      head: id > 0 ? 'Budget':'Edit',
+      screen: id > 0 ? 'Categories':'EditCategory'
+    };
+
     return (
       <View
         style={styles.budgetContainer}
@@ -30,7 +35,7 @@ export default function BudgetList ({ navigation }) {
         <TouchableOpacity
           activeOpacity={0.6}
           style={{ width: "100%", height: "100%", padding: 10, position: "absolute", top: 0, backgroundColor: "transparent" }}
-          onPress={() => navigation.navigate('Budget', { screen: "Categories", params: { id: id, categories: budget.categories, headerName: budget.name, totalBudget: budget.currentBalance }})}
+          onPress={() => navigation.navigate(navTo.head, { screen: navTo.screen, params: { id: id, categories: budget.categories, headerName: budget.name, totalBudget: budget.currentBalance }})}
         >
           <Container style={{ width: "100%" }}>
             <Container style={{ width: "100%", height: 30, marginBottom: 10, justifyContent: "center" }}>
