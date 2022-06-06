@@ -4,13 +4,13 @@ export default [
         from: "03/01/2022",
         to: "03/31/2022",
         initialBalance: 21000,
+        currentBalance: 26000,
         remaining: 1000,
         consumed: 7000,
         totalBudgeted: 25000,
         categories: [
             {
-                type: 2,
-                category: "Free",
+                category: "Allowance",
                 budgetPlanned: {
                     percentage: 9,
                     number: "1890"
@@ -18,7 +18,6 @@ export default [
                 comment: null
             },
             {
-                type: 2,
                 category: "Daily Living",
                 budgetPlanned: {
                     percentage: 50,
@@ -27,7 +26,6 @@ export default [
                 comment: null
             },
             {
-                type: 2,
                 category: "Financial Savings",
                 budgetPlanned: {
                     percentage: 20,
@@ -36,7 +34,6 @@ export default [
                 comment: null
             },
             {
-                type: 2,
                 category: "Dues/Subscription",
                 budgetPlanned: {
                     percentage: 10,
@@ -45,8 +42,7 @@ export default [
                 comment: null
             },
             {
-                type: 2,
-                category: "Leasure",
+                category: "Leisure",
                 budgetPlanned: {
                     percentage: 10,
                     number: "2100"
@@ -54,7 +50,6 @@ export default [
                 comment: null
             },
             {
-                type: 2,
                 category: "Misc",
                 budgetPlanned: {
                     percentage: 1,
@@ -80,13 +75,13 @@ export default [
         from: "04/01/2022",
         to: "04/30/2022",
         initialBalance: 1000,
+        currentBalance: 26000,
         remaining: 1000,
         consumed: 15000,
         totalBudgeted: 25000,
         categories: [
             {
-                type: 2,
-                category: "Free",
+                category: "Allowance",
                 budgetPlanned: {
                     percentage: 9,
                     number: "1890"
@@ -94,7 +89,6 @@ export default [
                 comment: null
             },
             {
-                type: 2,
                 category: "Daily Living",
                 budgetPlanned: {
                     percentage: 50,
@@ -103,7 +97,6 @@ export default [
                 comment: null
             },
             {
-                type: 2,
                 category: "Financial Savings",
                 budgetPlanned: {
                     percentage: 20,
@@ -112,7 +105,6 @@ export default [
                 comment: null
             },
             {
-                type: 2,
                 category: "Dues/Subscription",
                 budgetPlanned: {
                     percentage: 10,
@@ -121,8 +113,7 @@ export default [
                 comment: null
             },
             {
-                type: 2,
-                category: "Leasure",
+                category: "Leisure",
                 budgetPlanned: {
                     percentage: 10,
                     number: "2100"
@@ -130,7 +121,6 @@ export default [
                 comment: null
             },
             {
-                type: 2,
                 category: "Misc",
                 budgetPlanned: {
                     percentage: 1,
@@ -156,13 +146,13 @@ export default [
         from: "05/01/2022",
         to: "05/31/2022",
         initialBalance: 1000,
+        currentBalance: 26000,
         remaining: 1000,
         consumed: 20000,
         totalBudgeted: 25000,
         categories: [
             {
-                type: 2,
-                category: "Free",
+                category: "Allowance",
                 budgetPlanned: {
                     percentage: 9,
                     number: "1890"
@@ -170,7 +160,6 @@ export default [
                 comment: null
             },
             {
-                type: 2,
                 category: "Daily Living",
                 budgetPlanned: {
                     percentage: 50,
@@ -179,7 +168,6 @@ export default [
                 comment: null
             },
             {
-                type: 2,
                 category: "Financial Savings",
                 budgetPlanned: {
                     percentage: 20,
@@ -188,7 +176,6 @@ export default [
                 comment: null
             },
             {
-                type: 2,
                 category: "Dues/Subscription",
                 budgetPlanned: {
                     percentage: 10,
@@ -197,8 +184,7 @@ export default [
                 comment: null
             },
             {
-                type: 2,
-                category: "Leasure",
+                category: "Leisure",
                 budgetPlanned: {
                     percentage: 10,
                     number: "2100"
@@ -206,7 +192,6 @@ export default [
                 comment: null
             },
             {
-                type: 2,
                 category: "Misc",
                 budgetPlanned: {
                     percentage: 1,
@@ -232,13 +217,13 @@ export default [
         from: "06/01/2022",
         to: "06/30/2022",
         initialBalance: 1000,
+        currentBalance: 26000,
         remaining: 0,
         consumed: 29000,
         totalBudgeted: 25000,
         categories: [
             {
-                type: 2,
-                category: "Free",
+                category: "Allowance",
                 budgetPlanned: {
                     percentage: 9,
                     number: "1890"
@@ -246,7 +231,6 @@ export default [
                 comment: null
             },
             {
-                type: 2,
                 category: "Daily Living",
                 budgetPlanned: {
                     percentage: 50,
@@ -255,7 +239,6 @@ export default [
                 comment: null
             },
             {
-                type: 2,
                 category: "Financial Savings",
                 budgetPlanned: {
                     percentage: 20,
@@ -264,7 +247,6 @@ export default [
                 comment: null
             },
             {
-                type: 2,
                 category: "Dues/Subscription",
                 budgetPlanned: {
                     percentage: 10,
@@ -273,8 +255,7 @@ export default [
                 comment: null
             },
             {
-                type: 2,
-                category: "Leasure",
+                category: "Leisure",
                 budgetPlanned: {
                     percentage: 10,
                     number: "2100"
@@ -282,7 +263,6 @@ export default [
                 comment: null
             },
             {
-                type: 2,
                 category: "Misc",
                 budgetPlanned: {
                     percentage: 1,

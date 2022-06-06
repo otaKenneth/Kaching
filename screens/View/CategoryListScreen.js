@@ -1,63 +1,85 @@
-import React, { useState, Component } from "react";
-import { Container, Text, View, Pressable, SafeAreaView, ScrollView, Input } from "../../components/Themed";
+import React, { useState, useEffect } from "react";
+import { Container, Text, View, Pressable, SafeAreaView, ScrollView, ChangableInput, Input, List, FlatList } from "../../components/Themed";
+import { PieChart } from 'react-native-svg-charts';
+import { Labels } from "../../components/Charts/chartAdds";
+
 import { StyleSheet, useColorScheme } from "react-native";
-import { Ionicons, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import newCategoryVals from '../../hooks/categories';
 
 import Colors from "../../constants/Colors";
 import appStyles from "../../assets/styles/appStyles";
+import { disableExpoCliLogging } from "expo/build/logs/Logs";
 
 export default function CategoryList({ route, navigation }) {
   const colorScheme = useColorScheme();
   
-  const { id, categories, headerName } = route.params;
+  const { id, categories, headerName, totalBudget } = route.params;
   navigation.setOptions({ headerTitle: headerName });
+
+  const [categs, setCategs] = useState(categories);
+  const [editing, setEditing] = useState(false);
 
   const inputStyle = id == 0;
 
-  const [state, setState] = useState(false);
+  function handleNewValue (data, type, value) {
+    setCategs(categs => newCategoryVals(data, type, value, categs, totalBudget));
+  }
+
+  const CategoryInput = ({item}) => {
+    const options = Object.values(item.budgetPlanned);
+    const [type, setType] = useState(0);
+
+    return (
+      <ChangableInput 
+        containerStyle={{ width: "48%", marginHorizontal: 3 }} 
+        label={item.category} 
+        keyboardType="numeric"
+        type={setType}
+        values={options}
+        editable={ inputStyle }
+        changableIconButtons={['percent-outline','pound']}
+        disableFullscreenUI={false}
+        onEndEditing={(el) => {
+          setEditing(item.category)
+          handleNewValue(item, type, el.nativeEvent.text)
+        }}
+      />
+    )
+  }
+
+  const getItem = (data, index) => ({
+    index: index,
+    ...data[index]
+  })
 
   return (
-    <View style={{ height: "auto", width: "100%", padding: 10, backgroundColor: "transparent" }}>
-      <SafeAreaView style={{ backgroundColor: "transparent" }}>
-        <ScrollView style={{ backgroundColor: "transparent" }}>
-          <PieChartScreen data={categories} />
-          <Container style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-around", width: "100%" }}>
-            {categories.map((item, index) => {
-              return (
-                <Input 
-                  key={index} 
-                  containerStyle={{ width: "48%" }} 
-                  label={item.category} 
-                  keyboardType="numeric" 
-                  value={item.budgetPlanned.number}
-                  editable={inputStyle}
-                  IconButton={() => (
-                    <Pressable 
-                      style={{ position: "absolute", bottom: 12, right: 10, backgroundColor: "transparent" }}
-                      onPress={() => {
-                        setState(state ? false:true);
-                      }}
-                    >
-                      {state && 
-                        <FontAwesome name="percent"/>
-                      }
-                      {!state &&
-                        <MaterialCommunityIcons name="pound"/>
-                      }
-                    </Pressable>
-                  )}
-                />
-              )
-            })}
+    <SafeAreaView style={{ height: "auto", width: "100%", backgroundColor: "transparent" }}>
+      <ScrollView style={{ paddingHorizontal: 10}}>
+        <PieChart
+          style={{ height: 350 }}
+          data={getPieChartData(categs)}
+          innerRadius={35}
+          outerRadius={70}
+          labelRadius={120}
+        >
+          <Labels  />
+        </PieChart>
+        <SafeAreaView style={{ flex: 1, height: "auto" }}>
+          <Container style={{ justifyContent: "center" }}>
+            <FlatList
+              style={{ width: "100%", height: 300, flexDirection: "column" }}
+              data={categs}
+              numColumns={2}
+              renderItem={({item}) => <CategoryInput item={item} />}
+            />
           </Container>
-        </ScrollView>
-      </SafeAreaView>
-    </View>
+        </SafeAreaView>
+      </ScrollView>
+    </SafeAreaView>
+    // <View style={{ height: "auto", width: "100%", padding: 10, backgroundColor: "transparent" }}>
+    // </View>
   );
 }
-
-import { PieChart } from 'react-native-svg-charts';
-import { Labels } from "../../components/Charts/chartAdds";
 
 const getPieChartData = (data) => {
   return data.map((item, index) => {
@@ -72,22 +94,6 @@ const getPieChartData = (data) => {
 }
 
 const colors = ['#2b72d1','#df3426','#739246','#6890ef','#cd4343','#12d207','#ac7c5d','#ee96a8','#4c84e1','#13a0a8','#b316da','#547602','#7b738f'];
-
-function PieChartScreen({data}) {
-  const pieChartData = getPieChartData(data);
-
-  return (
-    <PieChart
-      style={{ height: 300 }}
-      data={pieChartData}
-      innerRadius={35}
-      outerRadius={70}
-      labelRadius={120}
-    >
-      <Labels  />
-    </PieChart>
-  );
-}
 
 const styles = StyleSheet.create({
   container: {

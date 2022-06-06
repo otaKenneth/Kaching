@@ -1,6 +1,6 @@
 // Learn more about Light and Dark modes:
 // https://docs.expo.dev/guides/color-schemes/
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text as DefaultText,
   useColorScheme,
@@ -11,15 +11,17 @@ import {
   TouchableOpacity as DefaultTouchableOpacity,
   TouchableHighlight as DefaultTouchableHighlight,
   Pressable as DefaultPressable,
+  FlatList as DefaultFlatList,
   VirtualizedList as DefaultVirtualizeList,
   Modal as DefaultModal,
   TextInput as DefaultTextInput,
   SectionList,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import appStyles from "../assets/styles/appStyles";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { render } from 'react-dom';
 
 export function useThemeColor(props, colorName) {
   const theme = useColorScheme();
@@ -73,6 +75,12 @@ export function ScrollView(props) {
   return <DefaultScrollView style={[{ backgroundColor: "transparent" }, style]} {...otherProps} />;
 }
 
+export function FlatList(props) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+
+  return <DefaultFlatList style={[{ backgroundColor: "transparent" }, style]} {...otherProps} />;
+}
+
 export function List(props) {
   const { style, lightColor, darkColor, ...otherProps } = props;
 
@@ -96,14 +104,15 @@ export function SubmitButton(props) {
     "primaryBtn"
   );
 
-  return <DefaultTouchableOpacity 
+  return <DefaultTouchableOpacity
     style={[
-      { backgroundColor }, 
-      style, 
-      { 
+      { backgroundColor },
+      style,
+      {
         width: "98%", paddingVertical: 15,
-        alignItems: "center", borderRadius: 10,}
-    ]} 
+        alignItems: "center", borderRadius: 10,
+      }
+    ]}
     {...otherProps}>
     <Text style={{ fontWeight: "500", }}>Submit</Text>
   </DefaultTouchableOpacity>;
@@ -140,7 +149,7 @@ export function Modal(props) {
 }
 
 export function Input(props) {
-  const { style, lightColor, darkColor, label, noLabel, containerStyle, IconButton, ...otherProps } = props;
+  const { style, lightColor, darkColor, label, noLabel, containerStyle, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "background"
@@ -148,30 +157,96 @@ export function Input(props) {
 
   return (
     <View style={[{ width: "98%", marginBottom: 10, backgroundColor: "transparent" }, containerStyle]}>
-      {noLabel === false || noLabel == undefined && 
+      {noLabel === false || noLabel == undefined &&
         <Text style={{ fontSize: 18, marginBottom: 10, }}>{label}:</Text>
       }
-      <DefaultTextInput 
+      <DefaultTextInput
         style={[
-          { backgroundColor }, 
+          { backgroundColor },
           {
-            borderStyle: 'solid', 
-            borderWidth: 1, 
-            borderRadius: 10, 
-            width: "100%", 
-            paddingHorizontal: 10, 
+            borderStyle: 'solid',
+            borderWidth: 1,
+            borderRadius: 10,
+            width: "100%",
+            paddingHorizontal: 10,
             paddingVertical: 5,
-          }, 
+          },
           style
-        ]} 
-        {...otherProps} 
+        ]}
+        {...otherProps}
       />
-      <IconButton />
     </View>
   );
 }
 
-export function Autocomplete (props) {
+export function ChangableInput(props) {
+  const { 
+    style, lightColor, darkColor, 
+    label, noLabel, containerStyle, 
+    changableIconButtons, 
+    type, values, 
+    ...otherProps 
+  } = props;
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background"
+  );
+
+  const [icon, setIcon] = useState(0);
+  const [value, setValue] = useState(values[icon]);
+
+  return (
+    <View style={[{ width: "98%", marginBottom: 10, backgroundColor: "transparent" }, containerStyle]}>
+      {noLabel === false || noLabel == undefined &&
+        <Text style={{ fontSize: 18, marginBottom: 10, }}>{label}:</Text>
+      }
+      <View
+        style={[
+          { backgroundColor },
+          {
+            borderStyle: 'solid',
+            borderWidth: 1,
+            borderRadius: 10,
+            width: "100%",
+            // paddingHorizontal: 10,
+            // paddingVertical: 5,
+            overflow: "hidden",
+            flexDirection: "row",
+          }
+        ]}
+      >
+        <DefaultTextInput
+          style={[
+            { 
+              backgroundColor: "transparent", flex: 0.8, 
+              paddingHorizontal: 10,
+              paddingVertical: 5, 
+            },
+            style
+          ]}
+          onChangeText={(value) => setValue(value)}
+          value={value.toString()}
+          {...otherProps}
+        />
+        <Pressable
+          style={{ backgroundColor: "#6890ef", height: "100%", flex: 0.2, paddingVertical: 7 }}
+          onPress={() => {
+            var state = icon == 0 ? 1 : 0;
+            type(state);
+            setValue(values[state])
+            setIcon(state);
+          }}
+        >
+          <MaterialCommunityIcons style={{ textAlign: "center", }} color="#fff" name={changableIconButtons[icon]} size={18} />
+        </Pressable>
+      </View>
+
+    </View>
+  );
+
+}
+
+export function Autocomplete(props) {
   const { style, lightColor, darkColor, label, noLabel, containerStyle, options, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
@@ -188,27 +263,27 @@ export function Autocomplete (props) {
 
   return (
     <View style={[{ width: "98%", marginBottom: 10, }, containerStyle]}>
-      {noLabel === false || noLabel == undefined && 
+      {noLabel === false || noLabel == undefined &&
         <Text style={{ fontSize: 18, marginBottom: 10, }}>{label}:</Text>
       }
-      <DefaultTextInput 
+      <DefaultTextInput
         style={[
-          { backgroundColor, color }, 
+          { backgroundColor, color },
           {
-            borderStyle: 'solid', 
-            borderWidth: 1, 
-            borderRadius: 10, 
-            width: "100%", 
-            paddingHorizontal: 10, 
+            borderStyle: 'solid',
+            borderWidth: 1,
+            borderRadius: 10,
+            width: "100%",
+            paddingHorizontal: 10,
             paddingVertical: 5,
-          }, 
+          },
           style
         ]}
         value={inputVal}
-        {...otherProps} 
+        {...otherProps}
         onFocus={() => setMenuVisibility(true)}
         onChangeText={(value) => {
-          setInputVal(value); 
+          setInputVal(value);
           if (value.length > 0) {
             setOptions(options.filter(val => val.toLowerCase().match(value.toLowerCase())));
             setMenuVisibility(true);
@@ -223,7 +298,7 @@ export function Autocomplete (props) {
             <Pressable
               key={index}
               style={{ padding: 10, width: "100%", backgroundColor: "transparent" }}
-              onPress={() => {setInputVal(item); setMenuVisibility(false);}}
+              onPress={() => { setInputVal(item); setMenuVisibility(false); }}
             >
               <Text style={{ color: "#000" }}>{item}</Text>
             </Pressable>
@@ -234,7 +309,7 @@ export function Autocomplete (props) {
   );
 }
 
-export function Select (props) {
+export function Select(props) {
   const { style, lightColor, darkColor, label, options, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
@@ -248,8 +323,8 @@ export function Select (props) {
   const [showModal, setShowModal] = useState(false);
   const [selected, setSelected] = useState("Select");
 
-  const SelectItem = ({item}) => (
-    <Pressable 
+  const SelectItem = ({ item }) => (
+    <Pressable
       style={{ height: 40, fontSize: 18, width: "100%" }}
       onPress={() => {
         setShowModal(!showModal);
@@ -262,12 +337,12 @@ export function Select (props) {
 
   return (
     <View style={{ width: "98%", marginBottom: 10, }}>
-      
+
       <Modal
         visible={showModal}
-				transparent={true}
-				swipeDirection="down"
-				style={{ flex: 1, justifyContent: "flex-end"}}
+        transparent={true}
+        swipeDirection="down"
+        style={{ flex: 1, justifyContent: "flex-end" }}
         onRequestClose={() => {
           setShowModal(!showModal)
         }}
@@ -280,7 +355,7 @@ export function Select (props) {
                 keyExtractor={(item, index) => item + index}
                 renderItem={({ item, index }) => <SelectItem key={index} item={item} />}
                 renderSectionHeader={({ section: { title } }) => (
-                  <Text style={{  height: 50, fontSize: 18, paddingVertical: 10, }} >{title}</Text>
+                  <Text style={{ height: 50, fontSize: 18, paddingVertical: 10, }} >{title}</Text>
                 )}
               />
             </SafeAreaView>
@@ -292,18 +367,18 @@ export function Select (props) {
       <Text style={{ fontSize: 18, marginBottom: 10, }}>{label}:</Text>
       <View
         style={[
-          { backgroundColor }, 
+          { backgroundColor },
           {
-            borderStyle: 'solid', 
-            borderWidth: 1, 
-            borderRadius: 10, 
-            width: "100%", 
-            paddingHorizontal: 10, 
+            borderStyle: 'solid',
+            borderWidth: 1,
+            borderRadius: 10,
+            width: "100%",
+            paddingHorizontal: 10,
             paddingVertical: 5,
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-between"
-          }, 
+          },
           style
         ]}
         {...otherProps}
@@ -329,8 +404,8 @@ export function DatepickerInput(props) {
     { light: lightColor, dark: darkColor },
     "text"
   );
-  
-	const [date, setDate] = useState(new Date());
+
+  const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
 
   return (
@@ -338,36 +413,36 @@ export function DatepickerInput(props) {
       <Text style={{ fontSize: 18, marginBottom: 10, }}>{label}:</Text>
       <View
         style={[
-          { backgroundColor }, 
+          { backgroundColor },
           {
-            borderStyle: 'solid', 
-            borderWidth: 1, 
-            borderRadius: 10, 
-            width: "100%", 
-            paddingHorizontal: 10, 
+            borderStyle: 'solid',
+            borderWidth: 1,
+            borderRadius: 10,
+            width: "100%",
+            paddingHorizontal: 10,
             paddingVertical: 10,
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-between"
-          }, 
+          },
           style
         ]}
         {...otherProps}
       >
-        <Text>{date.getMonth()+1}/{date.getDate()}/{date.getFullYear()}</Text>
+        <Text>{date.getMonth() + 1}/{date.getDate()}/{date.getFullYear()}</Text>
         <Pressable
           onPress={() => setShow(true)}
         >
           <Ionicons name='calendar' color={color} size={18} />
         </Pressable>
-        {show && 
+        {show &&
           <DateTimePicker
             mode='date'
             value={date}
             confirmBtnText='Confirm'
             cancelBtnText='Cancel'
             maximumDate={new Date()}
-            onChange={(evt, date) => {setDate(date); setShow(false); }}
+            onChange={(evt, date) => { setDate(date); setShow(false); }}
           />
         }
       </View>
@@ -393,26 +468,26 @@ export function Card(props) {
   return (
     <View
       style={[
-        { 
-          width: "46%", height: 200, 
+        {
+          width: "46%", height: 200,
           // borderStyle: 'solid', borderWidth: 2, 
           borderRadius: 15,
           overflow: "hidden", marginBottom: 10,
           elevation: 10,
           // padding: 10 
         },
-        { backgroundColor }, 
+        { backgroundColor },
         style
-      ]} 
+      ]}
       {...otherProps}
     >
-    <Pressable style={{ width: "auto", height: "auto" }} onPress={onPress}>
-      <View style={{ height: "70%", width: "100%" }}></View>
-      <View style={{ width: "100%", height: "30%", backgroundColor: cardBG, paddingLeft: 15, paddingVertical: 5, }}>
-        <Text style={{ color: "#fff" }}>{subtitle}</Text>
-        <Text style={[appStyles.title, { color: "#fff" }]}>{title}</Text>
-      </View>
-    </Pressable>
+      <Pressable style={{ width: "auto", height: "auto" }} onPress={onPress}>
+        <View style={{ height: "70%", width: "100%" }}></View>
+        <View style={{ width: "100%", height: "30%", backgroundColor: cardBG, paddingLeft: 15, paddingVertical: 5, }}>
+          <Text style={{ color: "#fff" }}>{subtitle}</Text>
+          <Text style={[appStyles.title, { color: "#fff" }]}>{title}</Text>
+        </View>
+      </Pressable>
     </View>
   );
 }
