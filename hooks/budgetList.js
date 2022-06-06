@@ -10,14 +10,58 @@ export default [
         categories: [
             {
                 type: 2,
-                category: 3,
-                description: "Pamasahe",
+                category: "Free",
                 budgetPlanned: {
-                    percentage: "5%",
-                    number: "3000"
+                    percentage: 9,
+                    number: "1890"
                 },
                 comment: null
-            }
+            },
+            {
+                type: 2,
+                category: "Daily Living",
+                budgetPlanned: {
+                    percentage: 50,
+                    number: "10500"
+                },
+                comment: null
+            },
+            {
+                type: 2,
+                category: "Financial Savings",
+                budgetPlanned: {
+                    percentage: 20,
+                    number: "4200"
+                },
+                comment: null
+            },
+            {
+                type: 2,
+                category: "Dues/Subscription",
+                budgetPlanned: {
+                    percentage: 10,
+                    number: "2100"
+                },
+                comment: null
+            },
+            {
+                type: 2,
+                category: "Leasure",
+                budgetPlanned: {
+                    percentage: 10,
+                    number: "2100"
+                },
+                comment: null
+            },
+            {
+                type: 2,
+                category: "Misc",
+                budgetPlanned: {
+                    percentage: 1,
+                    number: "210"
+                },
+                comment: null
+            },
         ],
         transactions: [
             {
@@ -42,14 +86,58 @@ export default [
         categories: [
             {
                 type: 2,
-                category: 3,
-                description: "Pamasahe",
+                category: "Free",
                 budgetPlanned: {
-                    percentage: "5%",
-                    number: "3000"
+                    percentage: 9,
+                    number: "1890"
                 },
                 comment: null
-            }
+            },
+            {
+                type: 2,
+                category: "Daily Living",
+                budgetPlanned: {
+                    percentage: 50,
+                    number: "10500"
+                },
+                comment: null
+            },
+            {
+                type: 2,
+                category: "Financial Savings",
+                budgetPlanned: {
+                    percentage: 20,
+                    number: "4200"
+                },
+                comment: null
+            },
+            {
+                type: 2,
+                category: "Dues/Subscription",
+                budgetPlanned: {
+                    percentage: 10,
+                    number: "2100"
+                },
+                comment: null
+            },
+            {
+                type: 2,
+                category: "Leasure",
+                budgetPlanned: {
+                    percentage: 10,
+                    number: "2100"
+                },
+                comment: null
+            },
+            {
+                type: 2,
+                category: "Misc",
+                budgetPlanned: {
+                    percentage: 1,
+                    number: "210"
+                },
+                comment: null
+            },
         ],
         transactions: [
             {
@@ -74,14 +162,58 @@ export default [
         categories: [
             {
                 type: 2,
-                category: 3,
-                description: "Pamasahe",
+                category: "Free",
                 budgetPlanned: {
-                    percentage: "5%",
-                    number: "3000"
+                    percentage: 9,
+                    number: "1890"
                 },
                 comment: null
-            }
+            },
+            {
+                type: 2,
+                category: "Daily Living",
+                budgetPlanned: {
+                    percentage: 50,
+                    number: "10500"
+                },
+                comment: null
+            },
+            {
+                type: 2,
+                category: "Financial Savings",
+                budgetPlanned: {
+                    percentage: 20,
+                    number: "4200"
+                },
+                comment: null
+            },
+            {
+                type: 2,
+                category: "Dues/Subscription",
+                budgetPlanned: {
+                    percentage: 10,
+                    number: "2100"
+                },
+                comment: null
+            },
+            {
+                type: 2,
+                category: "Leasure",
+                budgetPlanned: {
+                    percentage: 10,
+                    number: "2100"
+                },
+                comment: null
+            },
+            {
+                type: 2,
+                category: "Misc",
+                budgetPlanned: {
+                    percentage: 1,
+                    number: "210"
+                },
+                comment: null
+            },
         ],
         transactions: [
             {
@@ -106,14 +238,58 @@ export default [
         categories: [
             {
                 type: 2,
-                category: 3,
-                description: "Pamasahe",
+                category: "Free",
                 budgetPlanned: {
-                    percentage: "5%",
-                    number: "3000"
+                    percentage: 9,
+                    number: "1890"
                 },
                 comment: null
-            }
+            },
+            {
+                type: 2,
+                category: "Daily Living",
+                budgetPlanned: {
+                    percentage: 50,
+                    number: "10500"
+                },
+                comment: null
+            },
+            {
+                type: 2,
+                category: "Financial Savings",
+                budgetPlanned: {
+                    percentage: 20,
+                    number: "4200"
+                },
+                comment: null
+            },
+            {
+                type: 2,
+                category: "Dues/Subscription",
+                budgetPlanned: {
+                    percentage: 10,
+                    number: "2100"
+                },
+                comment: null
+            },
+            {
+                type: 2,
+                category: "Leasure",
+                budgetPlanned: {
+                    percentage: 10,
+                    number: "2100"
+                },
+                comment: null
+            },
+            {
+                type: 2,
+                category: "Misc",
+                budgetPlanned: {
+                    percentage: 1,
+                    number: "210"
+                },
+                comment: null
+            },
         ],
         transactions: [
             {

@@ -8,7 +8,7 @@ export default function BudgetList ({ navigation }) {
   const colorScheme = useColorScheme();
   const DATA = budgetList.reverse();
 
-  const BudgetCard = ({ budget, colorScheme }) => {
+  const BudgetCard = ({ id, budget, colorScheme }) => {
     const percentage = (budget.consumed/budget.totalBudgeted);
     const percentageColor = (p) => {
       if (p >= 0.0 && p < 0.40) {
@@ -30,7 +30,7 @@ export default function BudgetList ({ navigation }) {
         <TouchableOpacity
           activeOpacity={0.6}
           style={{ width: "100%", height: "100%", padding: 10, position: "absolute", top: 0, backgroundColor: "transparent" }}
-          onPress={() => navigation.navigate('Budget', { screen: "Categories", params: {categories: budget.categories, headerName: budget.name }})}
+          onPress={() => navigation.navigate('Budget', { screen: "Categories", params: { id: id, categories: budget.categories, headerName: budget.name }})}
         >
           <Container style={{ width: "100%" }}>
             <Container style={{ width: "100%", height: 30, marginBottom: 10, justifyContent: "center" }}>
@@ -64,7 +64,7 @@ export default function BudgetList ({ navigation }) {
       <SafeAreaView style={{ backgroundColor: "transparent" }}>
         <ScrollView style={{ backgroundColor: "transparent" }} horizontal={false}>
         <View style={[styles.listContainer, { marginBottom: 50 }]}>
-            {DATA.map((data, index) => <BudgetCard key={index} budget={data} colorScheme={colorScheme} />)}
+            {DATA.map((data, index) => <BudgetCard key={index} id={index} budget={data} colorScheme={colorScheme} />)}
           </View>
         </ScrollView>
       </SafeAreaView>

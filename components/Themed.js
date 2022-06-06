@@ -140,14 +140,14 @@ export function Modal(props) {
 }
 
 export function Input(props) {
-  const { style, lightColor, darkColor, label, noLabel, containerStyle, ...otherProps } = props;
+  const { style, lightColor, darkColor, label, noLabel, containerStyle, IconButton, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "background"
   );
 
   return (
-    <View style={[{ width: "98%", marginBottom: 10, }, containerStyle]}>
+    <View style={[{ width: "98%", marginBottom: 10, backgroundColor: "transparent" }, containerStyle]}>
       {noLabel === false || noLabel == undefined && 
         <Text style={{ fontSize: 18, marginBottom: 10, }}>{label}:</Text>
       }
@@ -166,6 +166,7 @@ export function Input(props) {
         ]} 
         {...otherProps} 
       />
+      <IconButton />
     </View>
   );
 }
