@@ -4,7 +4,7 @@ import { StyleSheet, useColorScheme } from "react-native";
 import AccountList from "../../hooks/bankList"
 import Colors from "../../constants/Colors";
 
-export default function CreateTransaction({ navigation }) {
+export default function CreateExpense({ navigation }) {
   const colorScheme = useColorScheme();
   const containerBG = {
     backgroundColor: Colors[colorScheme].background
@@ -37,7 +37,6 @@ export default function CreateTransaction({ navigation }) {
       <View>
         <View style={styles.container}>
           <View style={[styles.container, { width: "100%", height: "auto", padding: 0 }]}>
-            <Select label="Type" options={types} />
             <Select label="Category" options={categories} />
             <Autocomplete label="Description" options={autoCompleteOpts} />
             <CalculatorInput label="Amount" />

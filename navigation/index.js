@@ -14,7 +14,8 @@ import CreateAccount from "../screens/Create/AccountScreen";
 import CreatePayee from "../screens/Create/PayeeScreen";
 import CreatePayer from "../screens/Create/PayerScreen";
 import CreateBudget from "../screens/Create/BudgetScreen";
-import CreateTransaction from "../screens/Create/TrasactionScreen";
+import CreateExpense from "../screens/Create/ExpenseScreen";
+import CreateIncome from "../screens/Create/IncomeScreen";
 import CreateTransfer from "../screens/Create/TransferScreen";
 
 import BottomTabNavigator from "./BottomTabNavigator";
@@ -74,11 +75,27 @@ function Create ({ navigation }) {
       />
       <CreateStack.Screen name="CreateBudget" component={CreateBudget} options={{ headerShown: true, headerTitle: "New Budget" }} />
       <CreateStack.Screen 
-        name="CreateTransaction" 
-        component={CreateTransaction} 
+        name="CreateExpense" 
+        component={CreateExpense} 
         options={{ 
           headerShown: true, 
-          headerTitle: "New Transaction" 
+          headerTitle: "New Expense" 
+        }}
+      />
+      <CreateStack.Screen 
+        name="CreateIncome" 
+        component={CreateIncome} 
+        options={{ 
+          headerShown: true, 
+          headerTitle: "New Income" 
+        }}
+      />
+      <CreateStack.Screen 
+        name="CreateIncome" 
+        component={CreateIncome} 
+        options={{ 
+          headerShown: true, 
+          headerTitle: "New Income" 
         }}
       />
       <CreateStack.Screen name="CreatePayee" component={CreatePayee} options={{ headerShown: true, headerTitle: "New Payee" }} />

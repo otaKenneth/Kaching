@@ -69,17 +69,30 @@ export default function CreateButton({ navigation }) {
 									<Ionicons name="reader-outline" size={30} />
 								</TouchableOpacity>
 							</View>
-
+							
 							<View style={{ alignItems: "center", backgroundColor: "transparent", alignItems: "center", }}>
-								<Text style={[styles.actionBtnName, textBackground]}>Transaction</Text>
+								<Text style={[styles.actionBtnName, textBackground]}>Income</Text>
 								<TouchableOpacity
 									style={styles.actionBtns}
 									onPress={() => {
 										setShowModal(false);
-										navigation.navigate('Add', {screen: 'CreateTransaction'});
+										navigation.navigate('Add', {screen: 'CreateIncome'});
 									}}
 								>
-									<Ionicons style={{ transform: [{ rotate: "45deg" }] }} name="swap-vertical-outline" size={30} />
+									<Ionicons name="arrow-down" size={30} />
+								</TouchableOpacity>
+							</View>
+							
+							<View style={{ alignItems: "center", backgroundColor: "transparent", alignItems: "center", }}>
+								<Text style={[styles.actionBtnName, textBackground]}>Expense</Text>
+								<TouchableOpacity
+									style={styles.actionBtns}
+									onPress={() => {
+										setShowModal(false);
+										navigation.navigate('Add', {screen: 'CreateExpense'});
+									}}
+								>
+									<Ionicons name="arrow-up" size={30} />
 								</TouchableOpacity>
 							</View>
 						</View>
