@@ -313,7 +313,7 @@ export function Autocomplete(props) {
         ]}
         value={inputVal}
         {...otherProps}
-        onFocus={() => setMenuVisibility(true)}
+        onFocus={() => setMenuVisibility(false)}
         onChangeText={(value) => {
           setInputVal(value);
           if (value.length > 0) {
