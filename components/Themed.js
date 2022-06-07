@@ -10,6 +10,7 @@ import {
   ScrollView as DefaultScrollView,
   TouchableOpacity as DefaultTouchableOpacity,
   TouchableHighlight as DefaultTouchableHighlight,
+  TouchableWithoutFeedback as DefaultTouchable,
   Pressable as DefaultPressable,
   FlatList as DefaultFlatList,
   VirtualizedList as DefaultVirtualizeList,
@@ -55,6 +56,12 @@ export function Container(props) {
   const { style, lightColor, darkColor, ...otherProps } = props;
 
   return <DefaultView style={[{ backgroundColor: "transparent" }, style]} {...otherProps} />;
+}
+
+export function Touchable(props) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+
+  return <DefaultTouchable style={[{ backgroundColor: "transparent" }, style]} {...otherProps} />;
 }
 
 export function KeyboardAvoidingView(props) {
@@ -261,7 +268,7 @@ export function ChangableInput(props) {
           {...otherProps}
         />
         <Pressable
-          style={{ backgroundColor: "#6890ef", height: "100%", flex: 0.2, paddingVertical: 7 }}
+          style={{ backgroundColor: "#6890ef", height: "100%", flex: 0.2, paddingVertical: 10 }}
           onPress={() => {
             var state = icon == 0 ? 1 : 0;
             type(state);

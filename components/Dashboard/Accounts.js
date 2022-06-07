@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, TouchableOpacity, View, Text, Pressable, List } from "../Themed";
+import { SafeAreaView, ScrollView, TouchableOpacity, View, Container, Touchable, Text, Pressable, List, Modal } from "../Themed";
 import Collapsible from 'react-native-collapsible';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -7,6 +7,7 @@ import { StyleSheet } from "react-native";
 import Colors from '../../constants/Colors';
 import AccountList from '../../hooks/bankList';
 import { useColorScheme } from "react-native";
+import appStyles from '../../assets/styles/appStyles'
 
 const DATA = AccountList();
 
@@ -15,12 +16,105 @@ const AccsItem = ({ account, colorScheme }) => {
     backgroundColor: account.bankColor ? account.bankColor:Colors[colorScheme].accounts
   }
 
+  const [showModal, setShowModal] = useState(false);
+
+  const handleEventsPosition = (ev) => {
+    setShowButtonsIn({
+      ...showButtonsIn,
+      top: ev.nativeEvent.pageY-ev.nativeEvent.locationY+20,
+      left: ev.nativeEvent.pageX-ev.nativeEvent.locationX-45,
+    })
+  }
+
+  const [showButtonsIn, setShowButtonsIn] = useState({
+    position: "absolute",
+    top: 0, left: 0
+  })
+
   return (
     <View style={accStyle.bankAccount}>
+      <Modal 
+        animationType="fade"
+				visible={showModal}
+				transparent={true}
+				swipeDirection="down"
+        onRequestClose={() => setShowModal(false)}
+      >
+        <Touchable
+          onPress={() => setShowModal(false)}
+        >
+          <Container 
+            style={[
+              appStyles.modalContainer, 
+              {
+                justifyContent: "center", 
+                backgroundColor: "rgba(52, 52, 52, 0.3)"
+              }
+            ]}
+          >
+            <Container 
+              style={[
+                appStyles.modalView, 
+                showButtonsIn, 
+                {
+                  backgroundColor: "transparent", 
+                  elevation: 0
+                }
+              ]}
+            >
+              <Container
+                style={{ width: 180, flexDirection: "row", justifyContent: "space-around" }}
+              >
+                <Pressable
+                  style={{
+                    width: 50, height: 50,
+                    justifyContent: "center", alignItems: "center",
+                    borderRadius: 30, backgroundColor: "#ffeb0a",
+                    elevation: 10
+                  }}
+                  onPress={() => setShowModal(false)}
+                >
+                  {account.favorite &&
+                    <Ionicons name="star" size={20} color="#000" />
+                  }
+                  {!account.favorite &&
+                    <Ionicons name="star-outline" size={20} color="#000" />
+                  }
+                </Pressable>
+                <Pressable
+                  style={{
+                    width: 50, height: 50, 
+                    justifyContent: "center", alignItems: "center",
+                    borderRadius: 30, backgroundColor: "#ff9400",
+                    elevation: 10
+                  }}
+                  onPress={() => setShowModal(false)}
+                >
+                  <Ionicons name="pencil" size={20} color="#fff" />
+                </Pressable>
+                <Pressable
+                  style={{
+                    width: 50, height: 50, 
+                    justifyContent: "center", alignItems: "center",
+                    borderRadius: 30, backgroundColor: "#f70000",
+                    elevation: 10
+                  }}
+                  onPress={() => setShowModal(false)}
+                >
+                  <Ionicons name="trash-outline" size={20} color="#fff" />
+                </Pressable>
+              </Container>
+            </Container>
+          </Container>
+        </Touchable>
+      </Modal>
       <TouchableOpacity
         activeOpacity={0.5}
         style={[accStyle.bankAccountBtn, bgColor]}
-        onLongPress={() => alert("shit")}
+        onPress={(ev) => {
+          setShowModal(true)
+          handleEventsPosition(ev);
+        }}
       >
       </TouchableOpacity>
       <View style={{ position: "absolute", bottom: 15, left: 10, backgroundColor: "transparent", margin: 8, }}>

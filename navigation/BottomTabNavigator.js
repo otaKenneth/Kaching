@@ -71,6 +71,7 @@ const TabOneStack = createStackNavigator();
 import budgetList from "../hooks/budgetList";
 
 function TabOneNavigator() {
+  const DATA = budgetList;
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
@@ -88,13 +89,13 @@ function TabOneNavigator() {
         component={TransactionList}
         options={{ headerTitle: "Transaction List" }}
         initialParams={{
-          transactions: budgetList.reverse()[0].transactions
+          transactions: DATA[0].transactions
         }}
       />
       <TabOneStack.Screen
         name="Payers"
         component={PayerList}
-        options={{ headerTitle: "Budget List" }}
+        options={{ headerTitle: "Payer List" }}
       />
       <TabOneStack.Screen
         name="Payees"
@@ -119,6 +120,9 @@ function BudgetNavigator() {
         name="Budgets"
         component={BudgetList}
         options={{ headerTitle: "Budgets" }}
+        initialParams={{
+          budgetList: budgetList.reverse()
+        }}
       />
       <BudgetStack.Screen
         name="Categories"

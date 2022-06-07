@@ -46,7 +46,7 @@ export default function CategoryList({ route, navigation }) {
     <View style={{ height: "auto", width: "100%", padding: 10, backgroundColor: "transparent" }}>
       <SafeAreaView style={{ height: "auto", width: "100%", backgroundColor: "transparent" }}>
         <PieChart
-          style={{ height: 350 }}
+          style={{ height: 300 }}
           data={getPieChartData(categs)}
           innerRadius={33}
           outerRadius={70}

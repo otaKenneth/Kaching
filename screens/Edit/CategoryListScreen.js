@@ -24,6 +24,8 @@ export default function CategoryList({ route, navigation }) {
   const CategoryInput = ({ item }) => {
     const options = Object.values(item.budgetPlanned);
     const [type, setType] = useState(0);
+    const editable = item.category == "Allowance" ? false:inputStyle;
+    const bgColor = editable ? "#fff":"#c4c4c4";
 
     return (
       <ChangableInput
@@ -32,7 +34,8 @@ export default function CategoryList({ route, navigation }) {
         keyboardType="numeric"
         type={setType}
         values={options}
-        editable={inputStyle}
+        style={{ backgroundColor: bgColor }}
+        editable={editable}
         changableIconButtons={['percent-outline', 'pound']}
         onEndEditing={(el) => {
           handleNewValue(item, type, el.nativeEvent.text)

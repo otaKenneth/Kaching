@@ -1,12 +1,13 @@
 import { Text, View, Container, TouchableOpacity, SafeAreaView, ScrollView } from "../../components/Themed";
 import * as Progress from "react-native-progress";
 import { StyleSheet, useColorScheme } from "react-native";
-import budgetList from "../../hooks/budgetList";
 import Colors from "../../constants/Colors";
 
-export default function BudgetList ({ navigation }) {
+export default function BudgetList ({ route, navigation }) {
   const colorScheme = useColorScheme();
-  const DATA = budgetList.reverse();
+
+  const { budgetList } = route.params;
+  const DATA = budgetList;
 
   const BudgetCard = ({ id, budget, colorScheme }) => {
     const percentage = (budget.consumed/budget.totalBudgeted);
@@ -69,7 +70,7 @@ export default function BudgetList ({ navigation }) {
       <SafeAreaView style={{ backgroundColor: "transparent" }}>
         <ScrollView style={{ backgroundColor: "transparent" }} horizontal={false}>
         <View style={[styles.listContainer, { marginBottom: 50 }]}>
-            {DATA.map((data, index) => <BudgetCard key={index} id={index} budget={data} colorScheme={colorScheme} />)}
+            {DATA.reverse().map((data, index) => <BudgetCard key={index} id={index} budget={data} colorScheme={colorScheme} />)}
           </View>
         </ScrollView>
       </SafeAreaView>

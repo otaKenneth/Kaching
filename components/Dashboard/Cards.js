@@ -7,7 +7,7 @@ export default function Cards({ navigation }) {
     <View style={styles.cardContainer}>
       <Card 
         title="Budgets" 
-        subtitle="Mar 31 - Jun 15" 
+        // subtitle="Mar 31 - Jun 15" 
         onPress={() => navigation.navigate('Dashboard', {screen: 'Budget'})} 
       />
       <Card 

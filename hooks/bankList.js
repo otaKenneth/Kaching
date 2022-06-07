@@ -2,6 +2,7 @@ const data = [
     {
         name: "Bank 1",
         balance: 10000000,
+        favorite: true,
         // bankColor: "#fc3903",
     },
     {
