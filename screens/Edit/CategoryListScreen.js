@@ -50,7 +50,7 @@ export default function CategoryList({ route, navigation }) {
         <PieChart
           style={{ flex: 1 }}
           data={getPieChartData(categs)}
-          innerRadius={35}
+          innerRadius={30}
           outerRadius={70}
           labelRadius={100}
         >
@@ -84,7 +84,7 @@ const getPieChartData = (data) => {
   })
 }
 
-const colors = ['#2b72d1', '#df3426', '#739246', '#6890ef', '#cd4343', '#12d207', '#ac7c5d', '#ee96a8', '#4c84e1', '#13a0a8', '#b316da', '#547602', '#7b738f'];
+const colors = ['#003f5c','#ffa600','#2f4b7c','#ff7c21','#790093','#f30054','#ff4d3c','#d9006c','#b10082','#03169c',"#665191","#a05195",'#d45087','#f95d6a','#ff7c43'];
 
 const styles = StyleSheet.create({
   container: {

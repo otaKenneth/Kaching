@@ -13,8 +13,8 @@ export default {
     primaryBtn: "#2f95dc",
     submitBtn: "lightgreen",
     headerTextColor: "#fff",
-    headerBackgroundColor: "#3778c2",
-    accounts: "#2f95dc"
+    headerBackgroundColor: "#2f95dc",
+    accounts: "#4b9cdd"
   },
   dark: {
     text: "#fff",
@@ -31,3 +31,13 @@ export default {
     accounts: "#2a3132"
   },
 };
+
+// #2f95dc
+// #4b9cdd
+// #60a2dd
+// #72a9de
+// #82b0df
+// #91b6df
+// #9fbde0
+// #acc4e1
+// #b9cbe1

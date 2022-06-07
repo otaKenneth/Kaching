@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity, View, Text, Modal } from "./Themed";
 
 import { StyleSheet } from "react-native";
@@ -51,7 +51,7 @@ export default function CreateButton({ navigation }) {
 										navigation.navigate('Add', {screen: 'CreateTransfer'})
 									}}
 								>
-									<Ionicons name="swap-horizontal-outline" size={30} title="Account" />
+									<MaterialCommunityIcons name="transfer" size={30} title="Account" />
 								</TouchableOpacity>
 							</View>
 						</View>

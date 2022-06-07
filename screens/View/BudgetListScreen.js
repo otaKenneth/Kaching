@@ -12,13 +12,13 @@ export default function BudgetList ({ navigation }) {
     const percentage = (budget.consumed/budget.totalBudgeted);
     const percentageColor = (p) => {
       if (p >= 0.0 && p < 0.40) {
-        return {light: "#2cfc03", dark: "#219e0b"}[colorScheme];
+        return {light: "#00eb0a", dark: "#219e0b"}[colorScheme];
       } else if (p >= 0.40 && p < 0.70) {
-        return {light: "#fff654", dark: "#bab104"}[colorScheme];
+        return {light: "#f8c509", dark: "#bab104"}[colorScheme];
       } else if (p >= 0.70 && p <= 1) {
-        return {light: "#f5b540", dark: "#e09814"}[colorScheme];
+        return {light: "#f19a00", dark: "#e09814"}[colorScheme];
       } else if (p > 1) {
-        return {light: "#f75757", dark: "#960808"}[colorScheme];
+        return {light: "#ff6363", dark: "#960808"}[colorScheme];
       }
     };
 

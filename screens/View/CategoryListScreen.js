@@ -30,6 +30,7 @@ export default function CategoryList({ route, navigation }) {
         label={item.category}
         keyboardType="numeric"
         type={setType}
+        style={{ backgroundColor: "#c4c4c4"}}
         values={options}
         editable={inputStyle}
         changableIconButtons={['percent-outline', 'pound']}
@@ -47,7 +48,7 @@ export default function CategoryList({ route, navigation }) {
         <PieChart
           style={{ height: 350 }}
           data={getPieChartData(categs)}
-          innerRadius={35}
+          innerRadius={33}
           outerRadius={70}
           labelRadius={120}
         >
@@ -78,7 +79,7 @@ const getPieChartData = (data) => {
   })
 }
 
-const colors = ['#2b72d1', '#df3426', '#739246', '#6890ef', '#cd4343', '#12d207', '#ac7c5d', '#ee96a8', '#4c84e1', '#13a0a8', '#b316da', '#547602', '#7b738f'];
+const colors = ['#547602','#2b72d1', '#13a0a8', '#ee96a8', '#7b738f', '#df3426', '#739246', '#6890ef', '#cd4343', '#12d207', '#ac7c5d', '#4c84e1', '#b316da', ];
 
 const styles = StyleSheet.create({
   container: {
