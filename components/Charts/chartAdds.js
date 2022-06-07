@@ -1,13 +1,4 @@
-import { Circle, Line, G, Text } from 'react-native-svg'
-import { PieChartData } from 'react-native-svg-charts'
-
-// interface LabelsProps {
-//   slices: {
-//     pieCentroid: string
-//     labelCentroid: string
-//     data: PieChartData
-//   }[]
-// }
+import { Circle, Line, G, Text } from 'react-native-svg';
 
 export const Labels = (props) => {
   const { slices } = props;

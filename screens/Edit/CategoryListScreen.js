@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Container, View, SafeAreaView, ChangableInput, FlatList } from "../../components/Themed";
+import { Container, View, SafeAreaView, ChangableInput, FlatList, PrimaryButton, KeyboardAvoidingView } from "../../components/Themed";
 import { PieChart } from 'react-native-svg-charts';
 import { Labels } from "../../components/Charts/chartAdds";
 
 import { StyleSheet, useColorScheme } from "react-native";
 import newCategoryVals from '../../hooks/categories';
+import Collapsible from "react-native-collapsible";
 
 export default function CategoryList({ route, navigation }) {
   const colorScheme = useColorScheme();
@@ -33,7 +34,6 @@ export default function CategoryList({ route, navigation }) {
         values={options}
         editable={inputStyle}
         changableIconButtons={['percent-outline', 'pound']}
-        disableFullscreenUI={false}
         onEndEditing={(el) => {
           handleNewValue(item, type, el.nativeEvent.text)
         }}
@@ -42,17 +42,23 @@ export default function CategoryList({ route, navigation }) {
   }
 
   return (
-    <View style={{ height: "100%", width: "100%", padding: 10 }}>
-      <SafeAreaView style={{ height: "auto", width: "100%", backgroundColor: "transparent" }}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
+      <View style={{ flex: 1, width: "100%", padding: 10 }}>
         <PieChart
-          style={{ height: 350 }}
+          style={{ flex: 1 }}
           data={getPieChartData(categs)}
           innerRadius={35}
           outerRadius={70}
-          labelRadius={120}
+          labelRadius={100}
         >
           <Labels />
         </PieChart>
+        <Container style={{ marginVertical: 20 }}>
+          <PrimaryButton text="Create New Category" />
+        </Container>
         <Container style={{ justifyContent: "center" }}>
           <FlatList
             style={{ width: "100%", height: 300, flexDirection: "column" }}
@@ -61,10 +67,8 @@ export default function CategoryList({ route, navigation }) {
             renderItem={({ item }) => <CategoryInput item={item} />}
           />
         </Container>
-        {/* <ScrollView style={{ paddingHorizontal: 10}}>
-      </ScrollView> */}
-      </SafeAreaView>
-    </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -88,7 +92,6 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "flex-start",
-    padding: 20,
   },
   separator: {
     marginVertical: 30,

@@ -117,7 +117,7 @@ export default function CreateButton({ navigation }) {
 									style={styles.actionBtns}
 									onPress={() => {
 										setShowModal(false);
-										navigation.navigate('Add', {sceen: 'CreatePayer'})
+										navigation.navigate('Add', {screen: 'CreatePayer'})
 									}}
 								>
 									<Ionicons name="person-outline" size={30} />
@@ -155,7 +155,7 @@ export default function CreateButton({ navigation }) {
 
 const styles = StyleSheet.create({
 	floatingBtnsContainer: {
-		width: "80%", height: "30%", top: 23,
+		width: "80%", height: "40%", top: 23,
 		flexDirection: "row", justifyContent: "space-around",
 		backgroundColor: "transparent",
 		// borderStyle: 'solid', borderWidth: 1, borderColor: '#000'

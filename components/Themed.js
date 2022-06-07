@@ -59,8 +59,12 @@ export function Container(props) {
 
 export function KeyboardAvoidingView(props) {
   const { style, lightColor, darkColor, ...otherProps } = props;
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background"
+  );
 
-  return <DefaultAvoid style={[{ backgroundColor: "transparent" }, style]} {...otherProps} />;
+  return <DefaultAvoid style={[{ backgroundColor }, style]} {...otherProps} />;
 }
 
 export function SafeAreaView(props) {
@@ -115,6 +119,29 @@ export function SubmitButton(props) {
     ]}
     {...otherProps}>
     <Text style={{ fontWeight: "500", }}>Submit</Text>
+  </DefaultTouchableOpacity>;
+}
+
+export function PrimaryButton(props) {
+  const { style, lightColor, darkColor, text, ...otherProps } = props;
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "primaryBtn"
+  );
+
+  return <DefaultTouchableOpacity
+    style={[
+      style,
+      {
+        width: "98%", paddingVertical: 15,
+        alignItems: "center", borderRadius: 10,
+        borderColor: backgroundColor, borderStyle: "solid", borderWidth: 1,
+        borderRadius: 10,
+        backgroundColor: "transparent"
+      }
+    ]}
+    {...otherProps}>
+    <Text style={{ fontWeight: "500", color: backgroundColor }}>{text}</Text>
   </DefaultTouchableOpacity>;
 }
 

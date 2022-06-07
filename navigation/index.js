@@ -90,14 +90,6 @@ function Create ({ navigation }) {
           headerTitle: "New Income" 
         }}
       />
-      <CreateStack.Screen 
-        name="CreateIncome" 
-        component={CreateIncome} 
-        options={{ 
-          headerShown: true, 
-          headerTitle: "New Income" 
-        }}
-      />
       <CreateStack.Screen name="CreatePayee" component={CreatePayee} options={{ headerShown: true, headerTitle: "New Payee" }} />
       <CreateStack.Screen name="CreatePayer" component={CreatePayer} options={{ headerShown: true, headerTitle: "New Payer" }} />
     </CreateStack.Navigator>
