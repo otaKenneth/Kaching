@@ -20,7 +20,6 @@ export default function TransactionList ({ route, navigation }) {
   const [isExpenseCollapse, setExpenseCollapse] = useState(false);
 
   const { transactions } = route.params;
-  console.log(transactions);
   const incomeData = incomeList(transactions);
   const expenseData = expenseList(transactions);
 

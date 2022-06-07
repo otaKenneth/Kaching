@@ -1,28 +1,28 @@
 const data = [
-    {
-        name: "Bank 1",
-        balance: 10000000,
-        favorite: true,
-        // bankColor: "#fc3903",
-    },
-    {
-        name: "Bank 2",
-        balance: 200000.10,
-        // bankColor: "#2249c9",
-    },
-    {
-        name: "Bank 3",
-        balance: 1000.00,
-        // bankColor: "#359cf0"
-    },
-    {
-        name: "Bank 4",
-        balance: 5000
-    },
-    {
-        name: "Bank 5",
-        balance: 10567830
-    },
+    // {
+    //     name: "Bank 1",
+    //     balance: 10000000,
+    //     favorite: true,
+    //     // bankColor: "#fc3903",
+    // },
+    // {
+    //     name: "Bank 2",
+    //     balance: 200000.10,
+    //     // bankColor: "#2249c9",
+    // },
+    // {
+    //     name: "Bank 3",
+    //     balance: 1000.00,
+    //     // bankColor: "#359cf0"
+    // },
+    // {
+    //     name: "Bank 4",
+    //     balance: 5000
+    // },
+    // {
+    //     name: "Bank 5",
+    //     balance: 10567830
+    // },
     // {
     //     name: "Bank 6",
     //     balance: 7
