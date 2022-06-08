@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "Pitaka",
+    "scheme": "pitaka",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -19,7 +19,6 @@
       "**/*"
     ],
     "ios": {
-      "googleServicesFile": "./Google-Service-Info.plist",
       "supportsTablet": true
     },
     "android": {

@@ -155,7 +155,7 @@ export default function Accounts({ }) {
         <SafeAreaView>
           <ScrollView horizontal={true} >
             <View style={[accStyle.accountsContainer, {backgroundColor: Colors[colorScheme].cardBackground }]}>
-              {DATA.map((data, index) => <AccsItem key={index} account={data} colorScheme={colorScheme} />)}
+              {DATA.length > 0 && DATA.map((data, index) => <AccsItem key={index} account={data} colorScheme={colorScheme} />)}
             </View>
           </ScrollView>
         </SafeAreaView>

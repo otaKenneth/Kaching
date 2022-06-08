@@ -1,9 +1,9 @@
 import app from './firebase';
-import {getFirestore} from 'firebase/firestore/lite';
+import {getFirestore, getDocs, collection} from 'firebase/firestore/lite';
 
 const db = getFirestore(app);
 
-async function AccountList (db) {
+async function AccountList () {
     const accountsCol = collection(db, 'accounts');
     const account = await getDocs(accountsCol);
     const accountList = account.docs.map(doc => doc.data());
