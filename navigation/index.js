@@ -7,6 +7,8 @@ import {
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import Login from "../screens/Auth/LoginScreen";
+import Signup from "../screens/Auth/SignUpScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import HomeScreen from "../screens/HomeScreen";
 
@@ -39,6 +41,7 @@ const Stack = createStackNavigator();
 function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Auth" component={AuthNavigator} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Root" component={BottomTabNavigator} />
       <Stack.Screen name="Add" component={Create} />
@@ -49,6 +52,29 @@ function RootNavigator() {
         options={{ title: "Oops!" }}
       />
     </Stack.Navigator>
+  );
+}
+
+const AuthStack = createStackNavigator()
+
+function AuthNavigator({ navigation }) {
+  return (
+    <AuthStack.Navigator>
+      <AuthStack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <AuthStack.Screen
+        name="Signup"
+        component={Signup}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </AuthStack.Navigator>
   );
 }
 
