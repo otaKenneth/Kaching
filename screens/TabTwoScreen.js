@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { Text, View } from "../components/Themed";
+import { Text, View, TouchableOpacity } from "../components/Themed";
 
 export default function TabTwoScreen({ navigation }) {
   return (
@@ -11,6 +11,13 @@ export default function TabTwoScreen({ navigation }) {
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => navigation.navigate('Auth', {screen: 'Login'})}
+        style={{ width: "100%", padding: 10, elevation: 2 }}
+      >
+        <Text style={{ fontSize: 15 }}>Login</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -18,7 +25,8 @@ export default function TabTwoScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    padding: 20,
+    alignItems: "flex-start",
     justifyContent: "flex-start",
   },
   title: {

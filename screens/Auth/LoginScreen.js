@@ -6,7 +6,7 @@ export default function Login({ navigation }) {
     <KeyboardAvoidingView
       style={styles.container}
     >
-      <Container style={{ height: "23%", width: "100%" }} />
+      <Container style={{ height: "15%", width: "100%" }} />
       <Container style={{ padding: 20 }}>
         <Text style={{ fontSize: 40, fontWeight: "500", marginBottom: 20 }}>Login</Text>
         <Input label="E-mail" textContentType="emailAddress" keyboardType="email-address" />

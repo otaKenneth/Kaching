@@ -41,7 +41,7 @@ const Stack = createStackNavigator();
 function RootNavigator() {
   return (
     <Stack.Navigator initialRouteName="Root" screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Auth" component={AuthNavigator} />
+      <Stack.Screen name="Auth" component={AuthNavigator} options={{ }} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Root" component={BottomTabNavigator} />
       <Stack.Screen name="Add" component={Create} />
@@ -64,7 +64,8 @@ function AuthNavigator({ navigation }) {
         name="Login"
         component={Login}
         options={{
-          headerShown: false,
+          headerShown: true,
+          headerTitle: ""
         }}
       />
       <AuthStack.Screen
