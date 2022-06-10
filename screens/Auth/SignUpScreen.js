@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Container, Input, KeyboardAvoidingView, Pressable, SubmitButton, Text, View } from "../../components/Themed";
 import Loading, { SuccessToast } from '../../components/Loading';
 import { StyleSheet } from "react-native";
-import firebase from "../../hooks/firebase";
 import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
 import validate from '../../constants/validate';
 import { initialSignup } from '../../hooks/defaults';
