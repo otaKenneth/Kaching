@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Input, KeyboardAvoidingView, Pressable, SubmitButton, Text, View } from "../../components/Themed";
+import { Container, Input, KeyboardAvoidingView, Pressable, SubmitButton, PrimaryButton, Text, View } from "../../components/Themed";
 import { StyleSheet } from "react-native";
 import { initialLogin } from "../../hooks/defaults";
 import Loading, { SuccessToast } from '../../components/Loading';
@@ -76,6 +76,13 @@ export default function Login({ navigation }) {
           </Pressable>
         </Container>
         <SubmitButton style={{ marginTop: 20 }} onPress={() => loginUser()} />
+        <PrimaryButton 
+          text="Use as Guest" 
+          style={{ marginTop: 20 }} 
+          onPress={() => 
+            navigation.navigate('Add', {screen: "CreateAccount"})
+          }
+        />
       </Container>
     </KeyboardAvoidingView>
   );

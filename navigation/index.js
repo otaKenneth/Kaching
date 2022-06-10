@@ -27,14 +27,14 @@ import AccountList from "../hooks/bankList";
 import { useAuthentication } from "../hooks/useAuthentication";
 
 export default function Navigation({ colorScheme }) {
-  const user = useAuthentication();
+  const hasUserData = AccountList().length > 0;
 
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
     >
-      {user ? <RootNavigator />:<AuthNavigator />}
+      {hasUserData ? <RootNavigator />:<AuthNavigator />}
     </NavigationContainer>
   );
 }
@@ -64,7 +64,7 @@ const AuthStack = createStackNavigator()
 
 function AuthNavigator({ navigation }) {
   return (
-    <AuthStack.Navigator>
+    <AuthStack.Navigator screenOptions={{ headerShown: false }}>
       <AuthStack.Screen
         name="Login"
         component={Login}
@@ -80,6 +80,7 @@ function AuthNavigator({ navigation }) {
           headerShown: false,
         }}
       />
+      <AuthStack.Screen name="Add" component={Create} />
     </AuthStack.Navigator>
   );
 }
