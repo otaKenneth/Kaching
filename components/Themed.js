@@ -183,7 +183,7 @@ export function Modal(props) {
 }
 
 export function Input(props) {
-  const { style, lightColor, darkColor, label, noLabel, containerStyle, ...otherProps } = props;
+  const { style, lightColor, darkColor, label, noLabel, containerStyle, validation, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "background"
@@ -209,6 +209,9 @@ export function Input(props) {
         ]}
         {...otherProps}
       />
+      {validation &&
+        <Text style={{ color: "red", fontSize: 12 }}>{validation}</Text>
+      }
     </View>
   );
 }

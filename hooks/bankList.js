@@ -1,7 +1,7 @@
-import app from './firebase';
+import firebase from './firebase';
 import {getFirestore, getDocs, collection} from 'firebase/firestore/lite';
 
-const db = getFirestore(app);
+const db = getFirestore(firebase);
 
 async function AccountList () {
     const accountsCol = collection(db, 'accounts');

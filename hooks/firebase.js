@@ -1,4 +1,6 @@
-import { initializeApp } from 'firebase/app';
+import {initializeApp} from 'firebase/app';
+import 'firebase/auth';
+import { Constants } from 'expo-constants';
 
 // TODO: Replace the following with your app's Firebase project configuration
 var firebaseConfig = {
@@ -13,7 +15,6 @@ var firebaseConfig = {
     // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
     // measurementId: "G-MEASUREMENT_ID",
 };
+let firebase = initializeApp(firebaseConfig);
 
-const app = initializeApp(firebaseConfig);
-
-export default app;
+export default firebase;
