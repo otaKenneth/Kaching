@@ -5,6 +5,7 @@ import { StyleSheet } from "react-native";
 import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
 import validate from '../../constants/validate';
 import { initialSignup } from '../../hooks/defaults';
+import { setUser } from '../../hooks/firebase';
 
 export default function Signup({ navigation }) {
   const auth = getAuth();
@@ -33,11 +34,13 @@ export default function Signup({ navigation }) {
           returnToast: "success"
         });
         setMsg('User registered successfully!');
+        setUser(res.user.uid);
         setTimeout(() => {
           setSignup({
             ...initialSignup,
             returnToast: false
           });
+          auth.signOut()
           navigation.navigate('Login')
         }, 500)
       }).catch(error => {
@@ -94,7 +97,7 @@ export default function Signup({ navigation }) {
         <Container style={{ marginTop: 20, flexDirection: "row", alignContent: "center", justifyContent: "center" }}>
           <Text>Go back to </Text>
           <Pressable
-            onPress={() => navigation.navigate('Auth', {screen: "Login"})}
+            onPress={() => navigation.navigate('Login')}
           >
             <Text style={{ color: "blue" }}>Login</Text>
           </Pressable>

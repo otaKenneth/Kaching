@@ -1,6 +1,9 @@
-import {initializeApp} from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/firestore';
+import 'firebase/database'
 import { Constants } from 'expo-constants';
+import { setDoc, collection, doc, getFirestore } from 'firebase/firestore';
 
 // TODO: Replace the following with your app's Firebase project configuration
 var firebaseConfig = {
@@ -16,5 +19,12 @@ var firebaseConfig = {
     // measurementId: "G-MEASUREMENT_ID",
 };
 let firebase = initializeApp(firebaseConfig);
-
+const db = getFirestore(firebase);
 export default firebase;
+
+import { newUserData } from './defaults';
+
+export async function setUser(uid) {
+    const userRef = collection(db, "users");
+    await setDoc(doc(userRef, uid), newUserData)
+}

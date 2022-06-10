@@ -20,6 +20,10 @@ const BottomTab = createBottomTabNavigator();
 export default function BottomTabNavigator({ navigation }) {
   const colorScheme = useColorScheme();
 
+  // if (AccountList().length == 0) {
+
+  // }
+
   return (
     <BottomTab.Navigator
       initialRouteName="Dashboard"

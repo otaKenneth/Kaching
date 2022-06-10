@@ -3,7 +3,6 @@ import Colors from "../../constants/Colors";
 import { View, KeyboardAvoidingView, Input, Select, SubmitButton, ScrollView, DatepickerInput, Container } from "../../components/Themed";
 import { CalculatorInput } from "../../components/Calculator";
 import { StyleSheet, useColorScheme } from "react-native";
-
 import appStyles from "../../assets/styles/appStyles";
 
 const options = [

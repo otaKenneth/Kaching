@@ -9,6 +9,12 @@ export default {
   prefixes: [Linking.createURL("/")],
   config: {
     screens: {
+      Auth: {
+        screens: {
+          Login: "",
+          Signup: "",
+        }
+      },
       Home: "*",
       Root: {
         screens: {

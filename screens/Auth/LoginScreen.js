@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Container, Input, KeyboardAvoidingView, Pressable, SubmitButton, PrimaryButton, Text, View } from "../../components/Themed";
 import { StyleSheet } from "react-native";
-import { initialLogin } from "../../hooks/defaults";
+import { initialLogin, newUserData } from "../../hooks/defaults";
 import Loading, { SuccessToast } from '../../components/Loading';
 import validate from '../../constants/validate';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+
+import firebase, { setUser } from '../../hooks/firebase';
+import { getAuth, signInAnonymously, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { useAuthentication } from '../../hooks/useAuthentication';
 
 export default function Login({ navigation }) {
   const auth = getAuth();
@@ -19,30 +22,58 @@ export default function Login({ navigation }) {
     setLogin(state);
   }
 
-  const loginUser = () => {
+  const loginUser = (type = "user") => {
+    setLogin({
+      ...login,
+      isLoading: true
+    })
     const state = validate(login);
-    if (Object.values(state).find(data => data.result == false)) {
-      setLogin(state)
+    if (type == "user") {
+      if (Object.values(state).find(data => data.result == false)) {
+        setLogin(state)
+        setLogin({
+          ...state,
+          isLoading: false
+        })
+      } else {
+        signInWithEmailAndPassword(auth, login.email.value, login.passworrd.value)
+        .then((res) => {
+          setLogin({
+            ...login,
+            returnToast: "success",
+            isLoading: false,
+          })
+        }).catch((error) => {
+          setMsg(error.message);
+          setLogin({
+            ...login,
+            isLoading: false,
+            returnToast: "failed"
+          })
+        })
+      }
     } else {
-      setLogin({
-        ...login,
-        isLoading: true
-      })
-      signInWithEmailAndPassword(auth, login.email.value, login.passworrd.value)
-      .then((res) => {
+      signInAnonymously(auth).then((res) => {
         setLogin({
           ...login,
-          isLoading: false,
+          returnToast: "success",
+          isLoading: false
         })
-        navigation.navigate('Root', {screen: "Dashboard"})
-      }).catch((error) => {
-        setMsg(error.message);
+        setUser(res.user.uid)
+      }).catch((error => {
         setLogin({
           ...login,
-          isLoading:false,
-          returnToast: false
+          returnToast: "failed",
+          isLoading: false
         })
-      })
+        setMsg(error.message)
+        setTimeout(() => {
+          setLogin({
+            ...login,
+            returnToast: false,
+          })
+        }, 500)
+      }))
     }
   }
 
@@ -70,7 +101,7 @@ export default function Login({ navigation }) {
         <Container style={{ flexDirection: "row", alignContent: "center", justifyContent: "center" }}>
           <Text>Don't have an account? </Text>
           <Pressable
-            onPress={() => navigation.navigate('Auth', {screen: "Signup"})}
+            onPress={() => navigation.navigate('Signup')}
           >
             <Text style={{ color: "blue" }}>Sign-up Here</Text>
           </Pressable>
@@ -79,9 +110,7 @@ export default function Login({ navigation }) {
         <PrimaryButton 
           text="Use as Guest" 
           style={{ marginTop: 20 }} 
-          onPress={() => 
-            navigation.navigate('Add', {screen: "CreateAccount"})
-          }
+          onPress={() => loginUser('anonymous')}
         />
       </Container>
     </KeyboardAvoidingView>

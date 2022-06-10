@@ -23,18 +23,18 @@ import CreateTransfer from "../screens/Create/TransferScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
 
-import AccountList from "../hooks/bankList";
+import firebase from "../hooks/firebase";
 import { useAuthentication } from "../hooks/useAuthentication";
 
 export default function Navigation({ colorScheme }) {
-  const hasUserData = AccountList().length > 0;
-
+  const user = useAuthentication();
+  
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
     >
-      {hasUserData ? <RootNavigator />:<AuthNavigator />}
+      {user ? <RootNavigator />:<AuthNavigator />}
     </NavigationContainer>
   );
 }
@@ -45,8 +45,7 @@ const Stack = createStackNavigator();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator initialRouteName="Root" screenOptions={{ headerShown: false }}>
-      {/* <Stack.Screen name="Auth" component={AuthNavigator} options={{ }} /> */}
+    <Stack.Navigator initialRouteName={"Root"} screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Root" component={BottomTabNavigator} />
       <Stack.Screen name="Add" component={Create} />
