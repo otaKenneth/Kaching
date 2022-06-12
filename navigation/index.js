@@ -25,29 +25,77 @@ import LinkingConfiguration from "./LinkingConfiguration";
 
 import firebase from "../hooks/firebase";
 import { useAuthentication } from "../hooks/useAuthentication";
+import { getUser } from "../hooks/firebase";
 
 export default function Navigation({ colorScheme }) {
   const user = useAuthentication();
+  const [userData, setUserData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [navTo, setNavTo] = useState('login')
   
-  return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-    >
-      {user ? <RootNavigator />:<AuthNavigator />}
-    </NavigationContainer>
-  );
+  useEffect(() => {
+    if (typeof(user) == 'string') {
+      setLoading(false);
+    } else if (typeof(user) == 'object') {
+      getUser(user).then(res => {
+        setUserData(res);
+        setLoading(false); setNavTo('root')
+      });
+    } else {
+      setLoading(true);
+    }
+  }, [user])
+
+  if (loading) {
+    return (
+      <HomeScreen />
+    )
+  } else {
+    if (navTo == 'login') {
+      return (
+        <NavigationContainer
+          linking={LinkingConfiguration}
+          theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <AuthNavigator />
+        </NavigationContainer>
+      )
+    } else {
+      return (
+        <NavigationContainer
+          linking={LinkingConfiguration}
+          theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <RootNavigator
+            userData={userData}
+          />
+        </NavigationContainer>
+      );
+    }
+  }
 }
 
 // A root stack navigator is often used for displaying modals on top of all other content
 // Read more here: https://reactnavigation.org/docs/modal
 const Stack = createStackNavigator();
 
-function RootNavigator() {
+function RootNavigator(props) {
+  const { userData } = props;
+  
   return (
     <Stack.Navigator initialRouteName={"Root"} screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
+      <Stack.Screen 
+        name="Root" 
+        component={BottomTabNavigator}
+        initialParams={{
+          accounts: userData.data().accounts,
+          budgets: userData.data().budgets,
+          categories: userData.data().categories,
+          payees: userData.data().payees,
+          payers: userData.data().payers,
+          transactions: userData.data().transactions
+        }}
+      />
       <Stack.Screen name="Add" component={Create} />
       <Stack.Screen name="Edit" component={Edit} />
       <Stack.Screen
@@ -131,6 +179,7 @@ function Create ({ navigation }) {
 const EditStack = createStackNavigator();
 
 import CategoryList from "../screens/Edit/CategoryListScreen";
+import { useEffect, useState } from "react";
 
 function Edit ({navigation}) {
   return (

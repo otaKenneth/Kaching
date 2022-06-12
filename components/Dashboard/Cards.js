@@ -2,33 +2,43 @@ import { View, Card } from "../Themed";
 
 import { StyleSheet } from "react-native";
 
-import budgetList from "../../hooks/budgetList";
+export default function Cards({ navigation, cardProps }) {
+  const budgetLen = getLen(cardProps.budgets);
+  const payerLen = getLen(cardProps.payers);
+  const payeeLen = getLen(cardProps.payees);
 
-export default function Cards({ navigation }) {
+  function getLen (object) {
+    return object.length;
+  }
+
   return (
     <View style={styles.cardContainer}>
-      {budgetList.length > 0 &&
+      {budgetLen > 0 &&
         <Card 
         title="Budgets" 
         // subtitle="Mar 31 - Jun 15" 
-        onPress={() => navigation.navigate('Dashboard', {screen: 'Budget', params: {budgetList: budgetList.reverse()}})} 
+        onPress={() => navigation.navigate('Dashboard', {screen: 'Budget', params: {budgetList: cardProps.budgets}})} 
         />
       }
-      {budgetList.length > 0 &&
+      {budgetLen > 0 &&
         <Card 
           title="Transactions" 
           subtitle="Mar 31 - Jun 15"
-          onPress={() => navigation.navigate('Dashboard', {screen: 'Transactions', params: {transactions: budgetList.reverse()[0].transactions}})} 
+          onPress={() => navigation.navigate('Dashboard', {screen: 'Transactions', params: {transactions: cardProps.budgets[0].transactions}})} 
         />
       }
-      <Card
-        title="Payers"
-        onPress={() => navigation.navigate('Dashboard', {screen: 'Payers'})} 
-      />
-      <Card 
-        title="Payees"
-        onPress={() => navigation.navigate('Dashboard', {screen: 'Payees'})} 
-      />
+      {payerLen > 0 &&
+        <Card
+          title="Payers"
+          onPress={() => navigation.navigate('Dashboard', {screen: 'Payers', params: {payers: cardProps.payers}})} 
+        />
+      }
+      {payeeLen > 0 &&
+        <Card 
+          title="Payees"
+          onPress={() => navigation.navigate('Dashboard', {screen: 'Payees', params: {payees: cardProps.payees}})} 
+        />
+      }
     </View>
   );
 }

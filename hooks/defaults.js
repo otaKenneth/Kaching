@@ -39,7 +39,7 @@ export const newUserData = {
     accounts: [],
     budgets: [],
     payees: [],
-    payer: [],
+    payers: [],
     categories: [
         {
             "name": "Balance",

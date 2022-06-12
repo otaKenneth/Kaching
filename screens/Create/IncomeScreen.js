@@ -1,28 +1,26 @@
 import { Autocomplete, DatepickerInput, Input, KeyboardAvoidingView, ScrollView, Select, SubmitButton, View } from "../../components/Themed";
 import { CalculatorInput } from "../../components/Calculator";
 import { StyleSheet, useColorScheme } from "react-native";
-import AccountList from "../../hooks/bankList"
 import Colors from "../../constants/Colors";
 
-export default function CreateIncome({ navigation }) {
+export default function CreateIncome({ navigation, route }) {
+  const { accounts, categories, payees } = route.params;
   const colorScheme = useColorScheme();
   const containerBG = {
     backgroundColor: Colors[colorScheme].background
   };
 
-  const categories = [{
+  const categoriesOpts = [{
     title: "Select Category",
     data: ["Salary", "Daily Income", "Misc"]
   }];
 
-  const accountList = [{
-    title: "Select Account",
-    data: AccountList().map(data => data.name)
-  }];
+  const accountList = accounts.map(data => `Account: ${data.name}`);
+  const payeesList = payees.map(data => `Payees: ${data.name}`);
 
-  const payees = [{
+  const payeesOpts = [{
     title: "Select Payee",
-    data: AccountList().map(data => `Account: ${data.name}`)
+    data: accountList.concat(payeesList)
   }];
 
   const autoCompleteOpts = ["Food & Drinks", "Shopping", "Transportation"];
@@ -32,11 +30,11 @@ export default function CreateIncome({ navigation }) {
       <View>
         <View style={styles.container}>
           <View style={[styles.container, { width: "100%", height: "auto", padding: 0 }]}>
-            <Select label="Category" options={categories} />
+            <Select label="Category" options={categoriesOpts} />
             <Autocomplete label="Description" options={autoCompleteOpts} />
             <CalculatorInput label="Amount" />
             <DatepickerInput label="Transaction Date" />
-            <Select label="To" options={payees} />
+            <Select label="To" options={payeesOpts} />
             <Input label="Comment" />
           </View>
         </View>

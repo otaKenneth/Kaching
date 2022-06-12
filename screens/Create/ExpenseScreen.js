@@ -1,33 +1,28 @@
 import { Autocomplete, DatepickerInput, Input, KeyboardAvoidingView, ScrollView, Select, SubmitButton, View } from "../../components/Themed";
 import { CalculatorInput } from "../../components/Calculator";
 import { StyleSheet, useColorScheme } from "react-native";
-import AccountList from "../../hooks/bankList"
 import Colors from "../../constants/Colors";
 
-export default function CreateExpense({ navigation }) {
+export default function CreateExpense({ navigation, route }) {
+  const { accounts, categories, payees } = route.params;
   const colorScheme = useColorScheme();
   const containerBG = {
     backgroundColor: Colors[colorScheme].background
   };
 
-  const types = [{
-    title: "Select Type",
-    data: ["Income", "Expense"]
-  }];
-
-  const categories = [{
+  const categoriesOpts = [{
     title: "Select Category",
-    data: ["Daily Living", "Dues/Subscription", "Financial Savings", "Misc"]
+    data: categories.map(categ => categ.name)
   }];
 
-  const accountList = [{
+  const accountsOpts = [{
     title: "Select Account",
-    data: AccountList().map(data => data.name)
+    data: accounts.map(acc => acc.name)
   }];
 
-  const payees = [{
+  const payeesOpts = [{
     title: "Select Payee",
-    data: AccountList().map(data => `Account: ${data.name}`)
+    data: payees.map(payee => payee.name)
   }];
 
   const autoCompleteOpts = ["Food & Drinks", "Shopping", "Transportation"];
@@ -37,12 +32,12 @@ export default function CreateExpense({ navigation }) {
       <View>
         <View style={styles.container}>
           <View style={[styles.container, { width: "100%", height: "auto", padding: 0 }]}>
-            <Select label="Category" options={categories} />
+            <Select label="Category" options={categoriesOpts} />
             <Autocomplete label="Description" options={autoCompleteOpts} />
             <CalculatorInput label="Amount" />
             <DatepickerInput label="Transaction Date" />
-            <Select label="From" options={accountList} />
-            <Select label="To" options={payees} />
+            <Select label="From" options={accountsOpts} />
+            <Select label="To" options={payeesOpts} />
             <Input label="Comment" />
           </View>
         </View>

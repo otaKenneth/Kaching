@@ -6,11 +6,12 @@ import { StyleSheet } from "react-native";
 import appStyles from "../assets/styles/appStyles";
 import Cards from "../components/Dashboard/Cards";
 
-export default function TabOneScreen({ navigation }) {
+export default function TabOneScreen({ route, navigation }) {
+  const { accounts, budgets, payers, payees, categories, transactions } = route.params;
   return (
     <ScrollView>
       <View style={[styles.container, { paddingTop: 10 }]}>
-        <Accounts />
+        <Accounts accounts={accounts} />
         <View
           style={styles.separator}
           lightColor="#eee"
@@ -24,7 +25,16 @@ export default function TabOneScreen({ navigation }) {
           lightColor="#eee"
           darkColor="rgba(255,255,255,0.1)"
         />
-        <Cards navigation={navigation} />
+        <Cards 
+          navigation={navigation}
+          cardProps={{
+            budgets: budgets,
+            payees: payees,
+            payers: payers,
+            categories: categories,
+            transactions: transactions
+          }}
+        />
       </View>
     </ScrollView>
   );

@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import { SafeAreaView, ScrollView, TouchableOpacity, View, Container, Touchable, Text, Pressable, List, Modal } from "../Themed";
 import Collapsible from 'react-native-collapsible';
 import { Ionicons } from '@expo/vector-icons';
 
 import { StyleSheet } from "react-native";
 import Colors from '../../constants/Colors';
-import AccountList from '../../hooks/bankList';
 import { useColorScheme } from "react-native";
 import appStyles from '../../assets/styles/appStyles'
-
-const DATA = AccountList();
 
 const AccsItem = ({ account, colorScheme }) => {
   const bgColor = {
@@ -119,15 +116,17 @@ const AccsItem = ({ account, colorScheme }) => {
       </TouchableOpacity>
       <View style={{ position: "absolute", bottom: 15, left: 10, backgroundColor: "transparent", margin: 8, }}>
         <Text style={[accStyle.bankAccountBtnTxt, { color: "#fff", fontSize: 25, fontWeight: "400" }]}>{account.name}</Text>
-        <Text style={[accStyle.bankAccountBtnTxt, { color: "#fff", fontWeight: "700" }]}>Php {account.balance}</Text>
+        <Text style={[accStyle.bankAccountBtnTxt, { color: "#fff", fontWeight: "700" }]}>Php {account.currentBalance}</Text>
       </View>
     </View>
   );
 };
 
-export default function Accounts({ }) {
-  const colorScheme = useColorScheme();
+export default function Accounts(props) {
+  const { accounts } = props;
+  const DATA = accounts;
   const [isCollapse, setCollapse] = useState(false);
+  const colorScheme = useColorScheme();
 
   return (
     <View style={{ height: "auto", width: "100%", }}>
@@ -174,7 +173,7 @@ const accStyle = StyleSheet.create({
     // borderStyle: "solid", 
     // borderWidth: 0.5,
     borderRadius: 20,
-    elevation: 20,
+    elevation: 2,
     overflow: "hidden"
   },
   bankAccountBtn: {

@@ -8,7 +8,7 @@ import appStyles from "../assets/styles/appStyles";
 import useColorScheme from "react-native/Libraries/Utilities/useColorScheme";
 
 
-export default function CreateButton({ navigation }) {
+export default function CreateButton({ navigation, createBtnProps }) {
 	const [showModal, setShowModal] = useState(false);
 	const colorScheme = useColorScheme();
 
@@ -48,7 +48,9 @@ export default function CreateButton({ navigation }) {
 									style={styles.actionBtns}
 									onPress={() => {
 										setShowModal(false);
-										navigation.navigate('Add', {screen: 'CreateTransfer'})
+										navigation.navigate('Add', {screen: 'CreateTransfer', params: {
+											accounts: createBtnProps.accounts,
+										}})
 									}}
 								>
 									<MaterialCommunityIcons name="transfer" size={30} title="Account" />
@@ -76,7 +78,11 @@ export default function CreateButton({ navigation }) {
 									style={styles.actionBtns}
 									onPress={() => {
 										setShowModal(false);
-										navigation.navigate('Add', {screen: 'CreateIncome'});
+										navigation.navigate('Add', {screen: 'CreateIncome', params: {
+											accounts: createBtnProps.accounts,
+											categories: createBtnProps.categories,
+											payees: createBtnProps.payees
+										}});
 									}}
 								>
 									<Ionicons name="arrow-down" size={30} />
@@ -89,7 +95,11 @@ export default function CreateButton({ navigation }) {
 									style={styles.actionBtns}
 									onPress={() => {
 										setShowModal(false);
-										navigation.navigate('Add', {screen: 'CreateExpense'});
+										navigation.navigate('Add', {screen: 'CreateExpense', params: {
+											accounts: createBtnProps.accounts,
+											categories: createBtnProps.categories,
+											payees: createBtnProps.payees
+										}});
 									}}
 								>
 									<Ionicons name="arrow-up" size={30} />

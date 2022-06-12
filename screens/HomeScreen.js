@@ -1,14 +1,9 @@
 import { StyleSheet } from "react-native";
 import { Text, View } from "../components/Themed";
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
-
+import * as Progress from "react-native-progress";
 import appStyles from "../assets/styles/appStyles";
-import Colors from "../constants/Colors";
-import { useColorScheme } from "react-native";
 
 export default function HomeScreen({ navigation }) {
-  const colorScheme = useColorScheme();
-  
   return (
     <View style={[appStyles.container, homeStyle.container, {justifyContent: "space-between"}]}>
       <View style={{  }}>
@@ -16,17 +11,7 @@ export default function HomeScreen({ navigation }) {
         <Text style={[appStyles.h2Style, { marginBottom: 0 }]}>Budget Manager</Text>
       </View>
       <View style={{ marginBottom: 80 }}>
-        <TouchableNativeFeedback
-          style={{ alignContent: "center", justifyContent: "center" }}
-          background={TouchableNativeFeedback.Ripple(Colors[colorScheme].tint, true)}
-          onPress={() => navigation.navigate('Root')}
-        >
-          <View style={homeStyle.bigButton}>
-            <Text
-              style={{ fontSize: 20, fontWeight: "500" }}
-            >START</Text>
-          </View>
-        </TouchableNativeFeedback>
+        <Progress.Circle size={150} indeterminate={true} />
       </View>
     </View>
   );

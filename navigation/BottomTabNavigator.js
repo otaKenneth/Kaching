@@ -17,12 +17,9 @@ import PayeeList from "../screens/View/PayeeListScreen";
 
 const BottomTab = createBottomTabNavigator();
 
-export default function BottomTabNavigator({ navigation }) {
+export default function BottomTabNavigator({ route, navigation }) {
+  const { accounts, budgets, payers, payees, categories, transactions } = route.params;
   const colorScheme = useColorScheme();
-
-  // if (AccountList().length == 0) {
-
-  // }
 
   return (
     <BottomTab.Navigator
@@ -38,14 +35,31 @@ export default function BottomTabNavigator({ navigation }) {
             <TabBarIcon name="ios-pie-chart" color={color} />
           ),
         }}
+        initialParams={{
+          accounts: accounts,
+          budgets: budgets,
+          payers: payers,
+          payees: payees,
+          categories: categories,
+        }}
       />
       <BottomTab.Screen
         name="Add"
         component={Create}
         options={{
           headerShown: false, title: null, tabBarLabel: "",
-          tabBarButton: ({props}) => (
-            <CreateButton {...props} navigation={navigation} />
+          tabBarButton: () => (
+            <CreateButton 
+              createBtnProps={{
+                accounts: accounts,
+                budgets: budgets,
+                payers: payers,
+                payees: payees,
+                categories: categories,
+                transactions: transactions
+              }}
+              navigation={navigation}
+            />
           )
         }}
       />
@@ -73,13 +87,22 @@ function TabBarIcon(props) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const TabOneStack = createStackNavigator();
 
-function TabOneNavigator() {
+function TabOneNavigator({route}) {
+  const { accounts, budgets, payers, payees, categories, transactions } = route.params;
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
         name="DashboardTab"
         component={TabOneScreen}
         options={{ headerTitle: "Dashboard", headerLeft: null }}
+        initialParams={{
+          accounts: accounts,
+          budgets: budgets,
+          payers: payers,
+          payees: payees,
+          categories: categories,
+          transactions: transactions
+        }}
       />
       <TabOneStack.Screen
         name="Budget"
@@ -111,6 +134,7 @@ function Create () {
 
 const BudgetStack = createStackNavigator();
 import CategoryList from "../screens/View/CategoryListScreen";
+import { acc } from "react-native-reanimated";
 
 function BudgetNavigator() {
   return (
