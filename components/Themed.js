@@ -14,6 +14,7 @@ import {
   Pressable as DefaultPressable,
   FlatList as DefaultFlatList,
   VirtualizedList as DefaultVirtualizeList,
+  RefreshControl as DefaultRefreshControl,
   Modal as DefaultModal,
   TextInput as DefaultTextInput,
   SectionList,
@@ -96,6 +97,12 @@ export function List(props) {
   const { style, lightColor, darkColor, ...otherProps } = props;
 
   return <DefaultVirtualizeList style={[{ backgroundColor: "transparent" }, style]} {...otherProps} />;
+}
+
+export function RefreshCtrl(props) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+
+  return <DefaultRefreshControl style={[{ backgroundColor: "transparent" }, style]} {...otherProps} />;
 }
 
 export function TouchableOpacity(props) {
@@ -352,7 +359,7 @@ export function Autocomplete(props) {
 }
 
 export function Select(props) {
-  const { style, lightColor, darkColor, label, options, ...otherProps } = props;
+  const { style, lightColor, darkColor, label, options, value, setValue, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "background"
@@ -363,14 +370,13 @@ export function Select(props) {
   );
 
   const [showModal, setShowModal] = useState(false);
-  const [selected, setSelected] = useState("Select");
 
   const SelectItem = ({ item }) => (
     <Pressable
       style={{ height: 40, fontSize: 18, width: "100%" }}
       onPress={() => {
         setShowModal(!showModal);
-        setSelected(item);
+        setValue(item);
       }}
     >
       <Text style={{ fontSize: 18 }}>{item}</Text>
@@ -425,7 +431,7 @@ export function Select(props) {
         ]}
         {...otherProps}
       >
-        <Text style={{ fontSize: 15 }}>{selected}</Text>
+        <Text style={{ fontSize: 15 }}>{value}</Text>
         <Pressable
           onPress={() => setShowModal(true)}
         >
@@ -437,7 +443,7 @@ export function Select(props) {
 }
 
 export function DatepickerInput(props) {
-  const { style, lightColor, darkColor, label, containerStyle, ...otherProps } = props;
+  const { style, lightColor, darkColor, label, containerStyle, value, setValue, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "background"
@@ -447,7 +453,6 @@ export function DatepickerInput(props) {
     "text"
   );
 
-  const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
 
   return (
@@ -471,7 +476,7 @@ export function DatepickerInput(props) {
         ]}
         {...otherProps}
       >
-        <Text>{date.getMonth() + 1}/{date.getDate()}/{date.getFullYear()}</Text>
+        <Text>{value.getMonth() + 1}/{value.getDate()}/{value.getFullYear()}</Text>
         <Pressable
           onPress={() => setShow(true)}
         >
@@ -480,11 +485,11 @@ export function DatepickerInput(props) {
         {show &&
           <DateTimePicker
             mode='date'
-            value={date}
+            value={value}
             confirmBtnText='Confirm'
             cancelBtnText='Cancel'
             maximumDate={new Date()}
-            onChange={(evt, date) => { setDate(date); setShow(false); }}
+            onChange={(evt, date) => { setValue(date); setShow(false); }}
           />
         }
       </View>

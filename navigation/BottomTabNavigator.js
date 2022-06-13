@@ -87,8 +87,9 @@ function TabBarIcon(props) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const TabOneStack = createStackNavigator();
 
-function TabOneNavigator({route}) {
+function TabOneNavigator({route, navigation}) {
   const { accounts, budgets, payers, payees, categories, transactions } = route.params;
+
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
@@ -135,6 +136,7 @@ function Create () {
 const BudgetStack = createStackNavigator();
 import CategoryList from "../screens/View/CategoryListScreen";
 import { acc } from "react-native-reanimated";
+import React from "react";
 
 function BudgetNavigator() {
   return (

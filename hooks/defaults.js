@@ -106,3 +106,14 @@ export const newUserData = {
     ],
     dateCreated: Timestamp.fromDate(new Date()),
 };
+
+export const newAccount = {
+    id: 0,
+    type: "Select",
+    name: "",
+    initialBalance: "",
+    currentBalance: "",
+    initialDate: new Date(),
+    note: "",
+    transfers: []
+}

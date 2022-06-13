@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Component } from 'react';
-import { SafeAreaView, ScrollView, TouchableOpacity, View, Container, Touchable, Text, Pressable, List, Modal } from "../Themed";
+import { SafeAreaView, ScrollView, TouchableOpacity, View, Container, Touchable, Text, Pressable, Modal, RefreshCtrl } from "../Themed";
 import Collapsible from 'react-native-collapsible';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -7,8 +7,10 @@ import { StyleSheet } from "react-native";
 import Colors from '../../constants/Colors';
 import { useColorScheme } from "react-native";
 import appStyles from '../../assets/styles/appStyles'
+import { useAuthentication } from '../../hooks/useAuthentication';
+import { updateUserAccount } from '../../hooks/firebase';
 
-const AccsItem = ({ account, colorScheme }) => {
+const AccsItem = ({ account, action, colorScheme }) => {
   const bgColor = {
     backgroundColor: account.bankColor ? account.bankColor:Colors[colorScheme].accounts
   }
@@ -96,7 +98,13 @@ const AccsItem = ({ account, colorScheme }) => {
                     borderRadius: 30, backgroundColor: "#f70000",
                     elevation: 10
                   }}
-                  onPress={() => setShowModal(false)}
+                  onPress={() => {
+                    setShowModal(false)
+                    action({
+                      action: 'delete',
+                      prop: account
+                    })
+                  }}
                 >
                   <Ionicons name="trash-outline" size={20} color="#fff" />
                 </Pressable>
@@ -122,11 +130,52 @@ const AccsItem = ({ account, colorScheme }) => {
   );
 };
 
+const wait = (tm) => {
+  return new Promise(resolve => setTimeout(resolve, tm))
+}
+
 export default function Accounts(props) {
-  const { accounts } = props;
-  const DATA = accounts;
+  const { accounts, re_fresh } = props;
+  const user = useAuthentication();
+  const [refresh, refreshing] = useState(re_fresh)
   const [isCollapse, setCollapse] = useState(false);
+  const [action, setAction] = useState({
+    action: null,
+    prop: null
+  })
   const colorScheme = useColorScheme();
+  
+  React.useEffect(() => {
+    if (refresh) {
+      onRefresh()
+    }
+  }, [refresh])
+
+  React.useEffect(() => {
+    switch (action.action) {
+      case 'edit':
+        
+        break;
+      case 'delete':
+        const newAccounts = accounts.filter(data => data.id !== action.prop.id)
+        updateUserAccount(user, newAccounts).then((res) => {
+          accounts.splice(0, accounts.length);
+          newAccounts.map(data => accounts.push(data))
+          setAction({
+            action: null, prop: null
+          })
+          refreshing(true);
+        });
+        break;
+      default:
+        break;
+    }
+  }, [action])
+
+  const onRefresh = React.useCallback(() => {
+    refreshing(true),
+    wait(200).then(() => refreshing(false));
+  }, [])
 
   return (
     <View style={{ height: "auto", width: "100%", }}>
@@ -152,9 +201,16 @@ export default function Accounts(props) {
       </View>
       <Collapsible collapsed={isCollapse} duration={1000}>
         <SafeAreaView>
-          <ScrollView horizontal={true} >
+          <ScrollView horizontal={true}
+            refreshControl={
+              <RefreshCtrl
+                refreshing={refresh}
+                onRefresh={onRefresh}
+              />
+            }
+          >
             <View style={[accStyle.accountsContainer, {backgroundColor: Colors[colorScheme].cardBackground }]}>
-              {DATA.length > 0 && DATA.map((data, index) => <AccsItem key={index} account={data} colorScheme={colorScheme} />)}
+              {accounts.map((data, index) => <AccsItem key={index} account={data} action={setAction} colorScheme={colorScheme} />)}
             </View>
           </ScrollView>
         </SafeAreaView>

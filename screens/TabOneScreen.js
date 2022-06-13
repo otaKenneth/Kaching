@@ -5,13 +5,26 @@ import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 import appStyles from "../assets/styles/appStyles";
 import Cards from "../components/Dashboard/Cards";
+import React from "react";
 
 export default function TabOneScreen({ route, navigation }) {
   const { accounts, budgets, payers, payees, categories, transactions } = route.params;
+  const [refresh, setRefresh] = React.useState(false);
+  
+  React.useEffect(() => {
+    const unsub = navigation.addListener('focus', () => {
+      setRefresh(true);
+      setTimeout(() => {
+        setRefresh(false);
+      }, 500)
+    })
+    return unsub;
+  }, [navigation])
+
   return (
     <ScrollView>
       <View style={[styles.container, { paddingTop: 10 }]}>
-        <Accounts accounts={accounts} />
+        <Accounts accounts={accounts} re_fresh={refresh} />
         <View
           style={styles.separator}
           lightColor="#eee"

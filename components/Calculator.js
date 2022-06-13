@@ -11,7 +11,7 @@ export function CalculatorInput(props) {
   const containerBG = {
     backgroundColor: Colors[colorScheme].background
   };
-  const { style, lightColor, darkColor, label, ...otherProps } = props;
+  const { style, lightColor, darkColor, label, value, setValue, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "background"
@@ -22,11 +22,10 @@ export function CalculatorInput(props) {
   );
 
   const [showModal, setShowModal] = useState(false);
-  const [myVal, setMyVal] = useState('0');
 
   const [calcVal, setCalcVal] = useState({
     ...initialState,
-    currentValue: myVal
+    currentValue: value
   });
 
   const handleTap = (type, value) => {
@@ -181,7 +180,7 @@ export function CalculatorInput(props) {
                   </Pressable>
                   <Pressable
                     style={[styles.number, { backgroundColor: "lightgreen" }]}
-                    onPress={() => { setMyVal(calcVal.currentValue.toLocaleString()); setShowModal(!showModal) }}
+                    onPress={() => { setValue(calcVal.currentValue.toLocaleString()); setShowModal(!showModal) }}
                   >
                     <Ionicons name="checkmark-outline" size={20} />
                   </Pressable>
@@ -207,13 +206,13 @@ export function CalculatorInput(props) {
           style
         ]}
       >
-        <TextInput style={{ width: "92%" }} color={color} keyboardType="number-pad" onChangeText={setMyVal} value={myVal} />
+        <TextInput style={{ width: "92%" }} color={color} keyboardType="number-pad" onChangeText={(value) => setValue(value)} value={value} />
         {/* <Input style={{ width: "92%", boder: 0 }} noLabel={true} keyboardType="number-pad" onChangeText={setMyVal} value={myVal} {...otherProps} /> */}
         <Pressable
           onPress={() => {
             setCalcVal({
               ...initialState,
-              currentValue: myVal
+              currentValue: value
             }); setShowModal(true)
           }}
         >
