@@ -18,6 +18,7 @@ import {
   Modal as DefaultModal,
   TextInput as DefaultTextInput,
   SectionList,
+  Image,
 } from "react-native";
 import { Ionicons, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
@@ -503,19 +504,26 @@ export function DatepickerInput(props) {
 }
 
 export function Card(props) {
-  const { style, lightColor, darkColor, title, subtitle, onPress, ...otherProps } = props;
+  const { style, lightColor, darkColor, title, subtitle, onPress, imgKey, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "background"
   );
   const cardBG = useThemeColor(
     { light: darkColor, dark: lightColor },
-    "tint"
+    "cardBackground"
   );
   const color = useThemeColor(
     { light: lightColor, dark: darkColor },
     "text"
   );
+
+  var icon = {
+    'budget': require('../assets/images/budgeting-64.png'),
+    'trans': require('../assets/images/transaction-list-96.png'),
+    'payer': require('../assets/images/receive-cash-96.png'),
+    'payee': require('../assets/images/send-money-64.png')
+  }
 
   return (
     <View
@@ -534,7 +542,14 @@ export function Card(props) {
       {...otherProps}
     >
       <Pressable style={{ width: "auto", height: "auto" }} onPress={onPress}>
-        <View style={{ height: "75%", width: "100%", backgroundColor: cardBG, borderRadius: 10 }}></View>
+        <View style={{ 
+          height: "75%", width: "100%", 
+          backgroundColor: cardBG, 
+          borderRadius: 10, 
+          justifyContent: "center", alignItems: "center" }}
+        >
+          <Image source={icon[imgKey]} />
+        </View>
         <View style={{ width: "100%", height: "25%", paddingLeft: 10, paddingVertical: 5 }}>
           {subtitle !== undefined && <Text style={color}>{subtitle}</Text>}
           <Text style={[appStyles.title, { color }]}>{title}</Text>

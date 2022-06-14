@@ -213,7 +213,7 @@ const accStyle = StyleSheet.create({
     // borderStyle: "solid", 
     // borderWidth: 0.5,
     borderRadius: 20,
-    elevation: 8,
+    // elevation: 10,
     overflow: "hidden"
   },
   bankAccountBtn: {

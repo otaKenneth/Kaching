@@ -6,7 +6,8 @@ export default function Cards({ navigation, cardProps }) {
   return (
     <View style={styles.cardContainer}>
       <Card 
-        title="Budgets" 
+        title="Budgets"
+        imgKey="budget" 
         onPress={() => 
           navigation.navigate('Dashboard', 
           {
@@ -22,6 +23,7 @@ export default function Cards({ navigation, cardProps }) {
       />
       <Card 
         title="Transactions" 
+        imgKey="trans" 
         onPress={() => 
           navigation.navigate('Dashboard', 
           {
@@ -34,6 +36,7 @@ export default function Cards({ navigation, cardProps }) {
       />
       <Card
         title="Payers"
+        imgKey="payer" 
         onPress={() => 
           navigation.navigate('Dashboard', 
           {
@@ -46,6 +49,7 @@ export default function Cards({ navigation, cardProps }) {
       />
       <Card 
         title="Payees"
+        imgKey="payee" 
         onPress={() => 
           navigation.navigate('Dashboard', 
           {

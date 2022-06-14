@@ -5,7 +5,7 @@ export default {
   light: {
     text: "#000",
     background: "#fff",
-    cardBackground: "transparent",
+    cardBackground: "rgba(98, 184, 252, 0.3)",
     tint: tintColorLight,
     tabIconDefault: "#ccc",
     tabIconSelected: tintColorLight,
@@ -15,7 +15,7 @@ export default {
     headerTextColor: "#fff",
     headerBackgroundColor: "#2f95dc",
     accounts: {
-      bg: "rgba(98, 184, 252, 0.3)",
+      bg: "#fff",
       color: "#2f95dc"
     }
   },
