@@ -522,7 +522,7 @@ export function Card(props) {
     <View
       style={[
         {
-          width: "46%", height: 200,
+          width: "46%", height: 180,
           // borderStyle: 'solid', borderWidth: 2, 
           borderRadius: 15,
           overflow: "hidden", marginBottom: 10,
@@ -535,10 +535,10 @@ export function Card(props) {
       {...otherProps}
     >
       <Pressable style={{ width: "auto", height: "auto" }} onPress={onPress}>
-        <View style={{ height: "70%", width: "100%" }}></View>
-        <View style={{ width: "100%", height: "30%", backgroundColor: cardBG, paddingLeft: 15, paddingVertical: 5, }}>
-          <Text style={{ color: "#fff" }}>{subtitle}</Text>
-          <Text style={[appStyles.title, { color: "#fff" }]}>{title}</Text>
+        <View style={{ height: "75%", width: "100%", backgroundColor: cardBG, borderRadius: 10 }}></View>
+        <View style={{ width: "100%", height: "25%", paddingLeft: 10, paddingVertical: 5 }}>
+          {subtitle !== undefined && <Text style={color}>{subtitle}</Text>}
+          <Text style={[appStyles.title, { color }]}>{title}</Text>
         </View>
       </Pressable>
     </View>

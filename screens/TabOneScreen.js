@@ -23,8 +23,7 @@ export default function TabOneScreen({ route, navigation }) {
 
   return (
     <ScrollView>
-      <View style={[styles.container, { paddingTop: 10 }]}>
-        <Accounts accounts={accounts} re_fresh={refresh} />
+      <View style={[styles.container, { paddingTop: 10, paddingBottom: 35 }]}>
         <View
           style={styles.separator}
           lightColor="#eee"
@@ -48,6 +47,7 @@ export default function TabOneScreen({ route, navigation }) {
             transactions: transactions
           }}
         />
+        <Accounts accounts={accounts} re_fresh={refresh} />
       </View>
     </ScrollView>
   );

@@ -13,32 +13,54 @@ export default function Cards({ navigation, cardProps }) {
 
   return (
     <View style={styles.cardContainer}>
-      {budgetLen > 0 &&
-        <Card 
+      <Card 
         title="Budgets" 
-        // subtitle="Mar 31 - Jun 15" 
-        onPress={() => navigation.navigate('Dashboard', {screen: 'Budget', params: {budgetList: cardProps.budgets}})} 
-        />
-      }
-      {budgetLen > 0 &&
-        <Card 
-          title="Transactions" 
-          subtitle="Mar 31 - Jun 15"
-          onPress={() => navigation.navigate('Dashboard', {screen: 'Transactions', params: {transactions: cardProps.budgets[0].transactions}})} 
-        />
-      }
-      {payerLen > 0 &&
-        <Card
-          title="Payers"
-          onPress={() => navigation.navigate('Dashboard', {screen: 'Payers', params: {payers: cardProps.payers}})} 
-        />
-      }
-      {payeeLen > 0 &&
-        <Card 
-          title="Payees"
-          onPress={() => navigation.navigate('Dashboard', {screen: 'Payees', params: {payees: cardProps.payees}})} 
-        />
-      }
+        onPress={() => 
+          navigation.navigate('Dashboard', 
+          {
+            screen: 'Budget', 
+            params: {
+              budgetList: cardProps.budgets
+            }
+          })
+        } 
+      />
+      <Card 
+        title="Transactions" 
+        onPress={() => 
+          navigation.navigate('Dashboard', 
+          {
+            screen: 'Transactions', 
+            params: {
+              transactions: cardProps.budgets[0].transactions
+            }
+          })
+        } 
+      />
+      <Card
+        title="Payers"
+        onPress={() => 
+          navigation.navigate('Dashboard', 
+          {
+            screen: 'Payers', 
+            params: {
+              payers: cardProps.payers
+            }
+          })
+        } 
+      />
+      <Card 
+        title="Payees"
+        onPress={() => 
+          navigation.navigate('Dashboard', 
+          {
+            screen: 'Payees', 
+            params: {
+              payees: cardProps.payees
+            }
+          })
+        } 
+      />
     </View>
   );
 }

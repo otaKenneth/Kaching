@@ -12,7 +12,10 @@ import { updateUserAccount } from '../../hooks/firebase';
 
 const AccsItem = ({ account, action, colorScheme }) => {
   const bgColor = {
-    backgroundColor: account.bankColor ? account.bankColor:Colors[colorScheme].accounts
+    backgroundColor: account.bankColor ? account.bankColor:Colors[colorScheme].accounts.bg
+  }
+  const color = {
+    color: account.bankTxtColor ? account.bankTxtColor:Colors[colorScheme].accounts.color
   }
 
   const [showModal, setShowModal] = useState(false);
@@ -114,18 +117,18 @@ const AccsItem = ({ account, action, colorScheme }) => {
         </Touchable>
       </Modal>
       <TouchableOpacity
-        activeOpacity={0.5}
+        activeOpacity={0.7}
         style={[accStyle.bankAccountBtn, bgColor]}
         onPress={(ev) => {
           setShowModal(true)
           handleEventsPosition(ev);
         }}
       >
+        <View style={{ position: "absolute", bottom: 8, left: 10, backgroundColor: "transparent", margin: 8, }}>
+          <Text style={[color, { fontSize: 25, fontWeight: "600" }]}>{account.name}</Text>
+          <Text style={[color, { fontWeight: "700" }]}>Php {account.currentBalance}</Text>
+        </View>
       </TouchableOpacity>
-      <View style={{ position: "absolute", bottom: 15, left: 10, backgroundColor: "transparent", margin: 8, }}>
-        <Text style={[accStyle.bankAccountBtnTxt, { color: "#fff", fontSize: 25, fontWeight: "400" }]}>{account.name}</Text>
-        <Text style={[accStyle.bankAccountBtnTxt, { color: "#fff", fontWeight: "700" }]}>Php {account.currentBalance}</Text>
-      </View>
     </View>
   );
 };
@@ -179,42 +182,23 @@ export default function Accounts(props) {
 
   return (
     <View style={{ height: "auto", width: "100%", }}>
-      <View style={[
-          accStyle.collapsibleHeader,
-          {
-            backgroundColor: Colors[colorScheme].headerBackgroundColor
-          }
-        ]}
-        >
-        <Text style={{ fontWeight: "500", fontSize: 18, color: Colors[colorScheme].headerTextColor }}>Accounts</Text>
-        <Pressable
-          style={{ backgroundColor: "transparent" }}
-          onPress={() => setCollapse(isCollapse ? false:true)}
-        >
-          {isCollapse && 
-            <Ionicons size={25} name="chevron-down-outline" color="#fff" />
-          }
-          {!isCollapse && 
-            <Ionicons size={25} name="chevron-up-outline" color="#fff" />
-          }
-        </Pressable>
+      <View style={[ accStyle.collapsibleHeader, { elevation: 3 } ]}>
+        <Text style={{ fontWeight: "500", fontSize: 18 }}>Accounts</Text>
       </View>
-      <Collapsible collapsed={isCollapse} duration={1000}>
-        <SafeAreaView>
-          <ScrollView horizontal={true}
-            refreshControl={
-              <RefreshCtrl
-                refreshing={refresh}
-                onRefresh={onRefresh}
-              />
-            }
-          >
-            <View style={[accStyle.accountsContainer, {backgroundColor: Colors[colorScheme].cardBackground }]}>
-              {accounts.map((data, index) => <AccsItem key={index} account={data} action={setAction} colorScheme={colorScheme} />)}
-            </View>
-          </ScrollView>
-        </SafeAreaView>
-      </Collapsible>
+      <SafeAreaView>
+        <ScrollView horizontal={true}
+          refreshControl={
+            <RefreshCtrl
+              refreshing={refresh}
+              onRefresh={onRefresh}
+            />
+          }
+        >
+          <View style={[accStyle.accountsContainer, {backgroundColor: Colors[colorScheme].cardBackground }]}>
+            {accounts.map((data, index) => <AccsItem key={index} account={data} action={setAction} colorScheme={colorScheme} />)}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
     </View>
   );
 }
@@ -229,7 +213,7 @@ const accStyle = StyleSheet.create({
     // borderStyle: "solid", 
     // borderWidth: 0.5,
     borderRadius: 20,
-    elevation: 2,
+    elevation: 8,
     overflow: "hidden"
   },
   bankAccountBtn: {

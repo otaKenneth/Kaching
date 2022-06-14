@@ -14,7 +14,10 @@ export default {
     submitBtn: "lightgreen",
     headerTextColor: "#fff",
     headerBackgroundColor: "#2f95dc",
-    accounts: "#4b9cdd"
+    accounts: {
+      bg: "rgba(98, 184, 252, 0.3)",
+      color: "#2f95dc"
+    }
   },
   dark: {
     text: "#fff",
