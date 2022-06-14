@@ -3,7 +3,7 @@ import * as Progress from "react-native-progress";
 import { StyleSheet, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
 
-export default function BudgetList ({ route, navigation }) {
+export default function BudgetList ({ navigation, route }) {
   const colorScheme = useColorScheme();
 
   const { budgetList } = route.params;

@@ -41,6 +41,7 @@ export default function BottomTabNavigator({ route, navigation }) {
           payers: payers,
           payees: payees,
           categories: categories,
+          transactions: transactions
         }}
       />
       <BottomTab.Screen
@@ -135,7 +136,6 @@ function Create () {
 
 const BudgetStack = createStackNavigator();
 import CategoryList from "../screens/View/CategoryListScreen";
-import { acc } from "react-native-reanimated";
 import React from "react";
 
 function BudgetNavigator() {

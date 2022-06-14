@@ -3,14 +3,6 @@ import { View, Card } from "../Themed";
 import { StyleSheet } from "react-native";
 
 export default function Cards({ navigation, cardProps }) {
-  const budgetLen = getLen(cardProps.budgets);
-  const payerLen = getLen(cardProps.payers);
-  const payeeLen = getLen(cardProps.payees);
-
-  function getLen (object) {
-    return object.length;
-  }
-
   return (
     <View style={styles.cardContainer}>
       <Card 
@@ -20,7 +12,10 @@ export default function Cards({ navigation, cardProps }) {
           {
             screen: 'Budget', 
             params: {
-              budgetList: cardProps.budgets
+              screen: 'Budgets',
+              params: {
+                budgetList: cardProps.budgets
+              }
             }
           })
         } 
@@ -32,7 +27,7 @@ export default function Cards({ navigation, cardProps }) {
           {
             screen: 'Transactions', 
             params: {
-              transactions: cardProps.budgets[0].transactions
+              transactions: cardProps.budgets.length > 0 ? cardProps.budgets[0].transactions:[]
             }
           })
         } 

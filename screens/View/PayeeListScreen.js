@@ -1,7 +1,10 @@
 import { Text, View } from "../../components/Themed";
 import { StyleSheet } from "react-native";
 
-export default function PayeeList ({ navigation }) {
+export default function PayeeList ({ navigation, route }) {
+  const { payees } = route.params;
+  const DATA = payees;
+  
   return (
     <View style={styles.container}>
       <Text>Hello</Text>
