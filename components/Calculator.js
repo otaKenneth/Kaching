@@ -206,7 +206,10 @@ export function CalculatorInput(props) {
           style
         ]}
       >
-        <TextInput style={{ width: "92%" }} color={color} keyboardType="number-pad" onChangeText={(value) => setValue(value)} value={value} />
+        <TextInput 
+          style={{ width: "92%" }} color={color} keyboardType="number-pad" 
+          value={value} onChangeText={(value) => setValue(value)}
+        />
         {/* <Input style={{ width: "92%", boder: 0 }} noLabel={true} keyboardType="number-pad" onChangeText={setMyVal} value={myVal} {...otherProps} /> */}
         <Pressable
           onPress={() => {

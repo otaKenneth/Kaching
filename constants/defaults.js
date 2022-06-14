@@ -148,6 +148,36 @@ export const newAccount = {
     transfers: []
 }
 
+export function resetInitialAccount () {
+    return {
+        type: {
+            fieldName: "Account Type",
+            validation: "required|selection",
+            value: "Select"
+        },
+        name: {
+            fieldName: "Name",
+            validation: "required",
+            value: ""
+        },
+        initialBalance: {
+            fieldName: "Initial Balance",
+            validation: "required|number",
+            value: ""
+        },
+        initialDate: {
+            fieldName: "Initial Date",
+            validation: "required",
+            value: new Date()
+        },
+        note: {
+            fieldName: "Note",
+            validation: "",
+            value: ""
+        },
+    };
+}
+
 export const initialSaving = {
     isLoading: false,
     returnToast: false,

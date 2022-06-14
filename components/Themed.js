@@ -395,7 +395,7 @@ export function Select(props) {
           setShowModal(!showModal)
         }}
       >
-        <View style={[appStyles.modalContainer, { justifyContent: "center" }]}>
+        <Pressable style={[appStyles.modalContainer, { justifyContent: "center" }]} onPress={() => setShowModal(!showModal)}>
           <View style={[appStyles.modalView, { width: "70%", padding: 0, height: "auto", maxHeight: 500, }]}>
             <SafeAreaView style={{ width: "100%", padding: 10 }}>
               <SectionList
@@ -408,8 +408,7 @@ export function Select(props) {
               />
             </SafeAreaView>
           </View>
-
-        </View>
+        </Pressable>
       </Modal>
 
       <Text style={{ fontSize: 18, marginBottom: 10, }}>{label}:</Text>

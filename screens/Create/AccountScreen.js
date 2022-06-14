@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react'
 import Colors from "../../constants/Colors";
-import { View, KeyboardAvoidingView, Input, Select, SubmitButton, ScrollView, DatepickerInput, Container } from "../../components/Themed";
+import { View, KeyboardAvoidingView, Input, Select, SubmitButton, ScrollView, DatepickerInput, Container, PrimaryButton } from "../../components/Themed";
 import { CalculatorInput } from "../../components/Calculator";
 import { StyleSheet, useColorScheme } from "react-native";
-import { newAccount, initialAccount, initialSaving } from '../../constants/defaults';
+import { newAccount, initialAccount, initialSaving, resetInitialAccount } from '../../constants/defaults';
 import appStyles from "../../assets/styles/appStyles";
 import firebase, { updateUserAccount } from '../../hooks/firebase';
 import { useAuthentication } from '../../hooks/useAuthentication';
@@ -43,7 +43,7 @@ export default function CreateAccount({ navigation, route }) {
     
     if (initialAcc.initialBalance.value !== accIbal) {
       initialAcc.initialBalance.value = accIbal;
-      initialAcc.currentBalance.value = accIbal;
+      newAcc.currentBalance = accIbal;
     } 
     
     if (initialAcc.initialDate.value !== accIdate) {
@@ -74,17 +74,9 @@ export default function CreateAccount({ navigation, route }) {
   }
 
   function processNewAccountRecord () {
-    let temp = initialAcc.map((data, key) => {
-      newAcc[key] = data.value;
+    Object.keys(initialAcc).map((key) => {
+      newAcc[key] = initialAcc[key].value;
     })
-    setNewAcc(temp);
-  }
-
-  function reset () {
-    setInitialAcc(initialAccount)
-    setAccType(initialAcc.type.value)
-    setAccIbal(initialAcc.initialBalance.value)
-    setAccIdate(initialAcc.initialDate.value)
   }
 
   function submitNewAccount() {
@@ -94,8 +86,8 @@ export default function CreateAccount({ navigation, route }) {
       setInitialAcc(state);
       loading(false);
     } else {
-      initialAcc.initialDate.value = initialAcc.initialDate.value.toLocaleDateString('en-US')
       processNewAccountRecord();
+      newAcc.initialDate = newAcc.initialDate.toLocaleDateString('en-US')
       accounts.push(newAcc);
       updateUserAccount(user, accounts).then(() => {
         loading(false);
@@ -105,11 +97,11 @@ export default function CreateAccount({ navigation, route }) {
           ...newAccount,
           id: newAcc.id + 1
         });
-        setTimeout(showToast(false), 1000)
+        setTimeout(() => showToast(false), 1000)
       }).catch((error) => {
         loading(false);
         showToast("failed", error.message)
-        setTimeout(showToast(false), 1000)
+        setTimeout(() => showToast(false), 1000)
       })
     }
   }
@@ -165,6 +157,15 @@ export default function CreateAccount({ navigation, route }) {
       </KeyboardAvoidingView>
     </Container>
 	);
+
+  function reset() {
+    const state = resetInitialAccount();
+    setInitialAcc(state);
+    setAccType(state.type.value)
+    setAccIbal(state.initialBalance.value)
+    setAccIdate(state.initialDate.value)
+  }
+
 }
 
 const styles = StyleSheet.create({
