@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, { useState } from 'react'
 import Colors from "../../constants/Colors";
 import { View, KeyboardAvoidingView, Input, Select, SubmitButton, ScrollView, DatepickerInput, Container, PrimaryButton } from "../../components/Themed";
 import { CalculatorInput } from "../../components/Calculator";
@@ -43,7 +43,6 @@ export default function CreateAccount({ navigation, route }) {
     
     if (initialAcc.initialBalance.value !== accIbal) {
       initialAcc.initialBalance.value = accIbal;
-      newAcc.currentBalance = accIbal;
     } 
     
     if (initialAcc.initialDate.value !== accIdate) {
@@ -77,6 +76,7 @@ export default function CreateAccount({ navigation, route }) {
     Object.keys(initialAcc).map((key) => {
       newAcc[key] = initialAcc[key].value;
     })
+    newAcc.currentBalance = accIbal;
   }
 
   function submitNewAccount() {
@@ -160,6 +160,9 @@ export default function CreateAccount({ navigation, route }) {
 
   function reset() {
     const state = resetInitialAccount();
+    Object.keys(state).map(key => {
+      initialAccount[key] = state[key];
+    })
     setInitialAcc(state);
     setAccType(state.type.value)
     setAccIbal(state.initialBalance.value)

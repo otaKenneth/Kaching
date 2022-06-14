@@ -68,6 +68,7 @@ export default function Navigation({ colorScheme }) {
         >
           <RootNavigator
             userData={userData}
+            initialNavTo={setNavTo}
           />
         </NavigationContainer>
       );
@@ -80,7 +81,7 @@ export default function Navigation({ colorScheme }) {
 const Stack = createStackNavigator();
 
 function RootNavigator(props) {
-  const { userData } = props;
+  const { userData, initialNavTo } = props;
   
   return (
     <Stack.Navigator initialRouteName={"Root"} screenOptions={{ headerShown: false }}>
@@ -88,6 +89,7 @@ function RootNavigator(props) {
         name="Root" 
         component={BottomTabNavigator}
         initialParams={{
+          initialNavTo: initialNavTo,
           accounts: userData.data().accounts,
           budgets: userData.data().budgets,
           categories: userData.data().categories,

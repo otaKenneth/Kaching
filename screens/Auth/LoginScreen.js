@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { Container, Input, KeyboardAvoidingView, Pressable, SubmitButton, PrimaryButton, Text, View } from "../../components/Themed";
 import { StyleSheet } from "react-native";
-import { initialLogin, newUserData } from "../../constants/defaults";
+import { initialLogin } from "../../constants/defaults";
 import Loading, { SuccessToast } from '../../components/Loading';
 import validate from '../../constants/validate';
 
 import firebase, { setUser } from '../../hooks/firebase';
-import { getAuth, signInAnonymously, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { useAuthentication } from '../../hooks/useAuthentication';
+import { getAuth, signInAnonymously, signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function Login({ navigation }) {
   const auth = getAuth();
   const [login, setLogin] = useState(initialLogin);
-  const [msg, setMsg] = useState(false);
   
   const updateInputs = (val, prop) => {
     prop.value = val;
@@ -49,33 +47,22 @@ export default function Login({ navigation }) {
         .then((res) => {
           loading(false);
           showToast("success");
-          setTimeout(showToast(false), 1000)
+          setTimeout(() => showToast(false), 1000)
         }).catch((error) => {
           loading(false);
           showToast("failed", error.message)
+          setTimeout(() => { showToast(false)}, 1000)
         })
       }
     } else {
       signInAnonymously(auth).then((res) => {
-        setLogin({
-          ...login,
-          returnToast: "success",
-          isLoading: false
-        })
+        loading(false);
+        showToast(true);
         setUser(res.user.uid)
       }).catch((error => {
-        setLogin({
-          ...login,
-          returnToast: "failed",
-          isLoading: false
-        })
-        setMsg(error.message)
-        setTimeout(() => {
-          setLogin({
-            ...login,
-            returnToast: false,
-          })
-        }, 500)
+        loading(false);
+        showToast("failed", error.message)
+        setTimeout(() => { showToast(false) }, 1000)
       }))
     }
   }
@@ -88,7 +75,7 @@ export default function Login({ navigation }) {
         <Loading />
       }
       {login.returnToast &&
-        <SuccessToast type={login.returnToast} text={msg} />
+        <SuccessToast type={login.returnToast} text={login.msg} />
       }
       <Container style={{ height: "15%", width: "100%" }} />
       <Container style={{ padding: 20 }}>

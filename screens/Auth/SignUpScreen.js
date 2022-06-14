@@ -55,7 +55,7 @@ export default function Signup({ navigation }) {
       }).catch(error => {
         loading(false)
         showToast("failed", error.message)
-        setTimeout(showToast(false), 1000)
+        setTimeout( () => showToast(false), 1000)
       })
     }
   }

@@ -18,7 +18,7 @@ import PayeeList from "../screens/View/PayeeListScreen";
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator({ route, navigation }) {
-  const { accounts, budgets, payers, payees, categories, transactions } = route.params;
+  const { initialNavTo, accounts, budgets, payers, payees, categories, transactions } = route.params;
   const colorScheme = useColorScheme();
 
   return (
@@ -72,6 +72,9 @@ export default function BottomTabNavigator({ route, navigation }) {
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-settings" color={color} />
           ),
+        }}
+        initialParams={{
+          initialNavTo: initialNavTo
         }}
       />
     </BottomTab.Navigator>
@@ -157,13 +160,17 @@ function BudgetNavigator() {
 
 const TabTwoStack = createStackNavigator();
 
-function TabTwoNavigator() {
+function TabTwoNavigator({ route }) {
+  const {initialNavTo} = route.params;
   return (
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
         name="SettingsTab"
         component={TabTwoScreen}
         options={{ headerTitle: "Settings", headerLeft: null }}
+        initialParams={{
+          initialNavTo: initialNavTo
+        }}
       />
     </TabTwoStack.Navigator>
   );

@@ -8,9 +8,8 @@ import Colors from '../../constants/Colors';
 import { useColorScheme } from "react-native";
 import appStyles from '../../assets/styles/appStyles'
 import { useAuthentication } from '../../hooks/useAuthentication';
-import { updateUserAccount } from '../../hooks/firebase';
 
-const AccsItem = ({ account, action, colorScheme }) => {
+const AccsItem = ({ account, colorScheme }) => {
   const bgColor = {
     backgroundColor: account.bankColor ? account.bankColor:Colors[colorScheme].accounts.bg
   }
@@ -18,111 +17,11 @@ const AccsItem = ({ account, action, colorScheme }) => {
     color: account.bankTxtColor ? account.bankTxtColor:Colors[colorScheme].accounts.color
   }
 
-  const [showModal, setShowModal] = useState(false);
-
-  const handleEventsPosition = (ev) => {
-    setShowButtonsIn({
-      ...showButtonsIn,
-      top: ev.nativeEvent.pageY-ev.nativeEvent.locationY+20,
-      left: ev.nativeEvent.pageX-ev.nativeEvent.locationX-45,
-    })
-  }
-
-  const [showButtonsIn, setShowButtonsIn] = useState({
-    position: "absolute",
-    top: 0, left: 0
-  })
-
   return (
     <View style={accStyle.bankAccount}>
-      <Modal 
-        animationType="fade"
-				visible={showModal}
-				transparent={true}
-				swipeDirection="down"
-        onRequestClose={() => setShowModal(false)}
-      >
-        <Touchable
-          onPress={() => setShowModal(false)}
-        >
-          <Container 
-            style={[
-              appStyles.modalContainer, 
-              {
-                justifyContent: "center", 
-                backgroundColor: "rgba(52, 52, 52, 0.3)"
-              }
-            ]}
-          >
-            <Container 
-              style={[
-                appStyles.modalView, 
-                showButtonsIn, 
-                {
-                  backgroundColor: "transparent", 
-                  elevation: 0
-                }
-              ]}
-            >
-              <Container
-                style={{ width: 180, flexDirection: "row", justifyContent: "space-around" }}
-              >
-                <Pressable
-                  style={{
-                    width: 50, height: 50,
-                    justifyContent: "center", alignItems: "center",
-                    borderRadius: 30, backgroundColor: "#ffeb0a",
-                    elevation: 10
-                  }}
-                  onPress={() => setShowModal(false)}
-                >
-                  {account.favorite &&
-                    <Ionicons name="star" size={20} color="#000" />
-                  }
-                  {!account.favorite &&
-                    <Ionicons name="star-outline" size={20} color="#000" />
-                  }
-                </Pressable>
-                <Pressable
-                  style={{
-                    width: 50, height: 50, 
-                    justifyContent: "center", alignItems: "center",
-                    borderRadius: 30, backgroundColor: "#ff9400",
-                    elevation: 10
-                  }}
-                  onPress={() => setShowModal(false)}
-                >
-                  <Ionicons name="pencil" size={20} color="#fff" />
-                </Pressable>
-                <Pressable
-                  style={{
-                    width: 50, height: 50, 
-                    justifyContent: "center", alignItems: "center",
-                    borderRadius: 30, backgroundColor: "#f70000",
-                    elevation: 10
-                  }}
-                  onPress={() => {
-                    setShowModal(false)
-                    action({
-                      action: 'delete',
-                      prop: account
-                    })
-                  }}
-                >
-                  <Ionicons name="trash-outline" size={20} color="#fff" />
-                </Pressable>
-              </Container>
-            </Container>
-          </Container>
-        </Touchable>
-      </Modal>
       <TouchableOpacity
         activeOpacity={0.7}
         style={[accStyle.bankAccountBtn, bgColor]}
-        onPress={(ev) => {
-          setShowModal(true)
-          handleEventsPosition(ev);
-        }}
       >
         <View style={{ position: "absolute", bottom: 8, left: 10, backgroundColor: "transparent", margin: 8, }}>
           <Text style={[color, { fontSize: 25, fontWeight: "600" }]}>{account.name}</Text>
@@ -138,14 +37,9 @@ const wait = (tm) => {
 }
 
 export default function Accounts(props) {
-  const { accounts, re_fresh } = props;
+  const { accounts, reFresh } = props;
   const user = useAuthentication();
-  const [refresh, refreshing] = useState(re_fresh)
-  const [isCollapse, setCollapse] = useState(false);
-  const [action, setAction] = useState({
-    action: null,
-    prop: null
-  })
+  const [refresh, refreshing] = useState(reFresh)
   const colorScheme = useColorScheme();
   
   React.useEffect(() => {
@@ -153,27 +47,6 @@ export default function Accounts(props) {
       onRefresh()
     }
   }, [refresh])
-
-  React.useEffect(() => {
-    switch (action.action) {
-      case 'edit':
-        
-        break;
-      case 'delete':
-        const newAccounts = accounts.filter(data => data.id !== action.prop.id)
-        updateUserAccount(user, newAccounts).then((res) => {
-          accounts.splice(0, accounts.length);
-          newAccounts.map(data => accounts.push(data))
-          setAction({
-            action: null, prop: null
-          })
-          refreshing(true);
-        });
-        break;
-      default:
-        break;
-    }
-  }, [action])
 
   const onRefresh = React.useCallback(() => {
     refreshing(true),
@@ -195,7 +68,7 @@ export default function Accounts(props) {
           }
         >
           <View style={[accStyle.accountsContainer, {backgroundColor: Colors[colorScheme].cardBackground }]}>
-            {accounts.map((data, index) => <AccsItem key={index} account={data} action={setAction} colorScheme={colorScheme} />)}
+            {accounts.map((data, index) => <AccsItem key={index} account={data} colorScheme={colorScheme} />)}
           </View>
         </ScrollView>
       </SafeAreaView>

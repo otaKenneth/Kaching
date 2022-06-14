@@ -47,7 +47,7 @@ export default function TabOneScreen({ route, navigation }) {
             transactions: transactions
           }}
         />
-        <Accounts accounts={accounts} re_fresh={refresh} />
+        <Accounts accounts={accounts} reFresh={refresh} />
       </View>
     </ScrollView>
   );
