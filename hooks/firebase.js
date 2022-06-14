@@ -4,7 +4,7 @@ import 'firebase/firestore';
 import 'firebase/database'
 import { Constants } from 'expo-constants';
 import { setDoc, collection, doc, getFirestore, getDoc, updateDoc } from 'firebase/firestore';
-import { newUserData } from './defaults';
+import { newUserData } from '../constants/defaults';
 
 // TODO: Replace the following with your app's Firebase project configuration
 var firebaseConfig = {

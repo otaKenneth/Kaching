@@ -11,7 +11,7 @@ export function CalculatorInput(props) {
   const containerBG = {
     backgroundColor: Colors[colorScheme].background
   };
-  const { style, lightColor, darkColor, label, value, setValue, ...otherProps } = props;
+  const { style, lightColor, darkColor, label, value, setValue, validation, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "background"
@@ -219,6 +219,9 @@ export function CalculatorInput(props) {
           <Ionicons name="calculator-outline" size={25} color={color} />
         </Pressable>
       </View>
+      {validation &&
+        <Text style={{ color: "red", fontSize: 12 }}>{validation}</Text>
+      }
     </View>
   );
 }

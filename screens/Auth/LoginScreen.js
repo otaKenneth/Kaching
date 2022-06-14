@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Input, KeyboardAvoidingView, Pressable, SubmitButton, PrimaryButton, Text, View } from "../../components/Themed";
 import { StyleSheet } from "react-native";
-import { initialLogin, newUserData } from "../../hooks/defaults";
+import { initialLogin, newUserData } from "../../constants/defaults";
 import Loading, { SuccessToast } from '../../components/Loading';
 import validate from '../../constants/validate';
 
@@ -22,34 +22,37 @@ export default function Login({ navigation }) {
     setLogin(state);
   }
 
-  const loginUser = (type = "user") => {
+  function loading (val) {
     setLogin({
       ...login,
-      isLoading: true
+      isLoading: val
     })
+  }
+
+  function showToast(toast, msg = "") {
+    setLogin({
+      ...login,
+      returnToast: toast,
+      msg: msg,
+    })
+  }
+
+  const loginUser = (type = "user") => {
+    loading(true)
     const state = validate(login);
     if (type == "user") {
       if (Object.values(state).find(data => data.result == false)) {
         setLogin(state)
-        setLogin({
-          ...state,
-          isLoading: false
-        })
+        loading(false)
       } else {
         signInWithEmailAndPassword(auth, login.email.value, login.passworrd.value)
         .then((res) => {
-          setLogin({
-            ...login,
-            returnToast: "success",
-            isLoading: false,
-          })
+          loading(false);
+          showToast("success");
+          setTimeout(showToast(false), 1000)
         }).catch((error) => {
-          setMsg(error.message);
-          setLogin({
-            ...login,
-            isLoading: false,
-            returnToast: "failed"
-          })
+          loading(false);
+          showToast("failed", error.message)
         })
       }
     } else {

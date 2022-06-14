@@ -359,7 +359,7 @@ export function Autocomplete(props) {
 }
 
 export function Select(props) {
-  const { style, lightColor, darkColor, label, options, value, setValue, ...otherProps } = props;
+  const { style, lightColor, darkColor, label, options, value, setValue, validation, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "background"
@@ -438,12 +438,15 @@ export function Select(props) {
           <Ionicons name="chevron-forward-outline" size={25} color={color} />
         </Pressable>
       </View>
+      {validation &&
+        <Text style={{ color: "red", fontSize: 12 }}>{validation}</Text>
+      }
     </View>
   );
 }
 
 export function DatepickerInput(props) {
-  const { style, lightColor, darkColor, label, containerStyle, value, setValue, ...otherProps } = props;
+  const { style, lightColor, darkColor, label, containerStyle, value, setValue, validation, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "background"
@@ -493,6 +496,9 @@ export function DatepickerInput(props) {
           />
         }
       </View>
+      {validation &&
+        <Text style={{ color: "red", fontSize: 12 }}>{validation}</Text>
+      }
     </View>
   );
 }

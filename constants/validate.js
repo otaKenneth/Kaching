@@ -15,6 +15,7 @@ function validation(data, key) {
                 case "equalTo":
                     result = equalTo(data.value, compareVal)
                 default:
+                    result = true;
                     break;
             }
         } else {
@@ -28,7 +29,14 @@ function validation(data, key) {
                 case "password":
                     result = password(data.value)
                     break;
+                case "number":
+                    result = number(data.value)
+                    break;
+                case "selection":
+                    result = selection(data.value)
+                    break;
                 default:
+                    result = true;
                     break;
             }
         }
@@ -68,6 +76,14 @@ function password (val) {
     return val.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm);
 }
 
+function number (val) {
+    return val.match(/[0-9]/);
+}
+
+function selection (val) {
+    return val.toLowerCase().match("select") ? false:true;
+}
+
 export default function validate (validate_arr) {
     states = validate_arr; var results = {};
     
@@ -88,5 +104,7 @@ const validation_arr = {
     'pregMatch': "$input did not meet the requirements.",
     'password': "$input did not meet the requirements.",
     'equalTo': "$input is not equal to $compare.",
-    'email': "Invalid $input."
+    'email': "Invalid $input.",
+    'number': "$input must only contain a number.",
+    'selection': "$input is required.",
 }

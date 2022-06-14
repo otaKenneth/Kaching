@@ -17,6 +17,7 @@ export const initialSignup = {
         value: "",
     },
     returnToast: false,
+    msg: "",
     isLoading: false,
 }
 
@@ -32,6 +33,7 @@ export const initialLogin = {
         value: ""
     },
     returnToast: false,
+    msg: "",
     isLoading: false,
 }
 
@@ -107,6 +109,34 @@ export const newUserData = {
     dateCreated: Timestamp.fromDate(new Date()),
 };
 
+export const initialAccount = {
+    type: {
+        fieldName: "Account Type",
+        validation: "required|selection",
+        value: "Select"
+    },
+    name: {
+        fieldName: "Name",
+        validation: "required",
+        value: ""
+    },
+    initialBalance: {
+        fieldName: "Initial Balance",
+        validation: "required|number",
+        value: ""
+    },
+    initialDate: {
+        fieldName: "Initial Date",
+        validation: "required",
+        value: new Date()
+    },
+    note: {
+        fieldName: "Note",
+        validation: "",
+        value: ""
+    },
+}
+
 export const newAccount = {
     id: 0,
     type: "Select",
@@ -116,4 +146,10 @@ export const newAccount = {
     initialDate: new Date(),
     note: "",
     transfers: []
+}
+
+export const initialSaving = {
+    isLoading: false,
+    returnToast: false,
+    msg: "",
 }

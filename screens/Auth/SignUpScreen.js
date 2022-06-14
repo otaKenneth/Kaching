@@ -4,7 +4,7 @@ import Loading, { SuccessToast } from '../../components/Loading';
 import { StyleSheet } from "react-native";
 import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
 import validate from '../../constants/validate';
-import { initialSignup } from '../../hooks/defaults';
+import { initialSignup } from '../../constants/defaults';
 import { setUser } from '../../hooks/firebase';
 
 export default function Signup({ navigation }) {
@@ -20,42 +20,42 @@ export default function Signup({ navigation }) {
     setSignup(state);
   }
 
+  function loading (val) {
+    setSignup({
+      ...signup,
+      isLoading: val
+    })
+  }
+
+  function showToast(toast, msg = "") {
+    setSignup({
+      ...signup,
+      returnToast: toast,
+      msg: msg,
+    })
+  }
+
   const registerUser = (signup) => {
+    loading(true);
     const state = validate(signup);
     if (Object.values(state).find((data) => data.result == false)) {
+      loading(false);
       setSignup(state);
     } else {
-      setSignup({...state, isLoading: true});
       createUserWithEmailAndPassword(auth, signup.email.value, signup.password.value)
       .then((res) => {
-        setSignup({
-          ...initialSignup,
-          isLoading: false,
-          returnToast: "success"
-        });
-        setMsg('User registered successfully!');
+        loading(false);
+        showToast("success", "User registered successfully!")
         setUser(res.user.uid);
         setTimeout(() => {
-          setSignup({
-            ...initialSignup,
-            returnToast: false
-          });
+          showToast(false)
           auth.signOut()
           navigation.navigate('Login')
         }, 500)
       }).catch(error => {
-        setMsg(error.message);
-        setSignup({
-          ...initialSignup,
-          isLoading: false,
-          returnToast: "failed"
-        })
-        setTimeout(() => {
-          setSignup({
-            ...initialSignup,
-            returnToast: false
-          })
-        }, 1000)
+        loading(false)
+        showToast("failed", error.message)
+        setTimeout(showToast(false), 1000)
       })
     }
   }
