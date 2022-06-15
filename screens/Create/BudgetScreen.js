@@ -87,7 +87,6 @@ export default function CreateBudget({ navigation, route }) {
       loading(false)
     } else {
       const state = processNewBudgetRecord();
-      console.log("state", state)
       budgets.push(state)
       updateUserBudget(user, budgets).then(() => {
         loading(false)
@@ -95,7 +94,6 @@ export default function CreateBudget({ navigation, route }) {
         setId(id + 1);
         newBudget.id = id;
         reset();
-        console.log("budgets",budgets);
         setTimeout(() => showToast(false), 1000)
       }).catch((error) => {
         loading(false)
