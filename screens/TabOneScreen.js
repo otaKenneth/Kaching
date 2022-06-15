@@ -6,17 +6,26 @@ import { StyleSheet } from "react-native";
 import appStyles from "../assets/styles/appStyles";
 import Cards from "../components/Dashboard/Cards";
 import React from "react";
+import { getUser } from "../hooks/firebase";
+import { useAuthentication } from "../hooks/useAuthentication";
 
 export default function TabOneScreen({ route, navigation }) {
   const { accounts, budgets, payers, payees, categories, transactions } = route.params;
   const [refresh, setRefresh] = React.useState(false);
+  const user = useAuthentication();
   
   React.useEffect(() => {
     const unsub = navigation.addListener('focus', () => {
       setRefresh(true);
-      setTimeout(() => {
-        setRefresh(false);
-      }, 500)
+      getUser(user).then((res) => {
+        navigation.setOptions({
+          accounts: res.data().accounts, 
+          budgets: res.data().budgets,
+          categories: res.data().categories,
+          transactions: res.data().transactions,
+        })
+        setRefresh(false)
+      });
     })
     return unsub;
   }, [navigation])

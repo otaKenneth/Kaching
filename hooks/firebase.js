@@ -37,3 +37,9 @@ export async function updateUserAccount(user, data) {
         accounts: data
     })
 }
+
+export async function updateUserBudget(user, data) {
+    return await updateDoc(doc(db, 'users', user.uid), {
+        budgets: data
+    })
+}

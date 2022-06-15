@@ -148,7 +148,7 @@ export const newAccount = {
     transfers: []
 }
 
-export function resetInitialAccount () {
+export function resetInitialAccount() {
     return {
         type: {
             fieldName: "Account Type",
@@ -176,6 +176,83 @@ export function resetInitialAccount () {
             value: ""
         },
     };
+}
+
+export const initialBudgetForm = {
+    "from": {
+        fieldName: "Start Date",
+        validation: "required",
+        value: new Date()
+    },
+    "to": {
+        fieldName: "End Date",
+        validation: "required",
+        value: new Date(),
+    },
+    "initialBalance": {
+        fieldName: "Initial Balance",
+        validation: "required|number",
+        value: ""
+    },
+    "name": {
+        fieldName: "Budget Name",
+        validation: "required",
+        value: ""
+    }
+}
+
+export const newBudget = {
+    "id": null,
+    "name": "",
+    "initialBalance": "",
+    "currentBalance": 0,
+    "remaningBalance": 0,
+    "consumed": 0,
+    "totalBudgeted": 0,
+    "from": new Date(),
+    "to": new Date(),
+    "categories": [],
+    "transactions": []
+}
+
+export function resetInitialBudgetForm () {
+    return {
+        "from": {
+            fieldName: "Start Date",
+            validation: "required",
+            value: new Date()
+        },
+        "to": {
+            fieldName: "End Date",
+            validation: "required",
+            value: new Date(),
+        },
+        "initialBalance": {
+            fieldName: "Initial Balance",
+            validation: "required|number",
+            value: ""
+        },
+        "name": {
+            fieldName: "Budget Name",
+            validation: "required",
+            value: ""
+        }
+    };
+}
+
+export function resetNewBudget () {
+    return {
+        "name": "",
+        "initialBalance": "",
+        "currentBalance": 0,
+        "remaningBalance": 0,
+        "consumed": 0,
+        "totalBudgeted": 0,
+        "from": new Date(),
+        "to": new Date(),
+        "categories": [],
+        "transactions": []
+    }
 }
 
 export const initialSaving = {

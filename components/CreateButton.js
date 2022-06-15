@@ -7,7 +7,6 @@ import Colors from "../constants/Colors";
 import appStyles from "../assets/styles/appStyles";
 import useColorScheme from "react-native/Libraries/Utilities/useColorScheme";
 
-
 export default function CreateButton({ navigation, createBtnProps }) {
   const [showModal, setShowModal] = useState(false);
   const colorScheme = useColorScheme();
@@ -67,7 +66,14 @@ export default function CreateButton({ navigation, createBtnProps }) {
                   style={styles.actionBtns}
                   onPress={() => {
                     setShowModal(false);
-                    navigation.navigate('Add', { screen: 'CreateBudget' })
+                    navigation.navigate('Add', 
+                    { 
+                      screen: 'CreateBudget',
+                      params: {
+                        budgets: createBtnProps.budgets,
+                        defaultCategories: createBtnProps.categories
+                      }
+                    })
                   }}
                 >
                   <Ionicons name="reader-outline" size={30} />

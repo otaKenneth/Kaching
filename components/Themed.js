@@ -446,7 +446,7 @@ export function Select(props) {
 }
 
 export function DatepickerInput(props) {
-  const { style, lightColor, darkColor, label, containerStyle, value, setValue, validation, ...otherProps } = props;
+  const { style, lightColor, darkColor, label, containerStyle, value, setValue, validation, maxDate, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "background"
@@ -491,7 +491,7 @@ export function DatepickerInput(props) {
             value={value}
             confirmBtnText='Confirm'
             cancelBtnText='Cancel'
-            maximumDate={new Date()}
+            maximumDate={maxDate}
             onChange={(evt, date) => { setValue(date); setShow(false); }}
           />
         }
