@@ -3,7 +3,7 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/database'
 import { Constants } from 'expo-constants';
-import { setDoc, collection, doc, getFirestore, getDoc, updateDoc } from 'firebase/firestore';
+import { setDoc, collection, doc, getFirestore, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { newUserData } from '../constants/defaults';
 
 // TODO: Replace the following with your app's Firebase project configuration
@@ -40,6 +40,6 @@ export async function updateUserAccount(user, data) {
 
 export async function updateUserBudget(user, data) {
     return await updateDoc(doc(db, 'users', user.uid), {
-        budgets: data
+        budgets: arrayUnion(data)
     })
 }

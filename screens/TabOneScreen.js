@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, ScrollView, Card } from "../components/Themed";
+import { Text, View, TouchableOpacity, ScrollView, Card, RefreshCtrl } from "../components/Themed";
 import Accounts from "../components/Dashboard/Accounts";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -8,24 +8,61 @@ import Cards from "../components/Dashboard/Cards";
 import React from "react";
 import { getUser } from "../hooks/firebase";
 import { useAuthentication } from "../hooks/useAuthentication";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function TabOneScreen({ route, navigation }) {
   const { accounts, budgets, payers, payees, categories, transactions } = route.params;
   const [refresh, setRefresh] = React.useState(false);
   const user = useAuthentication();
-  
+  const focused = useIsFocused();
+
   React.useEffect(() => {
-    const unsub = navigation.addListener('focus', () => {
+    if (focused && user) {
       setRefresh(true);
-      setTimeout(() => {
+      getUser(user).then((res) => {
+        const data = res.data();
+        navigation.setParams({
+          accounts: data.accounts,
+          budgets: data.budgets,
+          payers: data.payers, 
+          payees: data.payees, 
+          categories: data.categories, 
+          transactions: data.transactions
+        })
         setRefresh(false)
-      }, 1000)
-    })
-    return unsub;
-  }, [navigation])
+      }).catch(error => {
+        console.log(error.message);
+      });
+    }
+  }, [focused, user])
+
+  const onRefresh = React.useCallback(() => {
+    setRefresh(true);
+    getUser(user).then((res) => {
+      const data = res.data();
+      navigation.setParams({
+        accounts: data.accounts,
+        budgets: data.budgets,
+        payers: data.payers, 
+        payees: data.payees, 
+        categories: data.categories, 
+        transactions: data.transactions
+      })
+      setRefresh(false)
+    }).catch(error => {
+      console.log(error.message);
+    });
+  }, [user])
 
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshCtrl
+          refreshing={refresh}
+          onRefresh={onRefresh}
+        />
+      }
+    >
       <View style={[styles.container, { paddingTop: 10, paddingBottom: 35 }]}>
         <View
           style={styles.separator}

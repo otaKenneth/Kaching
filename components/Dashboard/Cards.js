@@ -15,7 +15,7 @@ export default function Cards({ navigation, cardProps }) {
             params: {
               screen: 'Budgets',
               params: {
-                budgetList: cardProps.budgets
+                budgets: cardProps.budgets
               }
             }
           })

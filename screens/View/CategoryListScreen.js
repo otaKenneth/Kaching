@@ -27,7 +27,7 @@ export default function CategoryList({ route, navigation }) {
     return (
       <ChangableInput
         containerStyle={{ width: "48%", marginHorizontal: 3 }}
-        label={item.category}
+        label={item.name}
         keyboardType="numeric"
         type={setType}
         style={{ backgroundColor: "#c4c4c4"}}

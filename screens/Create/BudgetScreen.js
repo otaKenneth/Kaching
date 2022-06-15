@@ -2,7 +2,7 @@ import { DatepickerInput, Input, KeyboardAvoidingView, ScrollView, SubmitButton,
 import { CalculatorInput } from "../../components/Calculator";
 import { StyleSheet, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
-import { initialBudgetForm, initialSaving, newBudget, resetInitialBudgetForm } from "../../constants/defaults";
+import { initialSaving, newBudget, initialBudgetForm } from "../../constants/defaults";
 import React from "react";
 import Loading, { SuccessToast } from "../../components/Loading";
 import validate from "../../constants/validate";
@@ -88,7 +88,7 @@ export default function CreateBudget({ navigation, route }) {
     } else {
       const state = processNewBudgetRecord();
       budgets.push(state)
-      updateUserBudget(user, budgets).then(() => {
+      updateUserBudget(user, state).then(() => {
         loading(false)
         showToast("success", "New Budget has been created.")
         setId(id + 1);
@@ -152,14 +152,11 @@ export default function CreateBudget({ navigation, route }) {
   )
 
   function reset() {
-    const state = resetInitialBudgetForm();
-    Object.keys(state).map(key => {
-      initialBudgetForm[key] = state[key];
-    })
-    setForm(state)
-    setBalance(state.initialBalance.value)
-    setFrom(state.from.value) 
-    setTo(state.to.value)
+    const state = initialBudgetForm;
+    setForm(state);
+    setBalance(state.initialBalance.value);
+    setFrom(state.from.value);
+    setTo(state.to.value);
   }
 }
 

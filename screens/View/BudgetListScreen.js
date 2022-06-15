@@ -3,6 +3,8 @@ import * as Progress from "react-native-progress";
 import { StyleSheet, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
 import React from "react";
+import { useAuthentication } from "../../hooks/useAuthentication";
+import { getUser } from "../../hooks/firebase";
 
 const BudgetCard = ({ id, budget, colorScheme, navigation }) => {
   const percentage = (budget.consumed / budget.totalBudgeted);
@@ -80,16 +82,12 @@ const BudgetCard = ({ id, budget, colorScheme, navigation }) => {
   );
 }
 
-const wait = (tm) => {
-  return new Promise(resolve => setTimeout(resolve, tm))
-}
-
 export default function BudgetList({ navigation, route }) {
   const colorScheme = useColorScheme();
-
-  const { budgetList } = route.params;
+  const user = useAuthentication();
+  const { budgets } = route.params;
   const [refresh, refreshing] = React.useState(false)
-  const DATA = budgetList;
+  const [DATA, setData] = React.useState(budgets);
 
   React.useEffect(() => {
     const unsub = navigation.addListener('focus', () => {
@@ -102,9 +100,15 @@ export default function BudgetList({ navigation, route }) {
   }, [navigation])
 
   const onRefresh = React.useCallback(() => {
-    refreshing(true),
-    wait(200).then(() => refreshing(false));
-  }, [])
+    refreshing(true);
+    getUser(user).then((res) => {
+      navigation.setParams({
+        budgets: res.data().budgets
+      })
+      setData(res.data().budgets)
+      refreshing(false)
+    })
+  }, [user])
 
   return (
     <View style={[styles.container, { backgroundColor: Colors[colorScheme].background }]}>

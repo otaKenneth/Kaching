@@ -1,13 +1,11 @@
 import React, { useState, useEffect, Component } from 'react';
 import { SafeAreaView, ScrollView, TouchableOpacity, View, Container, Touchable, Text, Pressable, Modal, RefreshCtrl } from "../Themed";
-import Collapsible from 'react-native-collapsible';
 import { Ionicons } from '@expo/vector-icons';
 
 import { StyleSheet } from "react-native";
 import Colors from '../../constants/Colors';
 import { useColorScheme } from "react-native";
 import appStyles from '../../assets/styles/appStyles'
-import { useAuthentication } from '../../hooks/useAuthentication';
 
 const AccsItem = ({ account, colorScheme }) => {
   const bgColor = {
@@ -38,20 +36,7 @@ const wait = (tm) => {
 
 export default function Accounts(props) {
   const { accounts, reFresh } = props;
-  const user = useAuthentication();
-  const [refresh, refreshing] = useState(reFresh)
   const colorScheme = useColorScheme();
-  
-  React.useEffect(() => {
-    if (refresh) {
-      onRefresh()
-    }
-  }, [refresh])
-
-  const onRefresh = React.useCallback(() => {
-    refreshing(true),
-    wait(200).then(() => refreshing(false));
-  }, [])
 
   return (
     <View style={{ height: "auto", width: "100%", }}>
@@ -59,14 +44,7 @@ export default function Accounts(props) {
         <Text style={{ fontWeight: "500", fontSize: 18 }}>Accounts</Text>
       </View>
       <SafeAreaView>
-        <ScrollView horizontal={true}
-          refreshControl={
-            <RefreshCtrl
-              refreshing={refresh}
-              onRefresh={onRefresh}
-            />
-          }
-        >
+        <ScrollView horizontal={true}>
           <View style={[accStyle.accountsContainer, {backgroundColor: Colors[colorScheme].cardBackground }]}>
             {accounts.map((data, index) => <AccsItem key={index} account={data} colorScheme={colorScheme} />)}
           </View>
