@@ -240,21 +240,6 @@ export function resetInitialBudgetForm () {
     };
 }
 
-export function resetNewBudget () {
-    return {
-        "name": "",
-        "initialBalance": "",
-        "currentBalance": 0,
-        "remaningBalance": 0,
-        "consumed": 0,
-        "totalBudgeted": 0,
-        "from": new Date(),
-        "to": new Date(),
-        "categories": [],
-        "transactions": []
-    }
-}
-
 export const initialSaving = {
     isLoading: false,
     returnToast: false,

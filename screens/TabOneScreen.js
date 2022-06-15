@@ -17,15 +17,9 @@ export default function TabOneScreen({ route, navigation }) {
   React.useEffect(() => {
     const unsub = navigation.addListener('focus', () => {
       setRefresh(true);
-      getUser(user).then((res) => {
-        navigation.setOptions({
-          accounts: res.data().accounts, 
-          budgets: res.data().budgets,
-          categories: res.data().categories,
-          transactions: res.data().transactions,
-        })
+      setTimeout(() => {
         setRefresh(false)
-      });
+      }, 1000)
     })
     return unsub;
   }, [navigation])
