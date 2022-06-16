@@ -109,7 +109,7 @@ export const newUserData = {
     dateCreated: Timestamp.fromDate(new Date()),
 };
 
-export const newAccount = {
+export const newAccount = ({
     id: 0,
     type: "Select",
     name: "",
@@ -118,7 +118,7 @@ export const newAccount = {
     initialDate: new Date(),
     note: "",
     transfers: []
-}
+})
 
 export const initialAccountForm = () => ({
     type: {
