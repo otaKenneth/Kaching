@@ -34,7 +34,7 @@ export async function getUser(user) {
 
 export async function updateUserAccount(user, data) {
     return await updateDoc(doc(db, 'users', user.uid), {
-        accounts: data
+        accounts: arrayUnion(data)
     })
 }
 

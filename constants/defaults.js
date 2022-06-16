@@ -109,7 +109,18 @@ export const newUserData = {
     dateCreated: Timestamp.fromDate(new Date()),
 };
 
-export const initialAccount = {
+export const newAccount = {
+    id: 0,
+    type: "Select",
+    name: "",
+    initialBalance: "",
+    currentBalance: "",
+    initialDate: new Date(),
+    note: "",
+    transfers: []
+}
+
+export const initialAccountForm = () => ({
     type: {
         fieldName: "Account Type",
         validation: "required|selection",
@@ -135,48 +146,7 @@ export const initialAccount = {
         validation: "",
         value: ""
     },
-}
-
-export const newAccount = {
-    id: 0,
-    type: "Select",
-    name: "",
-    initialBalance: "",
-    currentBalance: "",
-    initialDate: new Date(),
-    note: "",
-    transfers: []
-}
-
-export function resetInitialAccount() {
-    return {
-        type: {
-            fieldName: "Account Type",
-            validation: "required|selection",
-            value: "Select"
-        },
-        name: {
-            fieldName: "Name",
-            validation: "required",
-            value: ""
-        },
-        initialBalance: {
-            fieldName: "Initial Balance",
-            validation: "required|number",
-            value: ""
-        },
-        initialDate: {
-            fieldName: "Initial Date",
-            validation: "required",
-            value: new Date()
-        },
-        note: {
-            fieldName: "Note",
-            validation: "",
-            value: ""
-        },
-    };
-}
+})
 
 export const newBudget = ({
     "id": null,
@@ -192,7 +162,7 @@ export const newBudget = ({
     "transactions": []
 })
 
-export const initialBudgetForm = ({
+export const initialBudgetForm = () => ({
     "from": {
         fieldName: "Start Date",
         validation: "required",

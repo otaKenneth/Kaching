@@ -3,7 +3,7 @@ import Colors from "../../constants/Colors";
 import { View, KeyboardAvoidingView, Input, Select, SubmitButton, ScrollView, DatepickerInput, Container, PrimaryButton } from "../../components/Themed";
 import { CalculatorInput } from "../../components/Calculator";
 import { StyleSheet, useColorScheme } from "react-native";
-import { newAccount, initialAccount, initialSaving, resetInitialAccount } from '../../constants/defaults';
+import { newAccount, initialAccountForm, initialSaving } from '../../constants/defaults';
 import appStyles from "../../assets/styles/appStyles";
 import firebase, { updateUserAccount } from '../../hooks/firebase';
 import { useAuthentication } from '../../hooks/useAuthentication';
@@ -19,16 +19,14 @@ const options = [
 
 export default function CreateAccount({ navigation, route }) {
   const { accounts } = route.params;
-  const [newAcc, setNewAcc] = useState({
-    ...newAccount,
-    id: accounts[accounts.length-1].id + 1
-  })
-  const [initialAcc, setInitialAcc] = useState(initialAccount)
-  const [isSaving, setSaving] = useState(initialSaving)
+
   const user = useAuthentication();
-  const [accType, setAccType] = useState(initialAcc.type.value);
-  const [accIbal, setAccIbal] = useState(initialAcc.initialBalance.value);
-  const [accIdate, setAccIdate]  = useState(initialAcc.initialDate.value);
+  const [form, setForm] = useState(initialAccountForm());
+  const [save, saving] = useState(initialSaving);
+  const [id, setId] = useState(accounts.length == 0 ? 1:accounts[accounts.length - 1].id+1);
+  const [accType, setAccType] = useState(form.type.value);
+  const [accIbal, setAccIbal] = useState(form.initialBalance.value);
+  const [accIdate, setAccIdate]  = useState(form.initialDate.value);
   const colorScheme = useColorScheme();
   const containerBG = {
     backgroundColor: Colors[colorScheme].background
@@ -37,82 +35,92 @@ export default function CreateAccount({ navigation, route }) {
   const [behavior, setBehavior] = useState("height");
   
   React.useEffect(() => {
-    if (initialAcc.type.value !== accType) {
-      initialAcc.type.value = accType;
+    if (form.type.value !== accType) {
+      form.type.value = accType;
     } 
     
-    if (initialAcc.initialBalance.value !== accIbal) {
-      initialAcc.initialBalance.value = accIbal;
+    if (form.initialBalance.value !== accIbal) {
+      form.initialBalance.value = accIbal;
     } 
     
-    if (initialAcc.initialDate.value !== accIdate) {
-      initialAcc.initialDate.value = accIdate;
+    if (form.initialDate.value !== accIdate) {
+      form.initialDate.value = accIdate;
     }
   }, [accType, accIbal, accIdate])
 
   function updateInputs(val, state, prop) {
     state[prop].value = val;
-    setInitialAcc({
-      ...initialAcc
+    setForm({
+      ...state
     });
   }
 
   function loading (val) {
-    setSaving({
-      ...isSaving,
+    saving({
+      ...save,
       isLoading: val
     })
   }
 
   function showToast (toast, msg = "") {
-    setSaving({
-      ...isSaving,
+    saving({
+      ...save,
       returnToast: toast,
       msg: msg,
     })
   }
 
   function processNewAccountRecord () {
-    Object.keys(initialAcc).map((key) => {
-      newAcc[key] = initialAcc[key].value;
+    const state = newAccount;
+    Object.keys(form).map((key) => {
+      switch (key) {
+        case "initialBalance":
+          state[key] = form[key].value;
+          state.currentBalance = accIbal;
+          break;
+        case "initialDate":
+          state[key] = form[key].value.toLocaleDateString('en-US');
+          break;  
+        default:
+          state[key] = form[key].value;
+          break;
+      }
     })
-    newAcc.currentBalance = accIbal;
+    state.id = id;
+    return state;
   }
 
   function submitNewAccount() {
     loading(true);
-    const state = validate(initialAcc);
+    const state = validate(form);
     if (Object.values(state).find(data => data.result == false)) {
       setInitialAcc(state);
       loading(false);
     } else {
-      processNewAccountRecord();
-      newAcc.initialDate = newAcc.initialDate.toLocaleDateString('en-US')
-      accounts.push(newAcc);
-      updateUserAccount(user, accounts).then(() => {
+      const state = processNewAccountRecord();
+      accounts.push(state);
+      updateUserAccount(user, state).then(() => {
         loading(false);
         showToast("success", "New Account Saved.")
+        setId(state.id + 1);
+        newAccount.id = id;
         reset();
-        setNewAcc({
-          ...newAccount,
-          id: newAcc.id + 1
-        });
         setTimeout(() => showToast(false), 1000)
       }).catch((error) => {
         loading(false);
         showToast("failed", error.message)
-        setTimeout(() => showToast(false), 1000)
+        setTimeout(() => showToast(false), 3000)
       })
     }
   }
 
 	return (
     <Container style={[styles.container, containerBG]}>
-      {isSaving.isLoading &&
+      {save.isLoading &&
         <Loading />
       }
-      {isSaving.returnToast &&
-        <SuccessToast type={isSaving.returnToast} text={isSaving.msg} />
+      {save.returnToast &&
+        <SuccessToast type={save.returnToast} text={save.msg} />
       }
       <KeyboardAvoidingView
         behavior={behavior}
@@ -122,33 +130,33 @@ export default function CreateAccount({ navigation, route }) {
             label="Type" 
             options={options} 
             value={accType} setValue={setAccType} 
-            validation={ initialAcc.type.result ? false:initialAcc.type.error }
+            validation={ form.type.result ? false:form.type.error }
           />
           <Input 
             label="Name" 
             onPressIn={() => setBehavior("height")} 
-            value={initialAcc.name.value} 
-            onChangeText={(value) => updateInputs(value, initialAcc, "name")}
-            validation={ initialAcc.name.result ? false:initialAcc.name.error }
+            value={form.name.value} 
+            onChangeText={(value) => updateInputs(value, form, "name")}
+            validation={ form.name.result ? false:form.name.error }
           />
           <CalculatorInput 
             label="Initial Balance" 
             value={accIbal}
             setValue={setAccIbal}
-            validation={ initialAcc.initialBalance.result ? false:initialAcc.initialBalance.error }
+            validation={ form.initialBalance.result ? false:form.initialBalance.error }
           />
           <DatepickerInput 
             label="Initial Date" 
             value={accIdate}
             setValue={setAccIdate}
-            validation={ initialAcc.initialDate.result ? false:initialAcc.initialDate.error }
+            validation={ form.initialDate.result ? false:form.initialDate.error }
           />
           <Input 
             label="Note" 
             onPressIn={() => setBehavior("position")} 
-            value={initialAcc.note.value} 
-            onChangeText={(value) => updateInputs(value, initialAcc, "note")}
-            validation={ initialAcc.note.result ? false:initialAcc.note.error }
+            value={form.note.value} 
+            onChangeText={(value) => updateInputs(value, form, "note")}
+            validation={ form.note.result ? false:form.note.error }
           />
           <View style={{ width: "100%", marginTop: 20 }}>
             <SubmitButton onPress={() => submitNewAccount()} />
@@ -159,11 +167,8 @@ export default function CreateAccount({ navigation, route }) {
 	);
 
   function reset() {
-    const state = resetInitialAccount();
-    Object.keys(state).map(key => {
-      initialAccount[key] = state[key];
-    })
-    setInitialAcc(state);
+    const state = initialAccountForm();
+    setForm(state);
     setAccType(state.type.value)
     setAccIbal(state.initialBalance.value)
     setAccIdate(state.initialDate.value)

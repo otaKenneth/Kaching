@@ -12,7 +12,7 @@ import { useAuthentication } from "../../hooks/useAuthentication";
 export default function CreateBudget({ navigation, route }) {
   const { budgets, defaultCategories } = route.params;
   const user = useAuthentication();
-  const [form, setForm] = React.useState(initialBudgetForm);
+  const [form, setForm] = React.useState(initialBudgetForm());
   const [id, setId] = React.useState(budgets.length == 0 ? 1:budgets[budgets.length-1].id + 1);
   const [from, setFrom] = React.useState(form.from.value)
   const [to, setTo] = React.useState(form.to.value)
@@ -41,14 +41,22 @@ export default function CreateBudget({ navigation, route }) {
   function processNewBudgetRecord () {
     const state = newBudget;
     Object.keys(form).map(key => {
-      state[key] = form[key].value;
-      if (key == "initialBalance") {
-        state.currentBalance = form[key].value;
-        state.remaningBalance = form[key].value;
-        state.totalBudgeted = form[key].value;
-      }
-      if (key == "from" || key == "to") {
-        state[key] = form[key].value.toLocaleDateString('en-US');  
+      switch (key) {
+        case "initialBalance":
+          state[key] = form[key].value;
+          state.currentBalance = form[key].value;
+          state.remaningBalance = form[key].value;
+          state.totalBudgeted = form[key].value;
+          break;
+        case "from":
+          state[key] = form[key].value.toLocaleDateString('en-US');
+          break;
+        case "to":
+          state[key] = form[key].value.toLocaleDateString('en-US');
+          break;
+        default:
+          state[key] = form[key].value;
+          break;
       }
     })
     state.id = id;
@@ -71,7 +79,7 @@ export default function CreateBudget({ navigation, route }) {
     })
   }
 
-  function handleUpdtInput (val, prop) {
+  function updateInputs (val, prop) {
     prop.value = val;
     const state = {
       ...form
@@ -134,7 +142,7 @@ export default function CreateBudget({ navigation, route }) {
           <Input 
             label="Budget Name" 
             value={form.name.value}
-            onChangeText={(value) => handleUpdtInput(value, form.name)}
+            onChangeText={(value) => updateInputs(value, form.name)}
             validation={form.name.result ? false:form.name.error}
           />
         </View>
@@ -152,7 +160,7 @@ export default function CreateBudget({ navigation, route }) {
   )
 
   function reset() {
-    const state = initialBudgetForm;
+    const state = initialBudgetForm();
     setForm(state);
     setBalance(state.initialBalance.value);
     setFrom(state.from.value);
