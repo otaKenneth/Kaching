@@ -188,5 +188,16 @@ export const initialBudgetForm = () => ({
 export const initialSaving = {
     isLoading: false,
     returnToast: false,
+    loadingMsg: "",
     msg: "",
+}
+
+export function processBudgetCategories(budget, categories) {
+    const state = categories;
+    Object.keys(categories).map(key => {
+        const percentage = categories[key].budgetPlanned.percentage;
+        const defaultAmount = budget * (percentage / 100);
+        state[key].budgetPlanned.amount = defaultAmount;
+    })
+    return state;
 }

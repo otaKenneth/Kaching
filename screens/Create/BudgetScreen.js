@@ -2,7 +2,7 @@ import { DatepickerInput, Input, KeyboardAvoidingView, ScrollView, SubmitButton,
 import { CalculatorInput } from "../../components/Calculator";
 import { StyleSheet, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
-import { initialSaving, newBudget, initialBudgetForm } from "../../constants/defaults";
+import { initialSaving, newBudget, initialBudgetForm, processBudgetCategories } from "../../constants/defaults";
 import React from "react";
 import Loading, { SuccessToast } from "../../components/Loading";
 import validate from "../../constants/validate";
@@ -60,13 +60,15 @@ export default function CreateBudget({ navigation, route }) {
       }
     })
     state.id = id;
-    state.categories = defaultCategories;
+    loading(true, "Processing budget categories.")
+    state.categories = processBudgetCategories(state.initialBalance, defaultCategories);
     return state;
   }
 
-  function loading (val) {
+  function loading (val, msg = "") {
     saving({
       ...save,
+      loadingMsg: msg,
       isLoading: val
     })
   }
@@ -88,7 +90,7 @@ export default function CreateBudget({ navigation, route }) {
   }
 
   function handleSubmmit() {
-    loading(true)
+    loading(true, "Saving new budget record.")
     const state = validate(form);
     if (Object.values(state).find(data => data.result == false)) {
       setForm(state)
@@ -114,7 +116,7 @@ export default function CreateBudget({ navigation, route }) {
   return (
     <ScrollView style={[{ width: "100%", padding: 0 }, containerBG]}>
       {save.isLoading &&
-        <Loading />
+        <Loading text={save.loadingMsg} />
       }
       {save.returnToast &&
         <SuccessToast type={save.returnToast} msg={save.msg}/>

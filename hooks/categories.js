@@ -8,14 +8,14 @@ function getPercentage(amount, value) {
 
 const newCategoryVals = (data, type, value, categs, totalBudget) => {
     if (data) {
-        let categName = data.category; let temp = 0;
-        let myType = type == 0 ? 'percentage':'number';
+        let categName = data.name; let temp = 0;
+        let myType = type == 0 ? 'percentage':'amount';
         value = parseFloat(value);
         temp = value - data.budgetPlanned[myType];
         data.budgetPlanned[myType] = parseFloat(value,2);
 
         if ( type == 0 ) {
-            data.budgetPlanned.number = getAmount(totalBudget, value).toFixed(2)
+            data.budgetPlanned.amount = getAmount(totalBudget, value).toFixed(2)
         }
 
         if ( type == 1 ) {
@@ -27,13 +27,13 @@ const newCategoryVals = (data, type, value, categs, totalBudget) => {
             if (key == 0) {
                 item.budgetPlanned[myType] -= temp;
                 if (type == 0) {
-                    item.budgetPlanned.number = getAmount(totalBudget, item.budgetPlanned[myType]).toFixed(2)
+                    item.budgetPlanned.amount = getAmount(totalBudget, item.budgetPlanned[myType]).toFixed(2)
                 } else {
                     item.budgetPlanned.percentage = getPercentage(totalBudget, item.budgetPlanned[myType]).toFixed(2)
                 }
                 return item;
             }
-            return item.category == categName ? data:item
+            return item.name == categName ? data:item
         });
     }
     return [...categs];

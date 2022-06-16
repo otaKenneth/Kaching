@@ -4,6 +4,8 @@ import * as Progress from "react-native-progress";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function Loading(props) {
+  const { text } = props;
+
   return (
     <Modal
       animationType="fade"
@@ -22,6 +24,7 @@ export default function Loading(props) {
           style={[appStyles.modalView, { backgroundColor: "transparent", elevation: 0 }]}
         >
           <Progress.Circle size={150} indeterminate={true} />
+          <Text>{text}</Text>
         </Container>
       </Container>
     </Modal>
