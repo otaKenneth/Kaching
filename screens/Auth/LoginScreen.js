@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Container, Input, KeyboardAvoidingView, Pressable, SubmitButton, PrimaryButton, Text, View } from "../../components/Themed";
 import { StyleSheet } from "react-native";
+import { Container, Input, KeyboardAvoidingView, Pressable, Text } from "../../components/Themed";
+import { SubmitButton, SecondaryButton } from '../../components/Buttons';
 import { initialLogin } from "../../constants/defaults";
 import Loading, { SuccessToast } from '../../components/Loading';
 import validate from '../../constants/validate';
@@ -79,7 +80,7 @@ export default function Login({ navigation }) {
       }
       <Container style={{ height: "15%", width: "100%" }} />
       <Container style={{ padding: 20 }}>
-        <Text style={{ fontSize: 40, fontWeight: "500", marginBottom: 20 }}>Login</Text>
+        <Text style={{ fontSize: 40, fontWeight: "500", marginBottom: 20, textAlign: "center" }}>Login</Text>
         <Input label="E-mail" textContentType="emailAddress" keyboardType="email-address" 
           value={login.email.value}
           onChangeText={(value) => updateInputs(value, login.email)}
@@ -88,20 +89,31 @@ export default function Login({ navigation }) {
           value={login.passworrd.value}
           onChangeText={(value) => updateInputs(value, login.passworrd)}
         />
-        <Container style={{ flexDirection: "row", alignContent: "center", justifyContent: "center" }}>
+        <Container style={{ flexDirection: "row", alignContent: "center", justifyContent: "center", marginBottom: 15 }}>
           <Text>Don't have an account? </Text>
           <Pressable
             onPress={() => navigation.navigate('Signup')}
           >
-            <Text style={{ color: "blue" }}>Sign-up Here</Text>
+            <Text style={{ color: "blue" }}>Sign-up here</Text>
           </Pressable>
         </Container>
-        <SubmitButton style={{ marginTop: 20 }} onPress={() => loginUser()} />
-        <PrimaryButton 
-          text="Use as Guest" 
-          style={{ marginTop: 20 }} 
-          onPress={() => loginUser('anonymous')}
-        />
+        <Container
+          style={
+            { 
+              marginTop: 10, height: 120, width: "70%",
+              alignSelf: "center", justifyContent: "space-between",
+            }
+          }
+        >
+          <SubmitButton
+            text="Login" 
+            onPress={() => loginUser()} 
+          />
+          <SecondaryButton
+            text="Use as Guest" 
+            onPress={() => loginUser()} 
+          />
+        </Container>
       </Container>
     </KeyboardAvoidingView>
   );

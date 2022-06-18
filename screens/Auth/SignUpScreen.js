@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Container, Input, KeyboardAvoidingView, Pressable, SubmitButton, Text, View } from "../../components/Themed";
+import { Container, Input, KeyboardAvoidingView, Pressable, Text } from "../../components/Themed";
+import { SubmitButton } from '../../components/Buttons';
 import Loading, { SuccessToast } from '../../components/Loading';
 import { StyleSheet } from "react-native";
 import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
@@ -72,7 +73,7 @@ export default function Signup({ navigation }) {
       }
       <Container style={{ height: "20%", width: "100%" }} />
       <Container style={{ padding: 20 }}>
-        <Text style={{ fontSize: 40, fontWeight: "500", marginBottom: 20 }}>Sign-up</Text>
+        <Text style={{ fontSize: 40, fontWeight: "500", marginBottom: 20, textAlign: "center" }}>Sign-up</Text>
         <Input 
           label="E-mail" 
           textContentType="emailAddress" keyboardType="email-address" 
@@ -94,7 +95,7 @@ export default function Signup({ navigation }) {
           onChangeText={(value) => updateInputs(value, signup.confirmPass)}
           validation={ signup.confirmPass.result ? false:signup.confirmPass.error }
         />
-        <Container style={{ marginTop: 20, flexDirection: "row", alignContent: "center", justifyContent: "center" }}>
+        <Container style={{ marginBottom: 10, flexDirection: "row", alignContent: "center", justifyContent: "center" }}>
           <Text>Go back to </Text>
           <Pressable
             onPress={() => navigation.navigate('Login')}
@@ -102,7 +103,11 @@ export default function Signup({ navigation }) {
             <Text style={{ color: "blue" }}>Login</Text>
           </Pressable>
         </Container>
-        <SubmitButton style={{ marginTop: 20 }} onPress={() => registerUser(signup) } />
+        <SubmitButton 
+        style={{ width: "70%", alignSelf: "center" }}
+          text="Sign-up" 
+          onPress={() => registerUser(signup) } 
+        />
       </Container>
     </KeyboardAvoidingView>
   );

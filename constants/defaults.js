@@ -49,6 +49,7 @@ export const newUserData = {
                 "percentage": 0,
                 "amount": 0
             },
+            "consumed": "",
             "comment": "This is the remaining balance to be budgeted."
         },
         {
@@ -57,6 +58,7 @@ export const newUserData = {
                 "percentage": 30,
                 "amount": 0
             },
+            "consumed": "",
             "comment": "Food & drinks."
         },
         {
@@ -65,6 +67,7 @@ export const newUserData = {
                 "percentage": 20,
                 "amount": 0
             },
+            "consumed": "",
             "comment": "Important. Must be trafered to your savings imediately."
         },
         {
@@ -73,6 +76,7 @@ export const newUserData = {
                 "percentage": 20,
                 "amount": 0
             },
+            "consumed": "",
             "comment": "Bills."
         },
         {
@@ -81,6 +85,7 @@ export const newUserData = {
                 "percentage": 10,
                 "amount": 0
             },
+            "consumed": "",
             "comment": "Any thing you want to buy."
         },
         {
@@ -89,6 +94,7 @@ export const newUserData = {
                 "percentage": 15,
                 "amount": 0
             },
+            "consumed": "",
             "comment": "For a family member you support."
         },
         {
@@ -97,6 +103,7 @@ export const newUserData = {
                 "percentage": 5,
                 "amount": 0
             },
+            "consumed": "",
             "comment": "Transportation fare and miscelenous fines."
         }
     ],
@@ -201,3 +208,32 @@ export function processBudgetCategories(budget, categories) {
     })
     return state;
 }
+
+export const newCategory = ({
+    "name": "",
+    "budgetPlanned": {
+        "percentage": "",
+        "amount": ""
+    },
+    "consumed": "",
+    "comment": ""
+})
+
+export const initialCategoryForm = () => ({
+    "name": {
+        fieldName: "Category Name",
+        validation: "required",
+        value: ""
+    },
+    "budgetPlanned": {
+        fieldName: "Budget Planned",
+        validation: "required|number",
+        type: "percentage",
+        value: ""
+    },
+    "comment": {
+        fieldName: "Comment",
+        validation: "required",
+        value: ""
+    }
+})

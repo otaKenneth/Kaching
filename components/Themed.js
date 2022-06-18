@@ -1,6 +1,6 @@
 // Learn more about Light and Dark modes:
 // https://docs.expo.dev/guides/color-schemes/
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Text as DefaultText,
   useColorScheme,
@@ -24,7 +24,6 @@ import { Ionicons, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icon
 import Colors from "../constants/Colors";
 import appStyles from "../assets/styles/appStyles";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { render } from 'react-dom';
 
 export function useThemeColor(props, colorName) {
   const theme = useColorScheme();
@@ -116,50 +115,6 @@ export function TouchableOpacity(props) {
   return <DefaultTouchableOpacity style={[{ backgroundColor }, style]} {...otherProps} />;
 }
 
-export function SubmitButton(props) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
-  const backgroundColor = useThemeColor(
-    { light: lightColor, dark: darkColor },
-    "primaryBtn"
-  );
-
-  return <DefaultTouchableOpacity
-    style={[
-      { backgroundColor },
-      style,
-      {
-        width: "98%", paddingVertical: 15,
-        alignItems: "center", borderRadius: 10,
-      }
-    ]}
-    {...otherProps}>
-    <Text style={{ fontWeight: "500", }}>Submit</Text>
-  </DefaultTouchableOpacity>;
-}
-
-export function PrimaryButton(props) {
-  const { style, lightColor, darkColor, text, ...otherProps } = props;
-  const backgroundColor = useThemeColor(
-    { light: lightColor, dark: darkColor },
-    "primaryBtn"
-  );
-
-  return <DefaultTouchableOpacity
-    style={[
-      style,
-      {
-        width: "98%", paddingVertical: 15,
-        alignItems: "center", borderRadius: 10,
-        borderColor: backgroundColor, borderStyle: "solid", borderWidth: 1,
-        borderRadius: 10,
-        backgroundColor: "transparent"
-      }
-    ]}
-    {...otherProps}>
-    <Text style={{ fontWeight: "500", color: backgroundColor }}>{text}</Text>
-  </DefaultTouchableOpacity>;
-}
-
 export function TouchableHighlight(props) {
   const { style, lightColor, darkColor, ...otherProps } = props;
   const backgroundColor = useThemeColor(
@@ -242,7 +197,7 @@ export function ChangableInput(props) {
   );
 
   const [icon, setIcon] = useState(0);
-  const [value, setValue] = useState(values[icon]);
+  const [value, setValue] = useState(typeof(values) === 'object' ? values[icon]:values);
 
   return (
     <View style={[{ width: "98%", marginBottom: 10, backgroundColor: "transparent" }, containerStyle]}>
@@ -283,7 +238,9 @@ export function ChangableInput(props) {
           onPress={() => {
             var state = icon == 0 ? 1 : 0;
             type(state);
-            setValue(values[state])
+            if (values.length > 0) {
+              setValue(values[state])
+            }
             setIcon(state);
           }}
         >

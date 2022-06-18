@@ -1,4 +1,5 @@
-import { DatepickerInput, Input, KeyboardAvoidingView, ScrollView, SubmitButton, View } from "../../components/Themed";
+import { DatepickerInput, Input, KeyboardAvoidingView, ScrollView, View } from "../../components/Themed";
+import { PrimaryButton, SecondaryButton } from '../../components/Buttons';
 import { CalculatorInput } from "../../components/Calculator";
 import { StyleSheet, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
@@ -155,7 +156,7 @@ export default function CreateBudget({ navigation, route }) {
         style={styles.container}
       >
         <View style={[styles.container, { width: "100%", padding: 0 }]}>
-          <SubmitButton onPress={() => handleSubmmit()} />
+          <PrimaryButton text="Save" onPress={() => handleSubmmit()} />
         </View>
       </KeyboardAvoidingView>
     </ScrollView>

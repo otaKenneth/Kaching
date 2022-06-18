@@ -89,16 +89,6 @@ export default function BudgetList({ navigation, route }) {
   const [refresh, refreshing] = React.useState(false)
   const [DATA, setData] = React.useState(budgets);
 
-  React.useEffect(() => {
-    const unsub = navigation.addListener('focus', () => {
-      refreshing(true);
-      setTimeout(() => {
-        refreshing(false);
-      }, 500)
-    })
-    return unsub;
-  }, [navigation])
-
   const onRefresh = React.useCallback(() => {
     refreshing(true);
     getUser(user).then((res) => {

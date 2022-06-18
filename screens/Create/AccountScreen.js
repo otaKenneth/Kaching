@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import Colors from "../../constants/Colors";
-import { View, KeyboardAvoidingView, Input, Select, SubmitButton, ScrollView, DatepickerInput, Container, PrimaryButton } from "../../components/Themed";
+import { View, KeyboardAvoidingView, Input, Select, DatepickerInput, Container } from "../../components/Themed";
+import { PrimaryButton, SecondaryButton } from '../../components/Buttons';
 import { CalculatorInput } from "../../components/Calculator";
 import { StyleSheet, useColorScheme } from "react-native";
 import { newAccount, initialAccountForm, initialSaving } from '../../constants/defaults';
-import appStyles from "../../assets/styles/appStyles";
 import firebase, { updateUserAccount } from '../../hooks/firebase';
 import { useAuthentication } from '../../hooks/useAuthentication';
 import Loading, { SuccessToast } from '../../components/Loading';
@@ -159,7 +159,7 @@ export default function CreateAccount({ navigation, route }) {
             validation={ form.note.result ? false:form.note.error }
           />
           <View style={{ width: "100%", marginTop: 20 }}>
-            <SubmitButton onPress={() => submitNewAccount()} />
+            <PrimaryButton text="Save" onPress={() => submitNewAccount()} />
           </View>
         </View>
       </KeyboardAvoidingView>

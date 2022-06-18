@@ -1,4 +1,5 @@
-import { Autocomplete, DatepickerInput, Input, KeyboardAvoidingView, ScrollView, Select, SubmitButton, View } from "../../components/Themed";
+import { Autocomplete, DatepickerInput, Input, KeyboardAvoidingView, ScrollView, Select, View } from "../../components/Themed";
+import { PrimaryButton, SecondaryButton } from '../../components/Buttons';
 import { CalculatorInput } from "../../components/Calculator";
 import { StyleSheet, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
@@ -44,7 +45,7 @@ export default function CreateIncome({ navigation, route }) {
           style={styles.container}
         >
           <View style={[styles.container, { width: "100%", padding: 0 }]}>
-            <SubmitButton />
+            <PrimaryButton />
           </View>
         </KeyboardAvoidingView>
       </View>

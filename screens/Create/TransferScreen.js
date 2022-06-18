@@ -2,6 +2,7 @@ import { DatepickerInput, Input, KeyboardAvoidingView, ScrollView, Select, Submi
 import { CalculatorInput } from "../../components/Calculator";
 import { StyleSheet, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
+import { PrimaryButton } from "../../components/Buttons";
 
 export default function CreateTransfer({ navigation, route }) {
   const { accounts } = route.params;
@@ -32,7 +33,7 @@ export default function CreateTransfer({ navigation, route }) {
         style={styles.container}
       >
         <View style={[styles.container, { width: "100%", padding: 0 }]}>
-          <SubmitButton />
+          <PrimaryButton />
         </View>
       </KeyboardAvoidingView>
     </ScrollView>
