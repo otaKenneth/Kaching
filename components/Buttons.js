@@ -39,21 +39,22 @@ export function SubmitButton(props) {
 }
 
 export function PrimaryButton(props) {
-  const { style, lightColor, darkColor, text, ...otherProps } = props;
+  const { style, lightColor, darkColor, text, onPress, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
-    "primaryBtn"
+    props.disabled ? "disabledBtn":"primaryBtn"
   );
 
   return <TouchableOpacity
     style={[
       style,
+      { backgroundColor },
       {
         paddingVertical: 15,
         alignItems: "center", borderRadius: 10,
       },
-      { backgroundColor }
     ]}
+    onPress={onPress}
     {...otherProps}>
     <Text style={{ fontWeight: "500", color: "#fff" }}>{text}</Text>
   </TouchableOpacity>;

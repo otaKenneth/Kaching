@@ -6,7 +6,6 @@ import {
   FlatList, 
   KeyboardAvoidingView, 
   TouchableOpacity,
-  Modal, Pressable, Input, Text
 } from "../../components/Themed";
 import { PrimaryButton, SecondaryButton } from '../../components/Buttons';
 import { PieChart } from 'react-native-svg-charts';
@@ -14,15 +13,18 @@ import { Labels } from "../../components/Charts/chartAdds";
 
 import { StyleSheet, useColorScheme } from "react-native";
 import newCategoryVals from '../../hooks/categories';
-import { AntDesign, Feather } from '@expo/vector-icons';
-import Collapsible from "react-native-collapsible";
-import { initialCategoryForm, newCategory } from "../../constants/defaults";
-import appStyles from "../../assets/styles/appStyles";
+import { Feather } from '@expo/vector-icons';
+import { initialSaving } from "../../constants/defaults";
+import CreateCategoryModal from "../Create/Modal/CategoryModal";
+import { getUserBudgets } from "../../hooks/firebase";
+import { useAuthentication } from "../../hooks/useAuthentication";
 
 export default function CategoryList({ route, navigation }) {
   const colorScheme = useColorScheme();
+  const user = useAuthentication();
   const [btnName, setBtnName] = useState("pie-chart");
   const [showModal, setShowModal] = useState(false);
+  const [save, saving] = useState(initialSaving)
 
   const { id, categories, headerName, totalBudget } = route.params;
   navigation.setOptions({ 
@@ -41,8 +43,6 @@ export default function CategoryList({ route, navigation }) {
   const [categs, setCategs] = useState(categories);
   const [showChart, setShowChart] = useState(false);
 
-  const inputStyle = id == 0;
-
   function handleNewValue(data, type, value) {
     setCategs(categs => newCategoryVals(data, type, value, categs, totalBudget));
   }
@@ -52,7 +52,7 @@ export default function CategoryList({ route, navigation }) {
       item.budgetPlanned.percentage, item.budgetPlanned.amount
     ];
     const [type, setType] = useState(0);
-    const editable = item.category == "Allowance" ? false : inputStyle;
+    const editable = item.category == "Balance" ? false : true;
     const bgColor = editable ? "#fff" : "#c4c4c4";
 
     return (
@@ -72,69 +72,18 @@ export default function CategoryList({ route, navigation }) {
     )
   }
 
-  const CreateCategoryModal = (props) => {
-    const { modal, setModal } = props;
-    const [form, setForm] = useState(initialCategoryForm());
-    const [type, setType] = useState(0);
-  
-    function handleNewCategoryValue (type, value) {
-      form.budgetPlanned.type = type;
-      form.budgetPlanned.value = value;
-      setForm({...form});
-    }
-  
-    return (
-      <Modal
-        animationType="fade"
-        visible={modal}
-        transparent={true}
-        swipeDirection="down"
-        style={{ justifyContent: "center" }}
-      >
-        <Pressable style={[appStyles.modalContainer, {justifyContent: "center"}]}>
-          <View style={[appStyles.modalView, {padding: 10, justifyContent: "flex-start"}]}>
-            <Container style={{ paddingBottom: 10, flexDirection: "row", justifyContent: "space-around" }}>
-              <View style={{ flex: 0.8 }}>
-                <Text style={{ fontSize: 20, fontWeight: "600" }}>New Category</Text>
-              </View>
-              <TouchableOpacity
-                activeOpacity={0.5}
-                style={{ alignItems: "center" }}
-                onPress={() => setShowModal(false)}
-              >
-                <AntDesign name="close" size={24} color="red" />
-              </TouchableOpacity>
-            </Container>
-            <View style={{ width: 250, }}>
-              <Input
-                label="Category Name"
-                value={form.name.value}
-                onChangeText={(value) => {form.name.value = value; setForm({...form})} }
-                containerStyle={{ justifyContent: "flex-start", width: "100%" }}
-              />
-              <ChangableInput
-                label="Category Budget"
-                values={form.budgetPlanned.value}
-                containerStyle={{ marginHorizontal: 3 }}
-                keyboardType="numeric"
-                type={setType}
-                changableIconButtons={['percent-outline', 'pound']}
-                onEndEditing={(el) => {
-                  handleNewCategoryValue(type, el.nativeEvent.text)
-                }}
-              />
-              <Input
-                label="Comment"
-                value={form.comment.value}
-                onChangeText={(value) => {form.comment.value = value; setForm({...form})}}
-                style={{ marginBottom: 20 }}
-              />
-              <PrimaryButton text="Save" />
-            </View>
-          </View>
-        </Pressable>
-      </Modal>
-    );
+  function loading (val, msg = "") {
+    saving({
+      ...save,
+      isLoading: val,
+      loadingMsg: msg
+    })
+  }
+
+  function refetch() {
+    getUserBudgets(user, id).then(res => {
+      setCategs(res.data().categories)
+    })
   }
 
   return (
@@ -144,8 +93,19 @@ export default function CategoryList({ route, navigation }) {
     >
       <View style={{ flex: 0.1, width: "100%", padding: 10 }}>
         <Container>
-          <CreateCategoryModal modal={showModal} setModal={setShowModal} />
-          <PrimaryButton text="Create New Category" onPress={() => setShowModal(true)} />
+          <CreateCategoryModal 
+            modal={showModal} 
+            setModal={setShowModal} 
+            categs={categs}
+            setCategs={setCategs}
+            refetch={refetch}
+            totalBudget={totalBudget}
+          />
+          <PrimaryButton 
+            text="Create New Category" 
+            onPress={() => setShowModal(true)} 
+            disabled={categs.length == 10}
+          />
         </Container>
       </View>
       {showChart &&
@@ -162,7 +122,7 @@ export default function CategoryList({ route, navigation }) {
         </View>
       }
       {!showChart &&
-        <View style={{ flex: 1, width: "100%", padding: 10 }}>
+        <View style={{ flex: 0.8, width: "100%", padding: 10, marginBottom: 10 }}>
           <Container style={{ justifyContent: "center" }}>
             <FlatList
               style={{ width: "100%", flexDirection: "column" }}

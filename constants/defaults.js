@@ -44,15 +44,16 @@ export const newUserData = {
     payers: [],
     categories: [
         {
+            id: 1,
             "name": "Balance",
             "budgetPlanned": {
                 "percentage": 0,
                 "amount": 0
             },
-            "consumed": "",
             "comment": "This is the remaining balance to be budgeted."
         },
         {
+            id: 2,
             "name": "Daily Living",
             "budgetPlanned": {
                 "percentage": 30,
@@ -62,6 +63,7 @@ export const newUserData = {
             "comment": "Food & drinks."
         },
         {
+            id: 3,
             "name": "Financial Savings",
             "budgetPlanned": {
                 "percentage": 20,
@@ -71,6 +73,7 @@ export const newUserData = {
             "comment": "Important. Must be trafered to your savings imediately."
         },
         {
+            id: 4,
             "name": "Dues/Subscription",
             "budgetPlanned": {
                 "percentage": 20,
@@ -80,6 +83,7 @@ export const newUserData = {
             "comment": "Bills."
         },
         {
+            id: 5,
             "name": "Leisure",
             "budgetPlanned": {
                 "percentage": 10,
@@ -89,6 +93,7 @@ export const newUserData = {
             "comment": "Any thing you want to buy."
         },
         {
+            id: 6,
             "name": "Family",
             "budgetPlanned": {
                 "percentage": 15,
@@ -98,6 +103,7 @@ export const newUserData = {
             "comment": "For a family member you support."
         },
         {
+            id: 7,
             "name": "Misc",
             "budgetPlanned": {
                 "percentage": 5,
@@ -209,15 +215,18 @@ export function processBudgetCategories(budget, categories) {
     return state;
 }
 
-export const newCategory = ({
-    "name": "",
-    "budgetPlanned": {
-        "percentage": "",
-        "amount": ""
-    },
-    "consumed": "",
-    "comment": ""
-})
+export const newCategory = () => {
+    return {
+        id: null,
+        "name": "",
+        "budgetPlanned": {
+            "percentage": "",
+            "amount": ""
+        },
+        "consumed": "",
+        "comment": ""
+    };
+}
 
 export const initialCategoryForm = () => ({
     "name": {
@@ -233,7 +242,7 @@ export const initialCategoryForm = () => ({
     },
     "comment": {
         fieldName: "Comment",
-        validation: "required",
+        validation: "",
         value: ""
     }
 })

@@ -184,7 +184,7 @@ export function ChangableInput(props) {
     style, lightColor, darkColor, 
     label, noLabel, containerStyle, 
     changableIconButtons, 
-    type, values, 
+    type, values, validation,
     ...otherProps 
   } = props;
   const backgroundColor = useThemeColor(
@@ -247,7 +247,9 @@ export function ChangableInput(props) {
           <MaterialCommunityIcons style={{ textAlign: "center", }} color="#fff" name={changableIconButtons[icon]} size={18} />
         </Pressable>
       </View>
-
+      {validation &&
+        <Text style={{ color: "red", fontSize: 12 }}>{validation}</Text>
+      }
     </View>
   );
 

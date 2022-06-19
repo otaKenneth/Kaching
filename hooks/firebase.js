@@ -43,3 +43,13 @@ export async function updateUserBudget(user, data) {
         budgets: arrayUnion(data)
     })
 }
+
+export async function getUserBudgets(user, id) {
+    return await getDoc(doc(db, `users/${user.uid}/budgets`)).where("id = ", id);
+}
+
+export async function updateUserBudgetCategory(user, data) {
+    return await setDoc(doc(db, 'users', user.uid+'/budgets'), {
+        categories: data
+    })
+}

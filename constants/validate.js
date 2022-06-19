@@ -2,6 +2,7 @@ var states = [];
 
 function validation(data, key) {
     var validations = data.validation.split("|").reverse();
+    if (validations.length == 0) data.result = true;
     validations.map((validateData) => {
 
         var result = data.result;

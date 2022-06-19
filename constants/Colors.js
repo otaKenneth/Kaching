@@ -11,7 +11,7 @@ export default {
     tabIconSelected: tintColorLight,
     createButtonIcon: "#fff",
     primaryBtn: "#2f95dc",
-    submitBtn: "lightgreen",
+    disabledBtn: "#d9dadb",
     headerTextColor: "#fff",
     headerBackgroundColor: "#2f95dc",
     accounts: {
@@ -28,7 +28,7 @@ export default {
     tabIconSelected: tintColorDark,
     createButtonIcon: "#fff",
     primaryBtn: "#150734",
-    submitBtn: "#150734",
+    disabledBtn: "#150734",
     headerTextColor: "#fff",
     headerBackgroundColor: "#2a3132",
     accounts: "#2a3132"

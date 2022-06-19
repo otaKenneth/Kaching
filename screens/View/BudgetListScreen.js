@@ -47,7 +47,7 @@ const BudgetCard = ({ id, budget, colorScheme, navigation }) => {
         onPress={() => navigation.navigate(navTo.head, 
           { screen: navTo.screen, 
             params: { 
-              id: id, 
+              id: budget.id, 
               categories: budget.categories, 
               headerName: budget.name, 
               totalBudget: budget.currentBalance 

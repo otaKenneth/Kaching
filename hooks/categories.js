@@ -1,17 +1,25 @@
-function getAmount (amount, percentage) {
+export function getAmount (amount, percentage) {
     return amount * (percentage/100);
 }
 
-function getPercentage(amount, value) {
+export function getPercentage(amount, value) {
     return (value / amount) * 100;
 }
 
 const newCategoryVals = (data, type, value, categs, totalBudget) => {
+    console.log(categs);
     if (data) {
-        let categName = data.name; let temp = 0;
-        let myType = type == 0 ? 'percentage':'amount';
+        let temp = 0; let myType = type == 0 ? 'percentage':'amount';
         value = parseFloat(value);
-        temp = value - data.budgetPlanned[myType];
+        
+        if (categs.find(d => d.id == data.id)) {
+            console.log(data);
+            temp = value - data.budgetPlanned[myType];
+        } else {
+            temp = value;
+            categs.push(data);
+        }
+
         data.budgetPlanned[myType] = parseFloat(value,2);
 
         if ( type == 0 ) {
@@ -22,9 +30,9 @@ const newCategoryVals = (data, type, value, categs, totalBudget) => {
             data.budgetPlanned.percentage = getPercentage(totalBudget, value).toFixed(2)
         }
         
-        return categs.map((item, key) => {
+        return categs.map((item) => {
             // console.log(item);
-            if (key == 0) {
+            if (item.id == 1) {
                 item.budgetPlanned[myType] -= temp;
                 if (type == 0) {
                     item.budgetPlanned.amount = getAmount(totalBudget, item.budgetPlanned[myType]).toFixed(2)
@@ -33,7 +41,7 @@ const newCategoryVals = (data, type, value, categs, totalBudget) => {
                 }
                 return item;
             }
-            return item.name == categName ? data:item
+            return item.id == data.id ? data:item
         });
     }
     return [...categs];
