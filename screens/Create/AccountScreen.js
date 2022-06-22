@@ -5,7 +5,7 @@ import { PrimaryButton, SecondaryButton } from '../../components/Buttons';
 import { CalculatorInput } from "../../components/Calculator";
 import { StyleSheet, useColorScheme } from "react-native";
 import { newAccount, initialAccountForm, initialSaving } from '../../constants/defaults';
-import firebase, { updateUserAccount } from '../../hooks/firebase';
+import firebase, { addUserAccount } from '../../hooks/firebase';
 import { useAuthentication } from '../../hooks/useAuthentication';
 import Loading, { SuccessToast } from '../../components/Loading';
 import validate from '../../constants/validate';
@@ -23,7 +23,7 @@ export default function CreateAccount({ navigation, route }) {
   const user = useAuthentication();
   const [form, setForm] = useState(initialAccountForm());
   const [save, saving] = useState(initialSaving);
-  const [id, setId] = useState(accounts.length == 0 ? 1:accounts[accounts.length - 1].id+1);
+  const [id, setId] = useState(1);
   const [accType, setAccType] = useState(form.type.value);
   const [accIbal, setAccIbal] = useState(form.initialBalance.value);
   const [accIdate, setAccIdate]  = useState(form.initialDate.value);
@@ -33,7 +33,7 @@ export default function CreateAccount({ navigation, route }) {
   };
 
   const [behavior, setBehavior] = useState("height");
-  
+
   React.useEffect(() => {
     if (form.type.value !== accType) {
       form.type.value = accType;
@@ -99,7 +99,7 @@ export default function CreateAccount({ navigation, route }) {
     } else {
       const state = processNewAccountRecord();
       accounts.push(state);
-      updateUserAccount(user, state).then(() => {
+      addUserAccount(user, state).then(() => {
         loading(false);
         showToast("success", "New Account Saved.")
         setId(state.id + 1);

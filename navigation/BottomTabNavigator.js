@@ -1,5 +1,7 @@
 // Learn more about createBottomTabNavigator:
 // https://reactnavigation.org/docs/bottom-tab-navigator
+import React from "react";
+
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -18,7 +20,7 @@ import PayeeList from "../screens/View/PayeeListScreen";
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator({ route, navigation }) {
-  const { initialNavTo, accounts, budgets, payers, payees, categories, transactions } = route.params;
+  const { initialNavTo, userData, setUserData } = route.params;
   const colorScheme = useColorScheme();
 
   return (
@@ -36,12 +38,8 @@ export default function BottomTabNavigator({ route, navigation }) {
           ),
         }}
         initialParams={{
-          accounts: accounts,
-          budgets: budgets,
-          payers: payers,
-          payees: payees,
-          categories: categories,
-          transactions: transactions
+          userData: userData,
+          setUserData: setUserData
         }}
       />
       <BottomTab.Screen
@@ -51,14 +49,7 @@ export default function BottomTabNavigator({ route, navigation }) {
           headerShown: false, title: null, tabBarLabel: "",
           tabBarButton: () => (
             <CreateButton 
-              createBtnProps={{
-                accounts: accounts,
-                budgets: budgets,
-                payers: payers,
-                payees: payees,
-                categories: categories,
-                transactions: transactions
-              }}
+              userData={userData}
               navigation={navigation}
             />
           )
@@ -74,7 +65,8 @@ export default function BottomTabNavigator({ route, navigation }) {
           ),
         }}
         initialParams={{
-          initialNavTo: initialNavTo
+          initialNavTo: initialNavTo,
+          userData: userData,
         }}
       />
     </BottomTab.Navigator>
@@ -92,7 +84,7 @@ function TabBarIcon(props) {
 const TabOneStack = createStackNavigator();
 
 function TabOneNavigator({route, navigation}) {
-  const { accounts, budgets, payers, payees, categories, transactions } = route.params;
+  const { userData, setUserData } = route.params;
 
   return (
     <TabOneStack.Navigator>
@@ -101,12 +93,8 @@ function TabOneNavigator({route, navigation}) {
         component={TabOneScreen}
         options={{ headerTitle: "Dashboard", headerLeft: null }}
         initialParams={{
-          accounts: accounts,
-          budgets: budgets,
-          payers: payers,
-          payees: payees,
-          categories: categories,
-          transactions: transactions
+          userData: userData,
+          setUserData: setUserData
         }}
       />
       <TabOneStack.Screen
@@ -139,7 +127,6 @@ function Create () {
 
 const BudgetStack = createStackNavigator();
 import CategoryList from "../screens/View/CategoryListScreen";
-import React from "react";
 
 function BudgetNavigator() {
   return (

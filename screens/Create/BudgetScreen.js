@@ -7,7 +7,7 @@ import { initialSaving, newBudget, initialBudgetForm, processBudgetCategories } 
 import React from "react";
 import Loading, { SuccessToast } from "../../components/Loading";
 import validate from "../../constants/validate";
-import { updateUserBudget } from "../../hooks/firebase";
+import { addUserBudget as create } from "../../hooks/firebase";
 import { useAuthentication } from "../../hooks/useAuthentication";
 
 export default function CreateBudget({ navigation, route }) {
@@ -99,7 +99,7 @@ export default function CreateBudget({ navigation, route }) {
     } else {
       const state = processNewBudgetRecord();
       budgets.push(state)
-      updateUserBudget(user, state).then(() => {
+      create(user, state, defaultCategories).then(() => {
         loading(false)
         showToast("success", "New Budget has been created.")
         setId(id + 1);

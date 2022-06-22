@@ -3,6 +3,8 @@ import { View, Card } from "../Themed";
 import { StyleSheet } from "react-native";
 
 export default function Cards({ navigation, cardProps }) {
+  const budgets = cardProps.budgets == undefined ? []:cardProps.budgets;
+
   return (
     <View style={styles.cardContainer}>
       <Card 
@@ -15,7 +17,7 @@ export default function Cards({ navigation, cardProps }) {
             params: {
               screen: 'Budgets',
               params: {
-                budgets: cardProps.budgets
+                budgets: budgets
               }
             }
           })

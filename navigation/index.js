@@ -23,13 +23,12 @@ import CreateTransfer from "../screens/Create/TransferScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
 
-import firebase from "../hooks/firebase";
 import { useAuthentication } from "../hooks/useAuthentication";
-import { getUser } from "../hooks/firebase";
+import { getUserData, setUser } from "../hooks/firebase";
 
 export default function Navigation({ colorScheme }) {
   const user = useAuthentication();
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
   const [navTo, setNavTo] = useState('login')
   
@@ -37,8 +36,10 @@ export default function Navigation({ colorScheme }) {
     if (typeof(user) == 'string') {
       setLoading(false);
     } else if (typeof(user) == 'object') {
-      getUser(user).then(res => {
+      getUserData(user).then(res => {
         setUserData(res);
+        setLoading(false); setNavTo('root')
+      }).catch(error => {
         setLoading(false); setNavTo('root')
       });
     } else {
@@ -68,6 +69,7 @@ export default function Navigation({ colorScheme }) {
         >
           <RootNavigator
             userData={userData}
+            setUserData={setUserData}
             initialNavTo={setNavTo}
           />
         </NavigationContainer>
@@ -81,7 +83,7 @@ export default function Navigation({ colorScheme }) {
 const Stack = createStackNavigator();
 
 function RootNavigator(props) {
-  const { userData, initialNavTo } = props;
+  const { userData, setUserData, initialNavTo } = props;
   
   return (
     <Stack.Navigator initialRouteName={"Root"} screenOptions={{ headerShown: false }}>
@@ -90,12 +92,8 @@ function RootNavigator(props) {
         component={BottomTabNavigator}
         initialParams={{
           initialNavTo: initialNavTo,
-          accounts: userData.data().accounts,
-          budgets: userData.data().budgets,
-          categories: userData.data().categories,
-          payees: userData.data().payees,
-          payers: userData.data().payers,
-          transactions: userData.data().transactions
+          userData: userData,
+          setUserData: setUserData
         }}
       />
       <Stack.Screen name="Add" component={Create} />

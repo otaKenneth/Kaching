@@ -7,13 +7,11 @@ export function getPercentage(amount, value) {
 }
 
 const newCategoryVals = (data, type, value, categs, totalBudget) => {
-    console.log(categs);
     if (data) {
         let temp = 0; let myType = type == 0 ? 'percentage':'amount';
         value = parseFloat(value);
         
         if (categs.find(d => d.id == data.id)) {
-            console.log(data);
             temp = value - data.budgetPlanned[myType];
         } else {
             temp = value;

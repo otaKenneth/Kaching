@@ -1,11 +1,9 @@
-import React, { useState, useEffect, Component } from 'react';
-import { SafeAreaView, ScrollView, TouchableOpacity, View, Container, Touchable, Text, Pressable, Modal, RefreshCtrl } from "../Themed";
-import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import { SafeAreaView, ScrollView, TouchableOpacity, View, Text } from "../Themed";
 
 import { StyleSheet } from "react-native";
 import Colors from '../../constants/Colors';
 import { useColorScheme } from "react-native";
-import appStyles from '../../assets/styles/appStyles'
 
 const AccsItem = ({ account, colorScheme }) => {
   const bgColor = {
@@ -30,12 +28,8 @@ const AccsItem = ({ account, colorScheme }) => {
   );
 };
 
-const wait = (tm) => {
-  return new Promise(resolve => setTimeout(resolve, tm))
-}
-
 export default function Accounts(props) {
-  const { accounts, reFresh } = props;
+  const { accounts } = props;
   const colorScheme = useColorScheme();
 
   return (
@@ -45,9 +39,11 @@ export default function Accounts(props) {
       </View>
       <SafeAreaView>
         <ScrollView horizontal={true}>
-          <View style={[accStyle.accountsContainer, {backgroundColor: Colors[colorScheme].cardBackground }]}>
-            {accounts.map((data, index) => <AccsItem key={index} account={data} colorScheme={colorScheme} />)}
-          </View>
+          {accounts !== undefined &&
+            <View style={[accStyle.accountsContainer, {backgroundColor: Colors[colorScheme].cardBackground }]}>
+              {accounts.map((data, index) => <AccsItem key={index} account={data} colorScheme={colorScheme} />)}
+            </View>
+          }
         </ScrollView>
       </SafeAreaView>
     </View>
@@ -88,7 +84,7 @@ const accStyle = StyleSheet.create({
   },
   accountsContainer: { 
     paddingTop: 15,
-    maxHeight: 265, width: "100%", 
+    maxHeight: 265, minWidth: 220, width: "auto",
     flexDirection: "column", 
     flexDirection: "column",
     flexWrap: "wrap", 

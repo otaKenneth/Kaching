@@ -38,10 +38,10 @@ export const initialLogin = {
 }
 
 export const newUserData = {
-    accounts: [],
-    budgets: [],
-    payees: [],
-    payers: [],
+    firstName: "",
+    lastName: "",
+    age: "",
+    gender: "",
     categories: [
         {
             id: 1,
@@ -120,6 +120,7 @@ export const newUserData = {
         "Electric Bill", "Water Bill"
     ],
     dateCreated: Timestamp.fromDate(new Date()),
+    log: 0,
 };
 
 export const newAccount = ({
@@ -130,7 +131,6 @@ export const newAccount = ({
     currentBalance: "",
     initialDate: new Date(),
     note: "",
-    transfers: []
 })
 
 export const initialAccountForm = () => ({
@@ -171,8 +171,6 @@ export const newBudget = ({
     "totalBudgeted": 0,
     "from": new Date(),
     "to": new Date(),
-    "categories": [],
-    "transactions": []
 })
 
 export const initialBudgetForm = () => ({

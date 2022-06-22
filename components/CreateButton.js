@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity, View, Text, Modal } from "./Themed";
 
-import { StyleSheet } from "react-native";
+import { StyleSheet, useColorScheme } from "react-native";
 import Colors from "../constants/Colors";
 import appStyles from "../assets/styles/appStyles";
-import useColorScheme from "react-native/Libraries/Utilities/useColorScheme";
 
-export default function CreateButton({ navigation, createBtnProps }) {
+export default function CreateButton({ navigation, userData }) {
   const [showModal, setShowModal] = useState(false);
   const colorScheme = useColorScheme();
+
+  const accounts = userData.accounts == undefined ? []:userData.accounts;
+  const budgets = userData.budgets == undefined ? []:userData.budgets;
 
   const textBackground = {
     backgroundColor: Colors[colorScheme].background
@@ -34,7 +36,12 @@ export default function CreateButton({ navigation, createBtnProps }) {
                   style={styles.actionBtns}
                   onPress={() => {
                     setShowModal(false);
-                    navigation.navigate('Add', { screen: 'CreateAccount', params: { accounts: createBtnProps.accounts } })
+                    navigation.navigate('Add', { 
+                      screen: 'CreateAccount', 
+                      params: { 
+                        accounts: accounts
+                      } 
+                    })
                   }}
                 >
                   <Ionicons name="wallet-outline" size={30} title="Account" />
@@ -49,7 +56,7 @@ export default function CreateButton({ navigation, createBtnProps }) {
                     setShowModal(false);
                     navigation.navigate('Add', {
                       screen: 'CreateTransfer', params: {
-                        accounts: createBtnProps.accounts,
+                        accounts: accounts,
                       }
                     })
                   }}
@@ -70,8 +77,8 @@ export default function CreateButton({ navigation, createBtnProps }) {
                     { 
                       screen: 'CreateBudget',
                       params: {
-                        budgets: createBtnProps.budgets,
-                        defaultCategories: createBtnProps.categories
+                        budgets: budgets,
+                        defaultCategories: userData.categories
                       }
                     })
                   }}
@@ -88,9 +95,9 @@ export default function CreateButton({ navigation, createBtnProps }) {
                     setShowModal(false);
                     navigation.navigate('Add', {
                       screen: 'CreateIncome', params: {
-                        accounts: createBtnProps.accounts,
-                        categories: createBtnProps.categories,
-                        payees: createBtnProps.payees
+                        accounts: userData.accounts,
+                        categories: userData.categories,
+                        payees: userData.payees
                       }
                     });
                   }}
@@ -107,9 +114,9 @@ export default function CreateButton({ navigation, createBtnProps }) {
                     setShowModal(false);
                     navigation.navigate('Add', {
                       screen: 'CreateExpense', params: {
-                        accounts: createBtnProps.accounts,
-                        categories: createBtnProps.categories,
-                        payees: createBtnProps.payees
+                        accounts: userData.accounts,
+                        categories: userData.categories,
+                        payees: userData.payees
                       }
                     });
                   }}

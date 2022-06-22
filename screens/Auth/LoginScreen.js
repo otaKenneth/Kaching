@@ -48,11 +48,11 @@ export default function Login({ navigation }) {
         .then((res) => {
           loading(false);
           showToast("success");
-          setTimeout(() => showToast(false), 1000)
+          setTimeout(() => { showToast(false) }, 500)
         }).catch((error) => {
           loading(false);
           showToast("failed", error.message)
-          setTimeout(() => { showToast(false)}, 1000)
+          setTimeout(() => { showToast(false) }, 1000)
         })
       }
     } else {

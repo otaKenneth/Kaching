@@ -1,58 +1,56 @@
-import { Text, View, TouchableOpacity, ScrollView, Card, RefreshCtrl } from "../components/Themed";
+import { Text, View, ScrollView, RefreshCtrl } from "../components/Themed";
 import Accounts from "../components/Dashboard/Accounts";
-import { Ionicons } from "@expo/vector-icons";
 
 import { StyleSheet } from "react-native";
-import appStyles from "../assets/styles/appStyles";
 import Cards from "../components/Dashboard/Cards";
 import React from "react";
-import { getUser } from "../hooks/firebase";
-import { useAuthentication } from "../hooks/useAuthentication";
+import { getUserAccounts, getUserBudgets } from "../hooks/firebase";
 import { useIsFocused } from "@react-navigation/native";
 
 export default function TabOneScreen({ route, navigation }) {
-  const { accounts, budgets, payers, payees, categories, transactions } = route.params;
+  const { userData, setUserData } = route.params;
   const [refresh, setRefresh] = React.useState(false);
-  const user = useAuthentication();
   const focused = useIsFocused();
 
   React.useEffect(() => {
-    if (focused && user) {
+    if (focused) {
       setRefresh(true);
-      getUser(user).then((res) => {
-        const data = res.data();
-        navigation.setParams({
-          accounts: data.accounts,
-          budgets: data.budgets,
-          payers: data.payers, 
-          payees: data.payees, 
-          categories: data.categories, 
-          transactions: data.transactions
+      getUserAccounts(userData.user).then(res => {
+        setUserData({
+          ...userData,
+          accounts: res
         })
-        setRefresh(false)
-      }).catch(error => {
-        console.log(error.message);
-      });
+        getUserBudgets(userData.user).then(res => {
+          setUserData({
+            ...userData,
+            budgets: res
+          })
+          setRefresh(false);
+        })
+      }).catch(err => {
+        setRefresh(false);
+      })
     }
-  }, [focused, user])
+  }, [focused])
 
   const onRefresh = React.useCallback(() => {
     setRefresh(true);
-    getUser(user).then((res) => {
-      const data = res.data();
-      navigation.setParams({
-        accounts: data.accounts,
-        budgets: data.budgets,
-        payers: data.payers, 
-        payees: data.payees, 
-        categories: data.categories, 
-        transactions: data.transactions
+    getUserAccounts(userData.user).then(accounts => {
+      setUserData({
+        ...userData,
+        accounts: accounts
       })
-      setRefresh(false)
-    }).catch(error => {
-      console.log(error.message);
-    });
-  }, [user])
+      getUserBudgets(userData.user).then(budgets => {
+        setUserData({
+          ...userData,
+          budgets: budgets
+        })
+        setRefresh(false);
+      })
+    }).catch(err => {
+      setRefresh(false);
+    })
+  }, [userData])
 
   return (
     <ScrollView
@@ -79,15 +77,9 @@ export default function TabOneScreen({ route, navigation }) {
         />
         <Cards 
           navigation={navigation}
-          cardProps={{
-            budgets: budgets,
-            payees: payees,
-            payers: payers,
-            categories: categories,
-            transactions: transactions
-          }}
+          cardProps={userData}
         />
-        <Accounts accounts={accounts} reFresh={refresh} />
+        <Accounts accounts={userData.accounts} />
       </View>
     </ScrollView>
   );

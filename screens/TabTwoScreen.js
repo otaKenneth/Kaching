@@ -20,8 +20,6 @@ export default function TabTwoScreen({ navigation, route }) {
           activeOpacity={0.5}
           onPress={() => {
             signOut(auth).then(() => {
-              console.log(user);
-              console.log("signed out");
               initialNavTo('login')
             }).catch((error) => {
               console.log(error.message);
