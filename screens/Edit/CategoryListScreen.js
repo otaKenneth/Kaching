@@ -16,7 +16,7 @@ import newCategoryVals from '../../hooks/categories';
 import { Feather } from '@expo/vector-icons';
 import { initialSaving } from "../../constants/defaults";
 import CreateCategoryModal from "../Create/Modal/CategoryModal";
-import { getUserBudgets } from "../../hooks/firebase";
+import { getUserBudgetCategories } from "../../hooks/firebase";
 import { useAuthentication } from "../../hooks/useAuthentication";
 
 export default function CategoryList({ route, navigation }) {
@@ -52,7 +52,7 @@ export default function CategoryList({ route, navigation }) {
       item.budgetPlanned.percentage, item.budgetPlanned.amount
     ];
     const [type, setType] = useState(0);
-    const editable = item.category == "Balance" ? false : true;
+    const editable = item.name == "Balance" ? false : true;
     const bgColor = editable ? "#fff" : "#c4c4c4";
 
     return (
@@ -81,8 +81,11 @@ export default function CategoryList({ route, navigation }) {
   }
 
   function refetch() {
-    getUserBudgets(user, id).then(res => {
-      setCategs(res.data().categories)
+    getUserBudgetCategories(user, headerName).then(res => {
+      setCategs(res)
+      navigation.setParams({
+        categories: categs
+      })
     })
   }
 
@@ -99,6 +102,7 @@ export default function CategoryList({ route, navigation }) {
             categs={categs}
             setCategs={setCategs}
             refetch={refetch}
+            budgetName={headerName}
             totalBudget={totalBudget}
           />
           <PrimaryButton 

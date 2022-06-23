@@ -14,13 +14,14 @@ import { initialCategoryForm, newCategory } from "../../../constants/defaults";
 import appStyles from "../../../assets/styles/appStyles";
 import validate from "../../../constants/validate";
 import newCategoryVals from "../../../hooks/categories";
-import { updateUserBudgetCategory } from "../../../hooks/firebase";
+import { addUserBudgetCategory as create, updateUserBudgetCategory as update } from "../../../hooks/firebase";
 import { useAuthentication } from "../../../hooks/useAuthentication";
 
 export default function CreateCategoryModal (props) {
-  const { modal, setModal, categs, setCategs, refetch, totalBudget } = props;
+  const { modal, setModal, categs, setCategs, budgetName, refetch, totalBudget } = props;
   const user = useAuthentication();
   const [form, setForm] = React.useState(initialCategoryForm())
+  const balanceId = Object.values(categs).find(data => data.name == "Balance").id;
   const [type, setType] = React.useState(0);
   const [cId, setCId] = React.useState(categs[categs.length - 1].id + 1);
 
@@ -30,8 +31,11 @@ export default function CreateCategoryModal (props) {
     setForm({ ...form });
   }
 
-  function handleNewValue(data, type, value) {
-    setCategs(categs => newCategoryVals(data, type, value, categs, totalBudget))
+  const handleNewValue = function (data, type, value) {
+    return new Promise(function (resolve, reject) {
+      setCategs(categs => newCategoryVals(data, type, value, categs, totalBudget))
+      resolve(true);
+    })
   }
   
   function processNewCategory () {
@@ -57,11 +61,21 @@ export default function CreateCategoryModal (props) {
       setForm(v)
     } else {
       const state = processNewCategory();
-      handleNewValue(state, form.budgetPlanned.type, form.budgetPlanned.value);
-      updateUserBudgetCategory(user).then(res => {
-        reset(); refetch();
-        setModal(false);
-      })
+      handleNewValue(state, form.budgetPlanned.type, form.budgetPlanned.value).then(res => {
+        const balData = categs.find(data => data.id == balanceId);
+        create(user, budgetName, state).then(res => {
+          update(user, budgetName, balData).then(res => {
+            reset(); refetch();
+            setModal(false);
+          }).catch(error => {
+            console.log(error);
+          })
+        }).catch(error => {
+          refetch();
+          console.log(error.message);
+          setModal(false);
+        })
+      });
     }
   }
 

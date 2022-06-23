@@ -30,7 +30,7 @@ const newCategoryVals = (data, type, value, categs, totalBudget) => {
         
         return categs.map((item) => {
             // console.log(item);
-            if (item.id == 1) {
+            if (item.name == "Balance") {
                 item.budgetPlanned[myType] -= temp;
                 if (type == 0) {
                     item.budgetPlanned.amount = getAmount(totalBudget, item.budgetPlanned[myType]).toFixed(2)

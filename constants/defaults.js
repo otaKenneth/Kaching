@@ -50,7 +50,7 @@ export const newUserData = {
                 "percentage": 0,
                 "amount": 0
             },
-            "comment": "This is the remaining balance to be budgeted."
+    "comment": "This is the remaining balance to be budgeted."
         },
         {
             id: 2,
@@ -70,7 +70,7 @@ export const newUserData = {
                 "amount": 0
             },
             "consumed": "",
-            "comment": "Important. Must be trafered to your savings imediately."
+            "comment": "Important. Must be traferred to your savings fund immediately."
         },
         {
             id: 4,
@@ -110,7 +110,7 @@ export const newUserData = {
                 "amount": 0
             },
             "consumed": "",
-            "comment": "Transportation fare and miscelenous fines."
+            "comment": "Transportation fare and miscellaneous fines."
         }
     ],
     transactions: [

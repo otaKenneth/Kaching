@@ -1,13 +1,12 @@
-import { Text, View, Container, TouchableOpacity, SafeAreaView, ScrollView, RefreshCtrl } from "../../components/Themed";
+import { Text, View, Container, TouchableOpacity, SafeAreaView, ScrollView, RefreshCtrl, FlatList } from "../../components/Themed";
 import * as Progress from "react-native-progress";
 import { StyleSheet, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
 import React from "react";
-import { useAuthentication } from "../../hooks/useAuthentication";
-import { getUser } from "../../hooks/firebase";
+import { getUserBudgets } from "../../hooks/firebase";
 
 const BudgetCard = ({ id, budget, colorScheme, navigation }) => {
-  const percentage = (budget.consumed / budget.totalBudgeted);
+  const percentage = (parseFloat(budget.consumed) / parseFloat(budget.totalBudgeted));
   const percentageColor = (p) => {
     if (p >= 0.0 && p < 0.40) {
       return { light: "#00eb0a", dark: "#219e0b" }[colorScheme];
@@ -18,7 +17,7 @@ const BudgetCard = ({ id, budget, colorScheme, navigation }) => {
     } else if (p > 1) {
       return { light: "#ff6363", dark: "#960808" }[colorScheme];
     }
-  };
+  }
 
   const navTo = {
     head: id > 0 ? 'Budget' : 'Edit',
@@ -30,7 +29,7 @@ const BudgetCard = ({ id, budget, colorScheme, navigation }) => {
       style={styles.budgetContainer}
     >
       <Progress.Bar 
-        progress={percentage} 
+        progress={0.6} 
         height={30} 
         width={null} 
         color={percentageColor(percentage)} 
@@ -84,18 +83,17 @@ const BudgetCard = ({ id, budget, colorScheme, navigation }) => {
 
 export default function BudgetList({ navigation, route }) {
   const colorScheme = useColorScheme();
-  const user = useAuthentication();
-  const { budgets } = route.params;
+  const { budgets, user } = route.params;
   const [refresh, refreshing] = React.useState(false)
   const [DATA, setData] = React.useState(budgets);
 
   const onRefresh = React.useCallback(() => {
     refreshing(true);
-    getUser(user).then((res) => {
+    getUserBudgets(user).then(res => {
       navigation.setParams({
-        budgets: res.data().budgets
+        budgets: res
       })
-      setData(res.data().budgets)
+      setData(budgets)
       refreshing(false)
     })
   }, [user])
@@ -103,28 +101,25 @@ export default function BudgetList({ navigation, route }) {
   return (
     <View style={[styles.container, { backgroundColor: Colors[colorScheme].background }]}>
       <SafeAreaView style={{ backgroundColor: "transparent" }}>
-        <ScrollView 
-          style={{ backgroundColor: "transparent" }} 
-          horizontal={false}
+        <FlatList
+          style={styles.listContainer} 
           refreshControl={
             <RefreshCtrl
               refreshing={refresh}
               onRefresh={onRefresh}
             />
           }
-        >
-          <View style={[styles.listContainer, { marginBottom: 50 }]}>
-            {DATA.map((data, index) => (
-              <BudgetCard 
-                key={index} 
-                id={index} 
-                budget={data} 
-                colorScheme={colorScheme} 
-                navigation={navigation}
-              />
-            ))}
-          </View>
-        </ScrollView>
+          data={DATA}
+          renderItem={(data, index) => (
+            <BudgetCard
+              key={index} 
+              id={index} 
+              budget={data.item} 
+              colorScheme={colorScheme} 
+              navigation={navigation}
+            />
+          )}
+        />
       </SafeAreaView>
     </View>
   )
@@ -132,7 +127,7 @@ export default function BudgetList({ navigation, route }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1, width: "100%",
     backgroundColor: "transparent",
     alignContent: "center",
     justifyContent: "flex-start",
@@ -140,13 +135,12 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     height: "auto", width: "100%",
-    paddingTop: 15, alignContent: "center",
-    flexDirection: "column", flexWrap: "wrap",
     backgroundColor: "transparent"
   },
   budgetContainer: {
     width: "95%", height: 150,
     justifyContent: "flex-start",
+    alignSelf: "center",
     borderRadius: 15,
     marginBottom: 10,
     // overflow: "hidden",
