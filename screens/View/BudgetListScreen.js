@@ -1,11 +1,22 @@
-import { Text, View, Container, TouchableOpacity, SafeAreaView, ScrollView, RefreshCtrl, FlatList } from "../../components/Themed";
+import React from "react";
+import { 
+  Text, 
+  View, 
+  Container, 
+  TouchableOpacity, 
+  SafeAreaView, 
+  ScrollView, 
+  RefreshCtrl, 
+  FlatList 
+} from "../../components/Themed";
 import * as Progress from "react-native-progress";
 import { StyleSheet, useColorScheme } from "react-native";
-import Colors from "../../constants/Colors";
-import React from "react";
-import { getUserBudgets } from "../../hooks/firebase";
+import { Feather } from "@expo/vector-icons";
 
-const BudgetCard = ({ id, budget, colorScheme, navigation }) => {
+import Colors from "../../constants/Colors";
+import { deleteUserBudget, getUserBudgets } from "../../hooks/firebase";
+
+const BudgetCard = ({ id, budget, user, colorScheme, refreshing, navigation }) => {
   const percentage = (parseFloat(budget.consumed) / parseFloat(budget.totalBudgeted));
   const percentageColor = (p) => {
     if (p >= 0.0 && p < 0.40) {
@@ -18,66 +29,100 @@ const BudgetCard = ({ id, budget, colorScheme, navigation }) => {
       return { light: "#ff6363", dark: "#960808" }[colorScheme];
     }
   }
+  const [budgetW, setBudgetW] = React.useState(400);
 
   const navTo = {
-    head: id > 0 ? 'Budget' : 'Edit',
-    screen: id > 0 ? 'Categories' : 'EditCategory'
+    head: id > 1 ? 'Budget' : 'Edit',
+    screen: id > 1 ? 'Categories' : 'EditCategory'
   };
 
   return (
-    <View
+    <SafeAreaView
       style={styles.budgetContainer}
+      onLayout={(ev) => {
+        var {x,y,width,height} = ev.nativeEvent.layout;
+        setBudgetW(width);
+      }}
     >
-      <Progress.Bar 
-        progress={0.6} 
-        height={30} 
-        width={null} 
-        color={percentageColor(percentage)} 
-        style={{ borderRadius: 15 }} 
-      />
-      <TouchableOpacity
-        activeOpacity={0.6}
-        style={{ 
-          width: "100%", height: "100%", 
-          padding: 10, 
-          position: "absolute", top: 0,  
-          backgroundColor: "transparent"
-        }}
-        onPress={() => navigation.navigate(navTo.head, 
-          { screen: navTo.screen, 
-            params: { 
-              id: budget.id, 
-              categories: budget.categories, 
-              headerName: budget.name, 
-              totalBudget: budget.currentBalance 
-            } 
-          })
-        }
+      <ScrollView
+        horizontal={true}
+        style={{ flexDirection: "row" }}
       >
-        <Container style={{ width: "100%" }}>
-          <Container style={{ width: "100%", height: 10, marginBottom: 30, justifyContent: "center" }}>
-            <Text style={{ textAlign: "center", position: "absolute", width: "100%", fontWeight: "900" }}>{(percentage * 100).toFixed(2)}%</Text>
-          </Container>
-          <Container>
-            <Text style={[styles.cardText, { fontSize: 25 }]}>{budget.name}</Text>
-          </Container>
-          <Container style={{ flexDirection: "row", width: "100%", justifyContent: "flex-start" }}>
-            <Container style={{ marginRight: 10 }}>
-              <Text style={styles.cardText}>Consumed:</Text>
-              <Text style={styles.cardText}>{budget.consumed}</Text>
+        <View
+          style={{ width: budgetW, justifyContent: "flex-start" }}
+        >
+          <Progress.Bar 
+            progress={percentage} 
+            height={28} 
+            width={null} 
+            color={percentageColor(percentage)} 
+            style={{ borderRadius: 15 }} 
+          />
+          <TouchableOpacity
+            activeOpacity={0.6}
+            style={{ 
+              width: "100%", height: "100%", 
+              position: "absolute", top: 0, padding: 10,
+              backgroundColor: "transparent"
+            }}
+            onPress={() => navigation.navigate(navTo.head, 
+              { screen: navTo.screen, 
+                params: { 
+                  id: budget.id, 
+                  categories: budget.categories, 
+                  headerName: budget.name, 
+                  totalBudget: budget.currentBalance 
+                } 
+              })
+            }
+          >
+            <Container style={{ width: "100%" }}>
+              <Container style={{ width: "100%", height: 10, marginBottom: 30, justifyContent: "center" }}>
+                <Text style={{ textAlign: "center", position: "absolute", width: "100%", fontWeight: "900" }}>{(percentage * 100).toFixed(2)}%</Text>
+              </Container>
+              <Container>
+                <Text style={[styles.cardText, { fontSize: 25 }]}>{budget.name}</Text>
+              </Container>
+              <Container style={{ flexDirection: "row", width: "100%", justifyContent: "flex-start" }}>
+                <Container style={{ marginRight: 10 }}>
+                  <Text style={styles.cardText}>Consumed:</Text>
+                  <Text style={styles.cardText}>{budget.consumed}</Text>
+                </Container>
+                <Container style={{ marginRight: 10 }}>
+                  <Text style={styles.cardText}>Total Budget:</Text>
+                  <Text style={styles.cardText}>{budget.totalBudgeted}</Text>
+                </Container>
+                <Container style={{ marginRight: 10 }}>
+                  <Text style={styles.cardText}>Remaining Balance:</Text>
+                  <Text style={styles.cardText}>{budget.remaining}</Text>
+                </Container>
+              </Container>
             </Container>
-            <Container style={{ marginRight: 10 }}>
-              <Text style={styles.cardText}>Total Budget:</Text>
-              <Text style={styles.cardText}>{budget.totalBudgeted}</Text>
-            </Container>
-            <Container style={{ marginRight: 10 }}>
-              <Text style={styles.cardText}>Remaining Balance:</Text>
-              <Text style={styles.cardText}>{budget.remaining}</Text>
-            </Container>
-          </Container>
-        </Container>
-      </TouchableOpacity>
-    </View>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          style={styles.cardButton}
+        >
+          <Feather name="edit-2" size={24} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          style={[styles.cardButton, {
+            backgroundColor: "#fc626a" 
+          }]}
+          onPress={() => {
+            deleteUserBudget(user, id).then(() => {
+              refreshing(true)
+            }).catch(error => {
+              console.log(error.message);
+            })
+          }}
+        >
+          <Feather name="trash-2" size={24} color="black" />
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -85,7 +130,6 @@ export default function BudgetList({ navigation, route }) {
   const colorScheme = useColorScheme();
   const { budgets, user } = route.params;
   const [refresh, refreshing] = React.useState(false)
-  const [DATA, setData] = React.useState(budgets);
 
   const onRefresh = React.useCallback(() => {
     refreshing(true);
@@ -93,8 +137,9 @@ export default function BudgetList({ navigation, route }) {
       navigation.setParams({
         budgets: res
       })
-      setData(budgets)
-      refreshing(false)
+      setTimeout(() => {
+        refreshing(false)
+      }, 200)
     })
   }, [user])
 
@@ -109,12 +154,14 @@ export default function BudgetList({ navigation, route }) {
               onRefresh={onRefresh}
             />
           }
-          data={DATA}
+          data={budgets}
           renderItem={(data, index) => (
             <BudgetCard
               key={index} 
-              id={index} 
+              id={data.item.id} 
               budget={data.item} 
+              user={user}
+              refreshing={refreshing}
               colorScheme={colorScheme} 
               navigation={navigation}
             />
@@ -139,14 +186,20 @@ const styles = StyleSheet.create({
   },
   budgetContainer: {
     width: "95%", height: 150,
-    justifyContent: "flex-start",
-    alignSelf: "center",
+    alignSelf: "center", 
     borderRadius: 15,
     marginBottom: 10,
-    // overflow: "hidden",
-    elevation: 2
+    elevation: 2,
+    overflow: "hidden",
+    backgroundColor: "white"
   },
   cardText: {
     fontWeight: "600"
+  },
+  cardButton: {
+    height: "100%", paddingHorizontal: 20,
+    justifyContent: "center", 
+    alignContent: "center",
+    backgroundColor: "#fcba62" 
   }
 });

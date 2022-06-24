@@ -40,7 +40,7 @@ export default function CategoryList({ route, navigation }) {
     )
   });
 
-  const [categs, setCategs] = useState(categories);
+  const [categs, setCategs] = useState(sortCategories(categories));
   const [showChart, setShowChart] = useState(false);
 
   function handleNewValue(data, type, value) {
@@ -81,7 +81,7 @@ export default function CategoryList({ route, navigation }) {
   }
 
   function refetch() {
-    getUserBudgetCategories(user, headerName).then(res => {
+    getUserBudgetCategories(user, id).then(res => {
       setCategs(res)
       navigation.setParams({
         categories: categs
@@ -102,7 +102,7 @@ export default function CategoryList({ route, navigation }) {
             categs={categs}
             setCategs={setCategs}
             refetch={refetch}
-            budgetName={headerName}
+            budgetId={id}
             totalBudget={totalBudget}
           />
           <PrimaryButton 
@@ -158,6 +158,17 @@ const getPieChartData = (data) => {
       arc: { cornerRadius: 5 },
     }
   })
+}
+
+function sortCategories (categs) {
+  var finalCategs = [categs[0]];
+  var toSort = categs.slice(1);
+  var sorted = toSort.sort((a,b) => {
+    return a.budgetPlanned.amount < b.budgetPlanned.amount;
+  });
+  finalCategs = [...finalCategs, ...sorted];
+
+  return finalCategs;
 }
 
 const colors = ['#003f5c', '#ffa600', '#2f4b7c', '#ff7c21', '#790093', '#f30054', '#ff4d3c', '#d9006c', '#b10082', '#03169c', "#665191", "#a05195", '#d45087', '#f95d6a', '#ff7c43'];

@@ -7,7 +7,7 @@ import { initialSaving, newBudget, initialBudgetForm, processBudgetCategories } 
 import React from "react";
 import Loading, { SuccessToast } from "../../components/Loading";
 import validate from "../../constants/validate";
-import { addUserBudget as create } from "../../hooks/firebase";
+import { addUserBudget as create, addUserBudgetCategory } from "../../hooks/firebase";
 import { useAuthentication } from "../../hooks/useAuthentication";
 
 export default function CreateBudget({ navigation, route }) {
@@ -98,14 +98,38 @@ export default function CreateBudget({ navigation, route }) {
       loading(false)
     } else {
       const state = processNewBudgetRecord();
-      budgets.push(state)
-      create(user, state, defaultCategories).then(() => {
+      const categories = state.categories;
+      delete state.categories;
+      create(user, state).then(() => {
         loading(false)
-        showToast("success", "New Budget has been created.")
-        setId(id + 1);
-        newBudget.id = id;
-        reset();
-        setTimeout(() => showToast(false), 1000)
+        var processed = 0;
+        loading(true, "Creating basic categories.")
+        categories.forEach((d, i, a) => {
+          addUserBudgetCategory(user, state.id, d).then(res => {
+            processed++;
+            if (processed == a.length) {
+              loading(false);
+              showToast("success", "New Budget has been created.")
+              setId(id + 1);
+              newBudget.id = id;
+              reset();
+              setTimeout(() => showToast(false), 1000)
+              navigation.navigate('Add', {
+                screen: "CreateCateg", 
+                params: { 
+                  id: state.id,
+                  categories: categories, 
+                  headerName: state.name,
+                  totalBudget: state.initialBalance,
+                }
+              })
+            }
+          }).catch(error => {
+            loading(false)
+            showToast("failed", error.message)
+            setTimeout(() => showToast(false), 1000)    
+          })
+        })
       }).catch((error) => {
         loading(false)
         showToast("failed", error.message)
@@ -155,9 +179,11 @@ export default function CreateBudget({ navigation, route }) {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
       >
-        <View style={[styles.container, { width: "100%", padding: 0 }]}>
-          <PrimaryButton text="Save" onPress={() => handleSubmmit()} />
-        </View>
+        <PrimaryButton 
+          text="Save" 
+          onPress={() => handleSubmmit()} 
+          style={{ width: "97%" }}
+        />
       </KeyboardAvoidingView>
     </ScrollView>
   )

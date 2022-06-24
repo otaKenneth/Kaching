@@ -18,7 +18,7 @@ import { addUserBudgetCategory as create, updateUserBudgetCategory as update } f
 import { useAuthentication } from "../../../hooks/useAuthentication";
 
 export default function CreateCategoryModal (props) {
-  const { modal, setModal, categs, setCategs, budgetName, refetch, totalBudget } = props;
+  const { modal, setModal, categs, setCategs, budgetId, refetch, totalBudget } = props;
   const user = useAuthentication();
   const [form, setForm] = React.useState(initialCategoryForm())
   const balanceId = Object.values(categs).find(data => data.name == "Balance").id;
@@ -63,8 +63,8 @@ export default function CreateCategoryModal (props) {
       const state = processNewCategory();
       handleNewValue(state, form.budgetPlanned.type, form.budgetPlanned.value).then(res => {
         const balData = categs.find(data => data.id == balanceId);
-        create(user, budgetName, state).then(res => {
-          update(user, budgetName, balData).then(res => {
+        create(user, budgetId, state).then(res => {
+          update(user, budgetId, balData).then(res => {
             reset(); refetch();
             setModal(false);
           }).catch(error => {

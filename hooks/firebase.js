@@ -3,7 +3,7 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/database'
 import { Constants } from 'expo-constants';
-import { setDoc, collection, doc, getFirestore, getDoc, updateDoc, arrayUnion, getDocs, addDoc } from 'firebase/firestore';
+import { setDoc, collection, doc, getFirestore, getDoc, updateDoc, arrayUnion, getDocs, addDoc, deleteDoc } from 'firebase/firestore';
 import { newUserData } from '../constants/defaults';
 
 // TODO: Replace the following with your app's Firebase project configuration
@@ -30,22 +30,26 @@ export async function setUser(uid) {
 
 export async function getUserData(user) {
     let userData = {user: user};
-    data = await getDoc(doc(db, `users/${user.uid}`));
+    const data = await getDoc(doc(db, `users/${user.uid}`));
     userData = {...userData, ...data.data()};
     userData.accounts = [];
-    const snapshot1 = await getDocs(collection(db, `users/${user.uid}/accounts`));
-    snapshot1.forEach( doc => {
+    const accounts = await getDocs(collection(db, `users/${user.uid}/accounts`));
+    accounts.forEach( doc => {
         userData.accounts.push(doc.data());
     })
     userData.budgets = [];
-    const snapshot2 = await getDocs(collection(db, `users/${user.uid}/budgets`));   
-    snapshot2.forEach( doc => {
-        const data = {...doc.data(), categories: [], transactions: []};
-        getUserBudgetCategories(user, data.name).then(res => {
-            data.categories = res;
-        });
-        userData.budgets.push(data)
+    const budgets = await getDocs(collection(db, `users/${user.uid}/budgets`));   
+    budgets.forEach( async doc => {
+        const budget = {...doc.data(), categories: []};
+        const categories = await getDocs(collection(db, `users/${user.uid}/budgets/${budget.id}/categories`))
+        categories.forEach( cdoc => {
+            let categ = {...cdoc.data(), cid: cdoc.id};
+            budget.categories.push(categ)
+        })
+        userData.budgets.push(budget)
     })
+    userData.payees = [];
+    userData.payers = [];
     return userData;
 }
 
@@ -61,21 +65,23 @@ export async function getUserAccounts(user) {
 export async function getUserBudgets(user) {
     const budgets = [];
     const snapshot = await getDocs(collection(db, `users/${user.uid}/budgets`));   
-    snapshot.forEach( doc => {
-        const data = {...doc.data(), categories: [], transactions: []};
-        getUserBudgetCategories(user, data.name).then(res => {
-            data.categories = res;
-        });
+    snapshot.forEach( async doc => {
+        const data = {...doc.data(), categories: []};
+        const categories = await getDocs(collection(db, `users/${user.uid}/budgets/${data.id}/categories`))
+        categories.forEach( doc => {
+            let categ = {...doc.data(), cid: doc.id};
+            data.categories.push(categ)
+        })
         budgets.push(data)
     })
     return budgets;
 }
 
-export async function getUserBudgetCategories(user, budgetname) {
+export async function getUserBudgetCategories(user, budgetId) {
     let categories = [];
-    const snapshot = await getDocs(collection(db, `users/${user.uid}/budgets/${budgetname}/categories`))
+    const snapshot = await getDocs(collection(db, `users/${user.uid}/budgets/${budgetId}/categories`))
     snapshot.forEach( doc => {
-        let categ = {...doc.data(), id: doc.id};
+        let categ = {...doc.data(), cid: doc.id};
         categories.push(categ)
     })
     return categories;
@@ -86,11 +92,11 @@ export async function addUserAccount(user, data) {
 }
 
 export async function addUserBudget(user, data) {
-    return await setDoc(doc(db, `users/${user.uid}/budgets/${data.name}`), data);
+    return await setDoc(doc(db, `users/${user.uid}/budgets/${data.id}`), data);
 }
 
-export async function addUserBudgetCategory(user, budgetName, data) {
-    return await addDoc(collection(db, `users/${user.uid}/budgets/${budgetName}/categories/`), data);
+export async function addUserBudgetCategory(user, budgetId, data) {
+    return await addDoc(collection(db, `users/${user.uid}/budgets/${budgetId}/categories/`), data);
 }
 
 export async function updateUserAccount(user, data) {
@@ -105,6 +111,10 @@ export async function updateUserBudget(user, data) {
     })
 }
 
-export async function updateUserBudgetCategory(user, budgetName, data) {
-    return await updateDoc(doc(db, `users/${user.uid}/budgets/${budgetName}/categories/${data.id}`), data)
+export async function updateUserBudgetCategory(user, budgetId, data) {
+    return await updateDoc(doc(db, `users/${user.uid}/budgets/${budgetId}/categories/${data.cid}`), data)
+}
+
+export async function deleteUserBudget(user, budgetId) {
+    return await deleteDoc(doc(db, `users/${user.uid}/budgets/${budgetId}`));
 }

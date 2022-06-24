@@ -172,6 +172,14 @@ function Create ({ navigation }) {
       />
       <CreateStack.Screen name="CreatePayee" component={CreatePayee} options={{ headerShown: true, headerTitle: "New Payee" }} />
       <CreateStack.Screen name="CreatePayer" component={CreatePayer} options={{ headerShown: true, headerTitle: "New Payer" }} />
+      <CreateStack.Screen 
+        name="CreateCateg" 
+        component={CategoryList} 
+        options={{ 
+          headerShown: true, 
+          headerTitle: "Category" 
+        }} 
+      />
     </CreateStack.Navigator>
   )
 }
