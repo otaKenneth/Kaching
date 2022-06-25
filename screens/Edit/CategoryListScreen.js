@@ -12,12 +12,13 @@ import { PieChart } from 'react-native-svg-charts';
 import { Labels } from "../../components/Charts/chartAdds";
 
 import { StyleSheet, useColorScheme } from "react-native";
-import newCategoryVals from '../../hooks/categories';
+import newCategoryVals, { sortCategoriesByAmount, sortCategoriesById } from '../../hooks/categories';
 import { Feather } from '@expo/vector-icons';
 import { initialSaving } from "../../constants/defaults";
 import CreateCategoryModal from "../Create/Modal/CategoryModal";
-import { getUserBudgetCategories } from "../../hooks/firebase";
+import { getUserBudgetCategories, updateUserBudgetCategory } from "../../hooks/firebase";
 import { useAuthentication } from "../../hooks/useAuthentication";
+import Loading, { SuccessToast } from "../../components/Loading";
 
 export default function CategoryList({ route, navigation }) {
   const colorScheme = useColorScheme();
@@ -39,8 +40,8 @@ export default function CategoryList({ route, navigation }) {
       </TouchableOpacity>
     )
   });
-
-  const [categs, setCategs] = useState(sortCategories(categories));
+  
+  const [categs, setCategs] = useState(sortCategoriesByAmount(categories));
   const [showChart, setShowChart] = useState(false);
 
   function handleNewValue(data, type, value) {
@@ -80,11 +81,40 @@ export default function CategoryList({ route, navigation }) {
     })
   }
 
+  function showToast(toast, msg = "") {
+    saving({
+      ...save,
+      returnToast: toast,
+      msg: msg
+    })
+  }
+
   function refetch() {
     getUserBudgetCategories(user, id).then(res => {
-      setCategs(res)
+      setCategs(sortCategoriesByAmount(res))
       navigation.setParams({
         categories: categs
+      })
+    })
+  }
+
+  const handleSubmit = () => {
+    loading(true, "Saving changes..."); var processed = 0;
+    categs.forEach((d, i, a) => {
+      updateUserBudgetCategory(user, id, d).then( () => {
+        processed++;
+        if (processed == a.length) {
+          loading(false);
+          showToast("success", "Changes has been saved.");
+          setTimeout(() => {
+            showToast(false)
+            navigation.navigate('DashboardTab')
+          }, 1000)
+        }
+      }).catch(error => {
+        loading(false);
+        showToast("failed", error.message)
+        setTimeout(() => showToast(false), 1000)
       })
     })
   }
@@ -94,12 +124,23 @@ export default function CategoryList({ route, navigation }) {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
+      {save.isLoading &&
+        <Loading
+          text={save.loadingMsg}
+        />
+      }
+      {save.returnToast &&
+        <SuccessToast
+          type={save.returnToast}
+          text={save.msg}
+        />
+      }
       <View style={{ flex: 0.1, width: "100%", padding: 10 }}>
         <Container>
           <CreateCategoryModal 
             modal={showModal} 
             setModal={setShowModal} 
-            categs={categs}
+            categs={sortCategoriesById(categs)}
             setCategs={setCategs}
             refetch={refetch}
             budgetId={id}
@@ -136,7 +177,10 @@ export default function CategoryList({ route, navigation }) {
             />
           </Container>
           <Container style={{ marginVertical: 20 }}>
-            <PrimaryButton text="Save" />
+            <PrimaryButton 
+              text="Save" 
+              onPress={() => handleSubmit()}
+            />
           </Container>
         </View>
       }
@@ -145,30 +189,31 @@ export default function CategoryList({ route, navigation }) {
 }
 
 const getPieChartData = (data) => {
-  const newD = data.filter(item => {
+  const others = {
+    name: "Others",
+    budgetPlanned: {
+      percentage: 0,
+      amount: 0
+    }
+  }
+  var newD = data.filter(item => {
     const p = parseFloat(item.budgetPlanned.percentage);
-    return p > 0
+    if (p <= 5) {
+      others.budgetPlanned.percentage += p;
+    } else {
+      return p > 0
+    }
   });
+  newD = [...newD, others];
   return newD.map((item, index) => {
     return {
       key: index,
-      value: item.budgetPlanned.percentage,
+      value: parseFloat(item.budgetPlanned.percentage),
       name: item.name,
       svg: { fill: colors[index] },
       arc: { cornerRadius: 5 },
     }
   })
-}
-
-function sortCategories (categs) {
-  var finalCategs = [categs[0]];
-  var toSort = categs.slice(1);
-  var sorted = toSort.sort((a,b) => {
-    return a.budgetPlanned.amount < b.budgetPlanned.amount;
-  });
-  finalCategs = [...finalCategs, ...sorted];
-
-  return finalCategs;
 }
 
 const colors = ['#003f5c', '#ffa600', '#2f4b7c', '#ff7c21', '#790093', '#f30054', '#ff4d3c', '#d9006c', '#b10082', '#03169c', "#665191", "#a05195", '#d45087', '#f95d6a', '#ff7c43'];

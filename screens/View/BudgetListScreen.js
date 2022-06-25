@@ -13,10 +13,21 @@ import * as Progress from "react-native-progress";
 import { StyleSheet, useColorScheme } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
+import { useIsFocused } from "@react-navigation/native";
 import Colors from "../../constants/Colors";
-import { deleteUserBudget, getUserBudgets } from "../../hooks/firebase";
+import { deleteUserBudget, getUserBudgetCategories, getUserBudgets } from "../../hooks/firebase";
+import { sortCategoriesById } from "../../hooks/categories";
 
-const BudgetCard = ({ id, budget, user, colorScheme, refreshing, navigation }) => {
+const BudgetCard = ({ id, budget, user, colorScheme, navigation }) => {
+  const [categories, setCategories] = React.useState([]);
+  if (budget.categories.length == 0) {
+    getUserBudgetCategories(user, budget.did).then(res => {
+      budget.categories = sortCategoriesById(res);
+      setCategories(budget.categories)
+    }).catch(error => {
+      console.log(error.message);
+    })
+  }
   const percentage = (parseFloat(budget.consumed) / parseFloat(budget.totalBudgeted));
   const percentageColor = (p) => {
     if (p >= 0.0 && p < 0.40) {
@@ -65,13 +76,14 @@ const BudgetCard = ({ id, budget, user, colorScheme, refreshing, navigation }) =
               position: "absolute", top: 0, padding: 10,
               backgroundColor: "transparent"
             }}
+            disabled={categories.length == 0}
             onPress={() => navigation.navigate(navTo.head, 
               { screen: navTo.screen, 
                 params: { 
                   id: budget.id, 
-                  categories: budget.categories, 
+                  categories: categories, 
                   headerName: budget.name, 
-                  totalBudget: budget.currentBalance 
+                  totalBudget: budget.currentBalance,
                 } 
               })
             }
@@ -129,17 +141,30 @@ const BudgetCard = ({ id, budget, user, colorScheme, refreshing, navigation }) =
 export default function BudgetList({ navigation, route }) {
   const colorScheme = useColorScheme();
   const { budgets, user } = route.params;
-  const [refresh, refreshing] = React.useState(false)
+  const [ refreshing, setRefresh] = React.useState(false)
+  const focused = useIsFocused();
+
+  React.useEffect(() => {
+    if (focused && user) {
+      setRefresh(true);
+      getUserBudgets(user).then(res => {
+        navigation.setParams({
+          budgets: res,
+          user: user,
+        })
+        setRefresh(false);
+      })
+    }
+  }, [focused])
 
   const onRefresh = React.useCallback(() => {
-    refreshing(true);
+    setRefresh(true);
     getUserBudgets(user).then(res => {
       navigation.setParams({
-        budgets: res
+        budgets: res,
+        user: user,
       })
-      setTimeout(() => {
-        refreshing(false)
-      }, 200)
+      setRefresh(false);
     })
   }, [user])
 
@@ -150,7 +175,7 @@ export default function BudgetList({ navigation, route }) {
           style={styles.listContainer} 
           refreshControl={
             <RefreshCtrl
-              refreshing={refresh}
+              refreshing={refreshing}
               onRefresh={onRefresh}
             />
           }
@@ -161,7 +186,6 @@ export default function BudgetList({ navigation, route }) {
               id={data.item.id} 
               budget={data.item} 
               user={user}
-              refreshing={refreshing}
               colorScheme={colorScheme} 
               navigation={navigation}
             />

@@ -24,7 +24,7 @@ import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
 
 import { useAuthentication } from "../hooks/useAuthentication";
-import { getUserData, setUser } from "../hooks/firebase";
+import { getUserData } from "../hooks/firebase";
 
 export default function Navigation({ colorScheme }) {
   const user = useAuthentication();
@@ -96,8 +96,12 @@ function RootNavigator(props) {
           setUserData: setUserData
         }}
       />
-      <Stack.Screen name="Add" component={Create} />
-      <Stack.Screen name="Edit" component={Edit} />
+      <Stack.Screen 
+        name="Add" component={Create}
+      />
+      <Stack.Screen 
+        name="Edit" component={Edit} 
+      />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
@@ -153,7 +157,14 @@ function Create ({ navigation }) {
           headerTitle: "Make a Transfer" 
         }}
       />
-      <CreateStack.Screen name="CreateBudget" component={CreateBudget} options={{ headerShown: true, headerTitle: "New Budget" }} />
+      <CreateStack.Screen 
+        name="CreateBudget" 
+        component={CreateBudget} 
+        options={{ 
+          headerShown: true, 
+          headerTitle: "New Budget" 
+        }}
+      />
       <CreateStack.Screen 
         name="CreateExpense" 
         component={CreateExpense} 
@@ -189,7 +200,7 @@ const EditStack = createStackNavigator();
 import CategoryList from "../screens/Edit/CategoryListScreen";
 import { useEffect, useState } from "react";
 
-function Edit ({navigation}) {
+function Edit ({ navigation }) {
   return (
     <EditStack.Navigator>
       <EditStack.Screen

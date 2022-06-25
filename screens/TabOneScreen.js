@@ -4,30 +4,19 @@ import Accounts from "../components/Dashboard/Accounts";
 import { StyleSheet } from "react-native";
 import Cards from "../components/Dashboard/Cards";
 import React from "react";
-import { getUserAccounts, getUserBudgets } from "../hooks/firebase";
+import { getUserAccounts, getUserBudgets, getUserData } from "../hooks/firebase";
 import { useIsFocused } from "@react-navigation/native";
 
 export default function TabOneScreen({ route, navigation }) {
   const { userData, setUserData } = route.params;
-  const [refresh, setRefresh] = React.useState(false);
+  const [refreshing, setRefresh] = React.useState(false);
   const focused = useIsFocused();
 
   React.useEffect(() => {
     if (focused) {
       setRefresh(true);
       getUserAccounts(userData.user).then(res => {
-        setUserData({
-          ...userData,
-          accounts: res
-        })
-        getUserBudgets(userData.user).then(res => {
-          setUserData({
-            ...userData,
-            budgets: res
-          })
-          setRefresh(false);
-        })
-      }).catch(err => {
+        userData.accounts = res;
         setRefresh(false);
       })
     }
@@ -35,19 +24,8 @@ export default function TabOneScreen({ route, navigation }) {
 
   const onRefresh = React.useCallback(() => {
     setRefresh(true);
-    getUserAccounts(userData.user).then(accounts => {
-      setUserData({
-        ...userData,
-        accounts: accounts
-      })
-      getUserBudgets(userData.user).then(budgets => {
-        setUserData({
-          ...userData,
-          budgets: budgets
-        })
-        setRefresh(false);
-      })
-    }).catch(err => {
+    getUserAccounts(userData.user).then(res => {
+      userData.accounts = res;
       setRefresh(false);
     })
   }, [userData])
@@ -56,7 +34,7 @@ export default function TabOneScreen({ route, navigation }) {
     <ScrollView
       refreshControl={
         <RefreshCtrl
-          refreshing={refresh}
+          refreshing={refreshing}
           onRefresh={onRefresh}
         />
       }

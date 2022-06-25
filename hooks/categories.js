@@ -31,7 +31,7 @@ const newCategoryVals = (data, type, value, categs, totalBudget) => {
         return categs.map((item) => {
             // console.log(item);
             if (item.name == "Balance") {
-                item.budgetPlanned[myType] -= temp;
+                item.budgetPlanned[myType] = (item.budgetPlanned[myType] - temp).toFixed(2);
                 if (type == 0) {
                     item.budgetPlanned.amount = getAmount(totalBudget, item.budgetPlanned[myType]).toFixed(2)
                 } else {
@@ -43,6 +43,27 @@ const newCategoryVals = (data, type, value, categs, totalBudget) => {
         });
     }
     return [...categs];
+}
+
+export function sortCategoriesById (categs) {
+    var balance = categs.find(d => d.id == "1");
+    var toSort = categs.filter(d => d.id != '1');
+    var sorted = toSort.sort((a,b) => {
+        return a.id - b.id;
+    });
+    return [balance, ...sorted];
+}
+
+export function sortCategoriesByAmount (categs) {
+    categs = sortCategoriesById(categs);
+    var finalCategs = [categs[0]];
+    var toSort = categs.slice(1);
+    var sorted = toSort.sort((a,b) => {
+        return b.budgetPlanned.amount - a.budgetPlanned.amount;
+    });
+    finalCategs = [...finalCategs, ...sorted];
+
+    return finalCategs;
 }
 
 export default newCategoryVals;

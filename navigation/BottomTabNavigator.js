@@ -101,6 +101,10 @@ function TabOneNavigator({route, navigation}) {
         name="Budget"
         component={BudgetNavigator}
         options={{ headerTitle: "Budget List", headerShown: false }}
+        initialParams={{
+          user: userData.user,
+          budgets: userData.budgets
+        }}
       />
       <TabOneStack.Screen
         name="Transactions"

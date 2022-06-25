@@ -66,12 +66,7 @@ export async function getUserBudgets(user) {
     const budgets = [];
     const snapshot = await getDocs(collection(db, `users/${user.uid}/budgets`));   
     snapshot.forEach( async doc => {
-        const data = {...doc.data(), categories: []};
-        const categories = await getDocs(collection(db, `users/${user.uid}/budgets/${data.id}/categories`))
-        categories.forEach( doc => {
-            let categ = {...doc.data(), cid: doc.id};
-            data.categories.push(categ)
-        })
+        const data = {...doc.data(), did: doc.id, categories: [], transactions: []};
         budgets.push(data)
     })
     return budgets;
