@@ -3,18 +3,17 @@ import { PrimaryButton, SecondaryButton } from '../../components/Buttons';
 import { CalculatorInput } from "../../components/Calculator";
 import { StyleSheet, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
-import { initialSaving, newBudget, initialBudgetForm, processBudgetCategories } from "../../constants/defaults";
+import { initialSaving, initialBudgetForm, processBudgetCategories } from "../../constants/defaults";
 import React from "react";
 import Loading, { SuccessToast } from "../../components/Loading";
 import validate from "../../constants/validate";
-import { addUserBudget as create, addUserBudgetCategory } from "../../hooks/firebase";
+import { updateUserBudget as update, updateUserBudgetCategory } from "../../hooks/firebase";
 import { useAuthentication } from "../../hooks/useAuthentication";
 
-export default function CreateBudget({ navigation, route }) {
-  const { budgets, defaultCategories } = route.params;
+export default function EditBudget({ navigation, route }) {
+  const { defaultBudget, defaultCategories } = route.params;
   const user = useAuthentication();
-  const [form, setForm] = React.useState(initialBudgetForm());
-  const [id, setId] = React.useState(budgets.length == 0 ? 1:budgets[budgets.length-1].id + 1);
+  const [form, setForm] = React.useState(initialBudgetForm(defaultBudget));
   const [from, setFrom] = React.useState(form.from.value)
   const [to, setTo] = React.useState(form.to.value)
   const [balance, setBalance] = React.useState(form.initialBalance.value)
@@ -23,6 +22,10 @@ export default function CreateBudget({ navigation, route }) {
   const containerBG = {
     backgroundColor: Colors[colorScheme].background
   };
+
+  navigation.setOptions({
+    headerTitle: `Edit ${defaultBudget.name}`
+  })
 
   React.useEffect(() => {
     if (form.initialBalance.value !== balance) {
@@ -40,14 +43,15 @@ export default function CreateBudget({ navigation, route }) {
   }, [from, to, balance])
 
   function processNewBudgetRecord () {
-    const state = newBudget;
+    const state = defaultBudget;
     Object.keys(form).map(key => {
       switch (key) {
         case "initialBalance":
           state[key] = form[key].value;
-          state.currentBalance = form[key].value;
-          state.remaningBalance = form[key].value;
-          state.totalBudgeted = form[key].value;
+          let v = parseFloat(form[key].value);
+          state.currentBalance = parseFloat(state.currentBalance) + (v - parseFloat(state.currentBalance));
+          state.remaningBalance = parseFloat(state.remaningBalance) + (v - parseFloat(state.remaningBalance));
+          state.totalBudgeted = parseFloat(state.totalBudgeted) + (v - parseFloat(state.totalBudgeted));
           break;
         case "from":
           state[key] = form[key].value.toLocaleDateString('en-US');
@@ -60,7 +64,6 @@ export default function CreateBudget({ navigation, route }) {
           break;
       }
     })
-    state.id = id;
     loading(true, "Processing budget categories.")
     state.categories = processBudgetCategories(state.initialBalance, defaultCategories);
     return state;
@@ -85,7 +88,9 @@ export default function CreateBudget({ navigation, route }) {
   function updateInputs (val, prop) {
     const state = form;
     state[prop].value = val;
-    setForm({...state});
+    setForm({
+        ...state
+    });
   }
 
   function handleSubmmit() {
@@ -98,37 +103,35 @@ export default function CreateBudget({ navigation, route }) {
       const state = processNewBudgetRecord();
       const categories = state.categories;
       delete state.categories;
-      create(user, state).then(() => {
-        loading(false)
+      update(user, state).then(() => {
         var processed = 0;
-        loading(true, "Creating basic categories.")
+        loading(true, "Updating categories...")
         categories.forEach((d, i, a) => {
-          addUserBudgetCategory(user, state.id, d).then(res => {
-            processed++;
-            if (processed == a.length) {
-              loading(false);
-              showToast("success", "New Budget has been created.")
-              setId(id + 1);
-              newBudget.id = id;
-              reset();
-              setTimeout(() => showToast(false), 1000)
-              navigation.navigate('Add', {
-                screen: "CreateCateg", 
-                params: { 
-                  id: state.id,
-                  categories: categories, 
-                  headerName: state.name,
-                  totalBudget: state.initialBalance,
-                  from: "add"
-                }
-              })
-            }
-          }).catch(error => {
-            loading(false)
-            showToast("failed", error.message)
-            setTimeout(() => showToast(false), 1000)    
+            updateUserBudgetCategory(user, state.did, d).then(res => {
+              processed++;
+              if (processed == a.length) {
+                loading(false); reset();
+                showToast("success", `${defaultBudget.name} Budget has been modified.`)
+                setTimeout(() => {
+                    showToast(false)
+                    navigation.navigate('Edit', {
+                      screen: "EditCategory", 
+                      params: { 
+                        id: state.id,
+                        categories: categories, 
+                        headerName: state.name,
+                        totalBudget: state.initialBalance,
+                        from: "update"
+                      }
+                    })
+                }, 1000)
+              }
+            }).catch(error => {
+              loading(false)
+              showToast("failed", error.message)
+              setTimeout(() => showToast(false), 1000)    
+            })
           })
-        })
       }).catch((error) => {
         loading(false)
         showToast("failed", error.message)
@@ -188,7 +191,7 @@ export default function CreateBudget({ navigation, route }) {
   )
 
   function reset() {
-    const state = initialBudgetForm();
+    const state = initialBudgetForm(defaultBudget);
     setForm(state);
     setBalance(state.initialBalance.value);
     setFrom(state.from.value);

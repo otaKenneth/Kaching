@@ -101,9 +101,7 @@ export async function updateUserAccount(user, data) {
 }
 
 export async function updateUserBudget(user, data) {
-    return await updateDoc(doc(db, 'users', user.uid), {
-        budgets: arrayUnion(data)
-    })
+    return await updateDoc(doc(db, `users/${user.uid}/budgets/${data.did}`), data)
 }
 
 export async function updateUserBudgetCategory(user, budgetId, data) {

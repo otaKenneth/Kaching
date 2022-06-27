@@ -6,6 +6,7 @@ import {
   FlatList, 
   KeyboardAvoidingView, 
   TouchableOpacity,
+  Text,
 } from "../../components/Themed";
 import { PrimaryButton, SecondaryButton } from '../../components/Buttons';
 import { PieChart } from 'react-native-svg-charts';
@@ -19,6 +20,7 @@ import CreateCategoryModal from "../Create/Modal/CategoryModal";
 import { getUserBudgetCategories, updateUserBudgetCategory } from "../../hooks/firebase";
 import { useAuthentication } from "../../hooks/useAuthentication";
 import Loading, { SuccessToast } from "../../components/Loading";
+import Colors from "../../constants/Colors";
 
 export default function CategoryList({ route, navigation }) {
   const colorScheme = useColorScheme();
@@ -29,7 +31,7 @@ export default function CategoryList({ route, navigation }) {
 
   const { id, categories, headerName, totalBudget } = route.params;
   navigation.setOptions({ 
-    headerTitle: headerName,
+    headerTitle: `${headerName} Categories`,
     headerRight: () => (
       <TouchableOpacity
         activeOpacity={0.4}
@@ -38,8 +40,14 @@ export default function CategoryList({ route, navigation }) {
       >
         <Feather name={btnName} size={20} color="red" />
       </TouchableOpacity>
-    )
+    ),
   });
+
+  if (route.params?.from != undefined) {
+    navigation.setOptions({ 
+      headerLeft: null,
+    });
+  }
   
   const [categs, setCategs] = useState(sortCategoriesByAmount(categories));
   const [showChart, setShowChart] = useState(false);
@@ -121,7 +129,7 @@ export default function CategoryList({ route, navigation }) {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === "ios" ? "padding" : "flex"}
       style={{ flex: 1 }}
     >
       {save.isLoading &&
@@ -135,22 +143,20 @@ export default function CategoryList({ route, navigation }) {
           text={save.msg}
         />
       }
-      <View style={{ flex: 0.1, width: "100%", padding: 10 }}>
-        <Container>
-          <CreateCategoryModal 
-            modal={showModal} 
-            setModal={setShowModal} 
-            categs={sortCategoriesById(categs)}
-            setCategs={setCategs}
-            refetch={refetch}
-            budgetId={id}
-            totalBudget={totalBudget}
-          />
-          <PrimaryButton 
-            text="Create New Category" 
-            onPress={() => setShowModal(true)} 
-            disabled={categs.length == 10}
-          />
+      <View style={{ flex: 0.07, width: "100%", padding: 10, }}>
+        <Container
+          style={{
+            height: "100%",
+            padding: 10, 
+            borderStyle: "solid", 
+            borderWidth: 1, borderColor: Colors[colorScheme].headerBackgroundColor,
+            borderRadius: 10,
+            marginBottom: 10,
+            flexDirection: "row"
+          }}
+        >
+          <Text>Amount To Be Budgeted: </Text>
+          <Text style={{ fontWeight: "500" }}> Php {totalBudget}</Text>
         </Container>
       </View>
       {showChart &&
@@ -167,7 +173,7 @@ export default function CategoryList({ route, navigation }) {
         </View>
       }
       {!showChart &&
-        <View style={{ flex: 0.8, width: "100%", padding: 10, marginBottom: 10 }}>
+        <View style={{ flex: 1, width: "100%", padding: 10, marginBottom: 10 }}>
           <Container style={{ justifyContent: "center" }}>
             <FlatList
               style={{ width: "100%", flexDirection: "column" }}
@@ -176,14 +182,30 @@ export default function CategoryList({ route, navigation }) {
               renderItem={({ item }) => <CategoryInput item={item} />}
             />
           </Container>
-          <Container style={{ marginVertical: 20 }}>
+          <Container style={{ marginVertical: 15, flexDirection: "row", justifyContent: "space-around" }}>
+            <SecondaryButton 
+              style={{ flex: 0.48 }}
+              text="Create New Category" 
+              onPress={() => setShowModal(true)} 
+              disabled={categs.length == 10}
+            />
             <PrimaryButton 
+              style={{ flex: 0.48 }}
               text="Save" 
               onPress={() => handleSubmit()}
             />
           </Container>
         </View>
       }
+      <CreateCategoryModal 
+        modal={showModal} 
+        setModal={setShowModal} 
+        categs={sortCategoriesById(categs)}
+        setCategs={setCategs}
+        refetch={refetch}
+        budgetId={id}
+        totalBudget={totalBudget}
+      />
     </KeyboardAvoidingView>
   );
 }

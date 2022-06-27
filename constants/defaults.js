@@ -173,26 +173,26 @@ export const newBudget = ({
     "to": new Date(),
 })
 
-export const initialBudgetForm = () => ({
+export const initialBudgetForm = (defaultValue = false) => ({
     "from": {
         fieldName: "Start Date",
         validation: "required",
-        value: new Date()
+        value: defaultValue ? new Date(defaultValue.from):new Date()
     },
     "to": {
         fieldName: "End Date",
         validation: "required",
-        value: new Date(),
+        value: defaultValue ? new Date(defaultValue.to):new Date(),
     },
     "initialBalance": {
         fieldName: "Initial Balance",
         validation: "required|number",
-        value: ""
+        value: defaultValue ? defaultValue.initialBalance:""
     },
     "name": {
         fieldName: "Budget Name",
         validation: "required",
-        value: ""
+        value: defaultValue ? defaultValue.name:""
     }
 })
 

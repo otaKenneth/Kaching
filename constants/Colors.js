@@ -31,7 +31,10 @@ export default {
     disabledBtn: "#150734",
     headerTextColor: "#fff",
     headerBackgroundColor: "#2a3132",
-    accounts: "#2a3132"
+    accounts: {
+      bg: "#000",
+      color: "#2a3132"
+    }
   },
 };
 

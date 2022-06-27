@@ -198,6 +198,7 @@ function Create ({ navigation }) {
 const EditStack = createStackNavigator();
 
 import CategoryList from "../screens/Edit/CategoryListScreen";
+import EditBudget from "../screens/Edit/BudgetScreen";
 import { useEffect, useState } from "react";
 
 function Edit ({ navigation }) {
@@ -209,6 +210,14 @@ function Edit ({ navigation }) {
         options={{
           headerShown: true,
           headerTitle: "Edit Category List"
+        }}
+      />
+      <EditStack.Screen
+        name="EditBudget"
+        component={EditBudget}
+        options={{
+          headerShown: true,
+          headerTitle: "Edit Budget"
         }}
       />
     </EditStack.Navigator>

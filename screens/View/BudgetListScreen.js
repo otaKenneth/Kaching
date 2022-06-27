@@ -106,7 +106,7 @@ const BudgetCard = ({ id, budget, user, colorScheme, navigation }) => {
                 </Container>
                 <Container style={{ marginRight: 10 }}>
                   <Text style={styles.cardText}>Remaining Balance:</Text>
-                  <Text style={styles.cardText}>{budget.remaining}</Text>
+                  <Text style={styles.cardText}>{budget.remaningBalance}</Text>
                 </Container>
               </Container>
             </Container>
@@ -115,6 +115,15 @@ const BudgetCard = ({ id, budget, user, colorScheme, navigation }) => {
         <TouchableOpacity
           activeOpacity={0.5}
           style={styles.cardButton}
+          onPress={() => {
+            navigation.navigate('Edit', {
+              screen: "EditBudget",
+              params: {
+                defaultBudget: budget,
+                defaultCategories: categories
+              }
+            })
+          }}
         >
           <Feather name="edit-2" size={24} color="black" />
         </TouchableOpacity>
