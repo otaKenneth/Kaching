@@ -104,8 +104,18 @@ export async function updateUserBudget(user, data) {
     return await updateDoc(doc(db, `users/${user.uid}/budgets/${data.did}`), data)
 }
 
+export async function updateUserBudgetInfo(user, budgetId, data) {
+    return await setDoc(doc(db, `users/${user.uid}/budgets/${budgetId}`), data, {merge: true});
+}
+
 export async function updateUserBudgetCategory(user, budgetId, data) {
     return await updateDoc(doc(db, `users/${user.uid}/budgets/${budgetId}/categories/${data.cid}`), data)
+}
+
+export async function updateDefaultCategories(user, data) {
+    return await setDoc(doc(db, `users/${user.uid}`), {
+        categories: data
+    }, {merge: true})
 }
 
 export async function deleteUserBudget(user, budgetId) {

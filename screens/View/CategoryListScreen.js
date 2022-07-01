@@ -1,24 +1,31 @@
 import React, { useState } from "react";
-import { Container, View, SafeAreaView, ChangableInput, FlatList } from "../../components/Themed";
+import { Container, View, TouchableOpacity, SafeAreaView, ChangableInput, FlatList } from "../../components/Themed";
+import { Feather } from '@expo/vector-icons';
 import { PieChart } from 'react-native-svg-charts';
 import { Labels } from "../../components/Charts/chartAdds";
 
-import { StyleSheet, useColorScheme } from "react-native";
-import newCategoryVals from '../../hooks/categories';
+import { StyleSheet } from "react-native";
+import { sortCategoriesByAmount } from '../../hooks/categories';
 
 export default function CategoryList({ route, navigation }) {
-  const colorScheme = useColorScheme();
-
-  const { id, categories, headerName, totalBudget } = route.params;
-  navigation.setOptions({ headerTitle: headerName });
-
-  const [categs, setCategs] = useState(categories);
-
-  const inputStyle = id == 0;
-
-  function handleNewValue(data, type, value) {
-    setCategs(categs => newCategoryVals(data, type, value, categs, totalBudget));
-  }
+  const [btnName, setBtnName] = useState("pie-chart");
+  
+  const { categories, headerName } = route.params;
+  navigation.setOptions({ 
+    headerTitle: `${headerName} Categories`,
+    headerRight: () => (
+      <TouchableOpacity
+        activeOpacity={0.4}
+        style={{ marginRight: 20, backgroundColor: "rgba(252, 109, 109, 0.4)", padding: 8, borderRadius: 10 }}
+        onPress={() => {setShowChart(!showChart); setBtnName(btnName == "list" ? "pie-chart":"list");}}
+      >
+        <Feather name={btnName} size={20} color="red" />
+      </TouchableOpacity>
+    ),
+  });
+  
+  const [categs, setCategs] = useState(sortCategoriesByAmount(categories));
+  const [showChart, setShowChart] = useState(false);
 
   const CategoryInput = ({ item }) => {
     const options = Object.values(item.budgetPlanned);
@@ -32,12 +39,9 @@ export default function CategoryList({ route, navigation }) {
         type={setType}
         style={{ backgroundColor: "#c4c4c4"}}
         values={options}
-        editable={inputStyle}
+        editable={false}
         changableIconButtons={['percent-outline', 'pound']}
         disableFullscreenUI={false}
-        onEndEditing={(el) => {
-          handleNewValue(item, type, el.nativeEvent.text)
-        }}
       />
     )
   }
@@ -45,34 +49,54 @@ export default function CategoryList({ route, navigation }) {
   return (
     <View style={{ height: "auto", width: "100%", padding: 10, backgroundColor: "transparent" }}>
       <SafeAreaView style={{ height: "auto", width: "100%", backgroundColor: "transparent" }}>
-        <PieChart
-          style={{ height: 300 }}
-          data={getPieChartData(categs)}
-          innerRadius={33}
-          outerRadius={70}
-          labelRadius={120}
-        >
-          <Labels />
-        </PieChart>
-        <Container style={{ justifyContent: "center" }}>
-          <FlatList
-            style={{ width: "100%", height: 300, flexDirection: "column" }}
-            data={categs}
-            numColumns={2}
-            renderItem={({ item }) => <CategoryInput item={item} />}
-          />
-        </Container>
+        {showChart &&
+          <PieChart
+            style={{ height: 300 }}
+            data={getPieChartData(categs)}
+            innerRadius={33}
+            outerRadius={70}
+            labelRadius={120}
+          >
+            <Labels />
+          </PieChart>
+        }
+        {!showChart &&
+          <Container style={{ justifyContent: "center" }}>
+            <FlatList
+              style={{ width: "100%", height: "auto", flexDirection: "column" }}
+              data={categs}
+              numColumns={2}
+              renderItem={({ item }) => <CategoryInput item={item} />}
+            />
+          </Container>
+        }
       </SafeAreaView>
     </View>
   );
 }
 
 const getPieChartData = (data) => {
-  return data.map((item, index) => {
+  const others = {
+    name: "Others",
+    budgetPlanned: {
+      percentage: 0,
+      amount: 0
+    }
+  }
+  var newD = data.filter(item => {
+    const p = parseFloat(item.budgetPlanned.percentage);
+    if (p <= 5) {
+      others.budgetPlanned.percentage += p;
+    } else {
+      return p > 0
+    }
+  });
+  if (others.budgetPlanned.percentage > 0) newD = [...newD, others];
+  return newD.map((item, index) => {
     return {
       key: index,
-      value: item.budgetPlanned.percentage,
-      name: item.category,
+      value: parseFloat(item.budgetPlanned.percentage),
+      name: item.name,
       svg: { fill: colors[index] },
       arc: { cornerRadius: 5 },
     }

@@ -18,7 +18,7 @@ import Colors from "../../constants/Colors";
 import { deleteUserBudget, getUserBudgetCategories, getUserBudgets } from "../../hooks/firebase";
 import { sortCategoriesById } from "../../hooks/categories";
 
-const BudgetCard = ({ id, budget, user, colorScheme, navigation }) => {
+const BudgetCard = ({ i, id, budget, user, colorScheme, refreshing, navigation }) => {
   const [categories, setCategories] = React.useState([]);
   if (budget.categories.length == 0) {
     getUserBudgetCategories(user, budget.did).then(res => {
@@ -43,8 +43,8 @@ const BudgetCard = ({ id, budget, user, colorScheme, navigation }) => {
   const [budgetW, setBudgetW] = React.useState(400);
 
   const navTo = {
-    head: id > 1 ? 'Budget' : 'Edit',
-    screen: id > 1 ? 'Categories' : 'EditCategory'
+    head: i > 0 ? 'Budget' : 'Edit',
+    screen: i > 0 ? 'Categories' : 'EditCategory'
   };
 
   return (
@@ -81,6 +81,7 @@ const BudgetCard = ({ id, budget, user, colorScheme, navigation }) => {
               { screen: navTo.screen, 
                 params: { 
                   id: budget.id, 
+                  isCategsDefault: budget.isDefaultCategs,
                   categories: categories, 
                   headerName: budget.name, 
                   totalBudget: budget.currentBalance,
@@ -157,8 +158,9 @@ export default function BudgetList({ navigation, route }) {
     if (focused && user) {
       setRefresh(true);
       getUserBudgets(user).then(res => {
+        let sortedRes = res.sort( (a,b) => b.id > a.id);
         navigation.setParams({
-          budgets: res,
+          budgets: sortedRes,
           user: user,
         })
         setRefresh(false);
@@ -169,8 +171,9 @@ export default function BudgetList({ navigation, route }) {
   const onRefresh = React.useCallback(() => {
     setRefresh(true);
     getUserBudgets(user).then(res => {
+      let sortedRes = res.sort( (a,b) => b.id > a.id);
       navigation.setParams({
-        budgets: res,
+        budgets: sortedRes,
         user: user,
       })
       setRefresh(false);
@@ -192,10 +195,12 @@ export default function BudgetList({ navigation, route }) {
           renderItem={(data, index) => (
             <BudgetCard
               key={index} 
+              i={data.index}
               id={data.item.id} 
               budget={data.item} 
               user={user}
               colorScheme={colorScheme} 
+              refreshing={refreshing}
               navigation={navigation}
             />
           )}

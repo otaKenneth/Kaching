@@ -14,6 +14,10 @@ export default {
     disabledBtn: "#d9dadb",
     headerTextColor: "#fff",
     headerBackgroundColor: "#2f95dc",
+    gradient: {
+      from: "#2f95dc",
+      to: "#fff"
+    },
     accounts: {
       bg: "#fff",
       color: "#2f95dc"

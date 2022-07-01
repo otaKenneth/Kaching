@@ -20,7 +20,7 @@ import {
   SectionList,
   Image,
 } from "react-native";
-import { Ionicons, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome, MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import appStyles from "../assets/styles/appStyles";
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -179,6 +179,46 @@ export function Input(props) {
   );
 }
 
+export function Checkbox (props) {
+  const { 
+    style, lightColor, darkColor,
+    value, setValue, onChangeValue,
+    ...otherProps 
+  } = props;
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background"
+  );
+  const [checked, check] = React.useState(value ? "green":"grey");
+  const [boxColor, setBoxColor] = React.useState(value ? "#fff":"grey")
+
+  return (
+    <TouchableOpacity
+      style={[
+        style,
+        {
+          borderRadius: 5,
+          backgroundColor: boxColor,
+          overflow: "hidden"
+        }
+      ]}
+      {...otherProps}
+      onPress={() => {
+        check(value ? "grey":"green");
+        setBoxColor(value ? "grey":"#fff")
+        setValue(value ? false:true);
+      }}
+    >
+      {value &&
+        <AntDesign name="checksquare" size={20} color={checked} />
+      }
+      {!value &&
+        <View style={{paddingHorizontal: 9}} />
+      }
+    </TouchableOpacity>
+  );
+}
+
 export function ChangableInput(props) {
   const { 
     style, lightColor, darkColor, 
@@ -200,7 +240,12 @@ export function ChangableInput(props) {
   const [value, setValue] = useState(typeof(values) === 'object' ? values[icon]:values);
 
   return (
-    <View style={[{ width: "98%", marginBottom: 10, backgroundColor: "transparent" }, containerStyle]}>
+    <Pressable 
+      style={[{ width: "98%", marginBottom: 10, backgroundColor: "transparent" }, containerStyle]}
+      onLongPress={() => {
+        console.log("shithole");
+      }}
+    >
       {noLabel === false || noLabel == undefined &&
         <Text style={{ fontSize: 18, marginBottom: 10, }}>{label}:</Text>
       }
@@ -250,7 +295,7 @@ export function ChangableInput(props) {
       {validation &&
         <Text style={{ color: "red", fontSize: 12 }}>{validation}</Text>
       }
-    </View>
+    </Pressable>
   );
 
 }
@@ -500,7 +545,10 @@ export function Card(props) {
       ]}
       {...otherProps}
     >
-      <Pressable style={{ width: "auto", height: "auto" }} onPress={onPress}>
+      <TouchableOpacity 
+        activeOpacity={0.8}
+        style={{ width: "auto", height: "auto" }} onPress={onPress}
+      >
         <View style={{ 
           height: "75%", width: "100%", 
           backgroundColor: cardBG, 
@@ -513,7 +561,7 @@ export function Card(props) {
           {subtitle !== undefined && <Text style={color}>{subtitle}</Text>}
           <Text style={[appStyles.title, { color }]}>{title}</Text>
         </View>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 }

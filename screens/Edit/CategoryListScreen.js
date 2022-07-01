@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView, 
   TouchableOpacity,
   Text,
+  Checkbox,
 } from "../../components/Themed";
 import { PrimaryButton, SecondaryButton } from '../../components/Buttons';
 import { PieChart } from 'react-native-svg-charts';
@@ -17,7 +18,12 @@ import newCategoryVals, { sortCategoriesByAmount, sortCategoriesById } from '../
 import { Feather } from '@expo/vector-icons';
 import { initialSaving } from "../../constants/defaults";
 import CreateCategoryModal from "../Create/Modal/CategoryModal";
-import { getUserBudgetCategories, updateUserBudgetCategory } from "../../hooks/firebase";
+import { 
+  getUserBudgetCategories, 
+  updateDefaultCategories, 
+  updateUserBudgetCategory, 
+  updateUserBudgetInfo 
+} from "../../hooks/firebase";
 import { useAuthentication } from "../../hooks/useAuthentication";
 import Loading, { SuccessToast } from "../../components/Loading";
 import Colors from "../../constants/Colors";
@@ -29,7 +35,8 @@ export default function CategoryList({ route, navigation }) {
   const [showModal, setShowModal] = useState(false);
   const [save, saving] = useState(initialSaving)
 
-  const { id, categories, headerName, totalBudget } = route.params;
+  const { id, isCategsDefault, categories, headerName, totalBudget } = route.params;
+  const [toggle, setToggle] = useState(isCategsDefault);
   navigation.setOptions({ 
     headerTitle: `${headerName} Categories`,
     headerRight: () => (
@@ -47,6 +54,7 @@ export default function CategoryList({ route, navigation }) {
     navigation.setOptions({ 
       headerLeft: null,
     });
+    refetch();
   }
   
   const [categs, setCategs] = useState(sortCategoriesByAmount(categories));
@@ -127,6 +135,23 @@ export default function CategoryList({ route, navigation }) {
     })
   }
 
+  React.useEffect(() => {
+    if (toggle && user) {
+      loading(true, "Saving changes...")
+      updateDefaultCategories(user, categs).then(res => {
+        updateUserBudgetInfo(user, id, {isDefaultCategs: toggle}).then(res => {
+          loading(false);
+        }).catch(error => {
+          showToast("failed", error.message)
+          setTimeout(() => showToast(false), 1000);
+        })
+      }).catch(error => {
+        showToast("failed", error.message)
+        setTimeout(() => showToast(false), 1000);
+      })
+    }
+  }, [toggle])
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "flex"}
@@ -143,26 +168,31 @@ export default function CategoryList({ route, navigation }) {
           text={save.msg}
         />
       }
-      <View style={{ flex: 0.07, width: "100%", padding: 10, }}>
+      <View style={{ flex: 0.08, width: "100%", paddingTop: 10, paddingHorizontal: 10, marginBottom: 10 }}>
         <Container
-          style={{
-            height: "100%",
-            padding: 10, 
-            borderStyle: "solid", 
+          style={[styles.others, {
             borderWidth: 1, borderColor: Colors[colorScheme].headerBackgroundColor,
-            borderRadius: 10,
-            marginBottom: 10,
-            flexDirection: "row"
-          }}
+          }]}
         >
           <Text>Amount To Be Budgeted: </Text>
           <Text style={{ fontWeight: "500" }}> Php {totalBudget}</Text>
         </Container>
       </View>
+      <View style={{ flex: 0.08, width: "100%", paddingBottom: 10, paddingHorizontal: 10}}>
+        <Container
+          style={[styles.others, {
+            borderWidth: 1, borderColor: Colors[colorScheme].headerBackgroundColor,
+            justifyContent: "space-between"
+          }]}
+        >
+          <Text>Set as Default Categories? </Text>
+          <Checkbox value={toggle} setValue={setToggle} />
+        </Container>
+      </View>
       {showChart &&
         <View style={{ flex: 1, padding: 10 }}>
           <PieChart
-            style={{ flex: 0.6 }}
+            style={{ flex: 1 }}
             data={getPieChartData(categs)}
             innerRadius={40}
             outerRadius={90}
@@ -226,7 +256,7 @@ const getPieChartData = (data) => {
       return p > 0
     }
   });
-  newD = [...newD, others];
+  if (others.budgetPlanned.percentage > 0) newD = [...newD, others];
   return newD.map((item, index) => {
     return {
       key: index,
@@ -252,4 +282,12 @@ const styles = StyleSheet.create({
     height: 1,
     width: "80%",
   },
+  others: {
+    height: "100%",
+    padding: 10, 
+    borderStyle: "solid", 
+    borderRadius: 10,
+    marginBottom: 10,
+    flexDirection: "row",
+  }
 });

@@ -4,27 +4,33 @@ import { SafeAreaView, ScrollView, TouchableOpacity, View, Text } from "../Theme
 import { StyleSheet } from "react-native";
 import Colors from '../../constants/Colors';
 import { useColorScheme } from "react-native";
+import { LinearGradient } from 'expo-linear-gradient';
 
 const AccsItem = ({ account, colorScheme }) => {
   const bgColor = {
-    backgroundColor: account.bankColor ? account.bankColor:Colors[colorScheme].accounts.bg
+    backgroundColor: account.bankColor ? account.bankColor:Colors[colorScheme].gradient.from
   }
   const color = {
     color: account.bankTxtColor ? account.bankTxtColor:Colors[colorScheme].accounts.color
   }
 
   return (
-    <View style={accStyle.bankAccount}>
+    <LinearGradient
+      colors={[bgColor.backgroundColor, '#fff']}
+      style={accStyle.bankAccount}
+      start={{x: -1, y: 0}}
+      end={{x: 1, y: 0}}
+    >
       <TouchableOpacity
         activeOpacity={0.7}
-        style={[accStyle.bankAccountBtn, bgColor]}
+        style={[accStyle.bankAccountBtn, {backgroundColor: "transparent"}]}
       >
         <View style={{ position: "absolute", bottom: 8, left: 10, backgroundColor: "transparent", margin: 8, }}>
           <Text style={[color, { fontSize: 25, fontWeight: "600" }]}>{account.name}</Text>
           <Text style={[color, { fontWeight: "700" }]}>Php {account.currentBalance}</Text>
         </View>
       </TouchableOpacity>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -40,7 +46,7 @@ export default function Accounts(props) {
       <SafeAreaView>
         <ScrollView horizontal={true}>
           {accounts !== undefined &&
-            <View style={[accStyle.accountsContainer, {backgroundColor: Colors[colorScheme].cardBackground }]}>
+            <View style={[accStyle.accountsContainer]}>
               {accounts.map((data, index) => <AccsItem key={index} account={data} colorScheme={colorScheme} />)}
             </View>
           }
@@ -52,7 +58,7 @@ export default function Accounts(props) {
 
 const accStyle = StyleSheet.create({
   bankAccount: {
-    backgroundColor: "#ddd", 
+    // backgroundColor: "#ddd", 
     width: 200, height: 100,
     marginBottom: 20, marginHorizontal: 10, 
     // alignItems: "baseline",
