@@ -11,7 +11,7 @@ const Login = () => {
 
       }}
     >
-      <Text style={styles.h3}>Login</Text>
+      <Text style={styles.h4}>Login</Text>
       <TextInput style={styles.textInput} label="Email Address" />
       <TextInput style={styles.textInput} secureTextEntry label="Password" />
       <View>
