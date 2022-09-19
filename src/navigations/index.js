@@ -1,14 +1,27 @@
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+
 import Auth from '@app/screens/Auth';
+import Dashboard from '@app/screens/Dashboard';
+import useAuthentication from 'src/hooks/useAuthentication';
 
 const Navigation = () => {
-  return (
-    <NavigationContainer>
-      <AuthNavigation />
-    </NavigationContainer>
-  );
+  const user = useAuthentication();
+  
+  if (user == null) {
+    return (
+      <NavigationContainer>
+        <AuthNavigation />
+      </NavigationContainer>
+    );
+  } else {
+    return (
+      <NavigationContainer>
+        <RootNavigation />
+      </NavigationContainer>
+    )
+  }
 };
 
 const AuthStack = createNativeStackNavigator();
@@ -24,6 +37,19 @@ const AuthNavigation = ({navigation}) => {
         }}
       />
     </AuthStack.Navigator>
+  )
+}
+
+const Stack = createNativeStackNavigator();
+
+const RootNavigation = ({navigation}) => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: true }} >
+      <Stack.Screen
+        name="Root"
+        component={Dashboard}
+      />
+    </Stack.Navigator>
   )
 }
 

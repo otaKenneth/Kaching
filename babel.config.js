@@ -16,12 +16,16 @@ module.exports = function(api) {
             '.tsx',
             '.jsx',
             '.js',
+            '.ios.js',
+            '.android.js',
             '.json'
           ],
           alias: {
-            "*": "./src/*",
+            "@app/api": "./src/api",
+            "@app/components": "./src/components",
+            "@app/hooks": "./src/hooks",
             "@app/navigations": "./src/navigations",
-            "@app/screens": "./src/screens",
+            "@app/screens": "./src/screens"
           }
         }
       ]

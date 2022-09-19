@@ -1,0 +1,39 @@
+{
+    "project_info": {
+        "project_number": "816943890075",
+        "project_id": "budget-manager-607c1",
+        "storage_bucket": "budget-manager-607c1.appspot.com"
+    },
+    "client": [
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:816943890075:android:a079c5b97a536732fdd03e",
+                "android_client_info": {
+                    "package_name": "Pitaka.Budget_Manager"
+                }
+            },
+            "oauth_client": [
+                {
+                    "client_id": "816943890075-bbf99kl2utjus9cs36o3ta3ml66d2ims.apps.googleusercontent.com",
+                    "client_type": 3
+                }
+            ],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyABwPv8A6uWy-Y09nwPNwShdgHk5ORPM4s"
+                }
+            ],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [
+                        {
+                            "client_id": "816943890075-bbf99kl2utjus9cs36o3ta3ml66d2ims.apps.googleusercontent.com",
+                            "client_type": 3
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "configuration_version": "1"
+}

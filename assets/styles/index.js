@@ -43,5 +43,9 @@ export default StyleSheet.create({
     button: {
         color: '#fff',
         marginBottom: 15
+    },
+    textInputError: {
+        fontSize: 10,
+        color: 'red'
     }
 })

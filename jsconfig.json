@@ -3,12 +3,10 @@
         "baseUrl": ".",
         "paths": {
             "*": ["./src/*"],
-            "@app/utils": ["./utils/*"],
-            "@components": ["./components/*"],
-            "@app/navigations": ["./src/navigations/*"],
-            "@app/screens": ["./src/screens/*"]
+            "@app/*":["./src/*"],
+            "@app/assets/*":["./assets/*"]
         }
     },
-    "include": ["src/**/*"],
+    "include": ["./**/*"],
     "exclude": ["node_modules"]
 }
