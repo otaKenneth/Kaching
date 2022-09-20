@@ -3,8 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Auth from '@app/screens/Auth';
-import Dashboard from '@app/screens/Dashboard';
 import useAuthentication from 'src/hooks/useAuthentication';
+import BottomTabNavigator from './BottomTabNavigator';
 
 const Navigation = () => {
   const user = useAuthentication();
@@ -47,7 +47,7 @@ const RootNavigation = ({navigation}) => {
     <Stack.Navigator screenOptions={{ headerShown: true }} >
       <Stack.Screen
         name="Root"
-        component={Dashboard}
+        component={BottomTabNavigator}
       />
     </Stack.Navigator>
   )
